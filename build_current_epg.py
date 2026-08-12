@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import argparse, re, unicodedata, urllib.request
+import argparse, copy, re, unicodedata, urllib.request
 import xml.etree.ElementTree as ET
+from datetime import datetime, timezone, timedelta
 from difflib import SequenceMatcher
 from pathlib import Path
 
 M3U_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
 SOURCE_CHANNEL_URLS = [
-    # Priority order: sources with IPTV-org IDs already assigned first.
     ("wavve", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/wavve.com/wavve.com.channels.xml"),
     ("arirang", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/arirang.com/arirang.com.channels.xml"),
     ("kr1", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/epgshare01.online/epgshare01.online_KR1.channels.xml"),
 ]
+SOURCE_PRIORITY = {"wavve": 0, "arirang": 1, "kr1": 2}
+SEP = "__SRC__"
 
 ALIASES = {
     "BBSTV.kr@SD": ["BBS.불교방송.kr", "BBS불교방송.kr"],
@@ -45,7 +47,6 @@ ALIASES = {
     "WShopping.kr@SD": ["W SHOPPING.kr", "W쇼핑.kr"],
     "YTN.kr@SD": ["YTN.kr"],
 }
-
 SPECIALTY_MBC_IDS = {"MBCDrama.kr@SD", "MBCNet.kr@SD"}
 
 def get(url):
@@ -69,133 +70,198 @@ def norm(s):
 
 def parse_m3u():
     txt=get(M3U_URL).decode("utf-8-sig","replace")
-    lines=txt.replace("\r\n","\n").splitlines()
     out=[]
-    for line in lines:
-        if not line.startswith("#EXTINF:"): continue
+    for line in txt.replace("\r\n","\n").splitlines():
+        if not line.startswith("#EXTINF:"):
+            continue
         m=re.search(r'tvg-id="([^"]+)"',line)
-        if not m: continue
+        if not m:
+            continue
         name=line.split(",",1)[1] if "," in line else ""
         out.append((m.group(1),name.strip()))
     return out
 
 def prepare():
     merged = ET.Element("channels")
-    seen = set()
     per_source = {}
-
+    total = 0
     for source_name, url in SOURCE_CHANNEL_URLS:
         root = ET.fromstring(get(url))
         added = 0
         for ch in root.findall("channel"):
-            c = ET.fromstring(ET.tostring(ch, encoding="unicode"))
+            c = copy.deepcopy(ch)
             xid = (c.get("xmltv_id") or "").strip()
-
-            # KR1 intentionally leaves xmltv_id blank; derive it from site_id.
             if source_name == "kr1":
                 sid = (c.get("site_id") or "").strip()
                 xid = sid.split("#",1)[1] if "#" in sid else sid
-                c.set("xmltv_id", xid)
-
             if not xid:
                 continue
-
-            # Prefer Wavve/Arirang entries when they already use canonical IDs.
-            key = xid
-            if key in seen:
-                continue
-            seen.add(key)
+            # Keep duplicate logical channels from every source by namespacing the grab ID.
+            c.set("xmltv_id", f"{source_name}{SEP}{xid}")
             merged.append(c)
             added += 1
+            total += 1
         per_source[source_name] = added
-
     ET.indent(merged, space="  ")
     ET.ElementTree(merged).write("korea.channels.xml", encoding="utf-8", xml_declaration=True)
-    print(f"Prepared {len(seen)} channels: {per_source}")
+    print(f"Prepared {total} source entries: {per_source}")
 
-def best_source(target_id, target_name, source_ids):
-    # Strongest possible match: the EPG source already uses the playlist tvg-id.
-    if target_id in source_ids:
-        return target_id, "exact-id"
+def split_source_id(raw_id):
+    if SEP in raw_id:
+        source, base = raw_id.split(SEP,1)
+        return source, base
+    return "unknown", raw_id
 
-    # Also accept same ID ignoring punctuation/case.
-    ntid = norm(target_id)
-    for sid in source_ids:
-        if norm(sid) == ntid:
-            return sid, "exact-id-normalized"
+def parse_xmltv_time(value):
+    if not value:
+        return None
+    m = re.match(r"^(\d{14})\s*([+-]\d{4})?", value)
+    if not m:
+        return None
+    dt = datetime.strptime(m.group(1), "%Y%m%d%H%M%S")
+    off = m.group(2)
+    if off:
+        sign = 1 if off[0] == "+" else -1
+        delta = timedelta(hours=int(off[1:3]), minutes=int(off[3:5])) * sign
+        tz = timezone(delta)
+    else:
+        tz = timezone.utc
+    return dt.replace(tzinfo=tz).astimezone(timezone.utc)
 
+def useful_programmes(programmes, now_utc):
+    # Keep schedules that are current or upcoming; tolerate 6h lag around collection time.
+    cutoff = now_utc - timedelta(hours=6)
+    useful=[]
+    for p in programmes:
+        stop = parse_xmltv_time(p.get("stop"))
+        start = parse_xmltv_time(p.get("start"))
+        if (stop and stop >= cutoff) or (not stop and start and start >= cutoff):
+            useful.append(p)
+    return useful
+
+def match_score(target_id, target_name, base_id):
+    if base_id == target_id:
+        return 1000, "exact-id"
+    if norm(base_id) == norm(target_id):
+        return 980, "exact-id-normalized"
     for cand in ALIASES.get(target_id, []):
-        if cand in source_ids:
-            return cand, "alias"
-        nc=norm(cand)
-        for sid in source_ids:
-            if norm(sid)==nc:
-                return sid, "alias-normalized"
+        if base_id == cand:
+            return 950, "alias"
+        if norm(base_id) == norm(cand):
+            return 930, "alias-normalized"
 
     low=target_name.lower()
     network = "mbc" if "mbc" in low else ("sbs" if "sbs" in low else None)
-    # Do not incorrectly map MBC Drama/MBC Net to terrestrial MBC.
     if target_id in SPECIALTY_MBC_IDS:
         network = None
-
     if network:
-        regions = ["andong","busan","chuncheon","chungbuk","daegu","daejeon",
-                   "gangwon","gwangju","gyeongnam","jeju","jeonju","mokpo","yeosu",
-                   "cjb","g1","jibs","jtv","kbc","knn","tbc","ubc"]
-        tn=norm(target_name)
-        dedicated=[sid for sid in source_ids if network in norm(sid) and any(r in tn and r in norm(sid) for r in regions)]
-        if dedicated:
-            return dedicated[0], "regional"
         national = "MBC.kr" if network=="mbc" else "SBS.kr"
-        if national in source_ids:
-            return national, "network-fallback"
+        if base_id == national:
+            return 700, "network-fallback"
 
-    a=norm(target_name)
+    a=norm(target_name); b=norm(base_id)
+    if not a or not b:
+        return -1, "miss"
+    score = 1.0 if a==b else SequenceMatcher(None,a,b).ratio()
+    if a in b or b in a:
+        score=max(score,0.93)
+    for marker in ["science","사이언스","golf","sports","biz","drama","kids","plus","2","3"]:
+        if (marker in a)!=(marker in b):
+            score-=0.15
+    if score >= 0.88:
+        return int(score*500), f"fuzzy:{score:.2f}"
+    return -1, "miss"
+
+def choose_source(target_id, target_name, candidates):
     ranked=[]
-    for sid in source_ids:
-        b=norm(sid)
-        if not a or not b: continue
-        score=1.0 if a==b else SequenceMatcher(None,a,b).ratio()
-        if a in b or b in a:
-            score=max(score,0.93)
-        for marker in ["science","사이언스","golf","sports","biz","drama","kids","plus","2","3"]:
-            if (marker in a)!=(marker in b):
-                score-=0.15
-        ranked.append((score,sid))
+    for raw_id, meta in candidates.items():
+        score, method = match_score(target_id, target_name, meta["base_id"])
+        if score < 0:
+            continue
+        useful_count = len(meta["useful"])
+        if useful_count == 0:
+            continue
+        ranked.append((score, -SOURCE_PRIORITY.get(meta["source"], 99), useful_count, raw_id, method))
+    if not ranked:
+        return None
     ranked.sort(reverse=True)
-    if ranked and ranked[0][0]>=0.88 and (len(ranked)==1 or ranked[0][0]-ranked[1][0]>=0.06):
-        return ranked[0][1], f"fuzzy:{ranked[0][0]:.2f}"
-    return None, "miss"
+    return ranked[0]
 
 def finalize():
     src=ET.parse("fresh-source.xml").getroot()
-    src_channels={c.get("id"):c for c in src.findall("channel")}
-    src_programmes={}
+    channels_by_raw = {c.get("id"): c for c in src.findall("channel") if c.get("id")}
+    progs_by_raw = {}
     for p in src.findall("programme"):
-        src_programmes.setdefault(p.get("channel"),[]).append(p)
+        progs_by_raw.setdefault(p.get("channel"),[]).append(p)
+
+    now_utc = datetime.now(timezone.utc)
+    candidates={}
+    for raw_id, ch in channels_by_raw.items():
+        source, base = split_source_id(raw_id)
+        all_progs = progs_by_raw.get(raw_id, [])
+        candidates[raw_id] = {
+            "source": source,
+            "base_id": base,
+            "channel": ch,
+            "all": all_progs,
+            "useful": useful_programmes(all_progs, now_utc),
+        }
+
     playlist=parse_m3u()
     new=ET.Element("tv", {
-        "generator-info-name":"mrdalse2/iptv + iptv-org/epg multi-source",
+        "generator-info-name":"mrdalse2/iptv + iptv-org/epg live-source fallback",
         "generator-info-url":"https://github.com/iptv-org/epg"
     })
     report=[]
-    matched=0
-    import copy
+    effective=0
+    id_matched_zero=0
+    miss=0
+
     for tid,name in playlist:
-        sid,method=best_source(tid,name,set(src_channels))
-        if not sid:
-            report.append(f"MISS {tid} | {name}")
+        chosen = choose_source(tid, name, candidates)
+        if not chosen:
+            # Distinguish IDs that matched but had no current/future programme data.
+            any_id_match=False
+            for raw_id, meta in candidates.items():
+                score,_ = match_score(tid,name,meta["base_id"])
+                if score >= 0:
+                    any_id_match=True
+                    break
+            if any_id_match:
+                id_matched_zero += 1
+                report.append(f"ZERO {tid} | {name}")
+            else:
+                miss += 1
+                report.append(f"MISS {tid} | {name}")
             continue
-        matched+=1
-        c=copy.deepcopy(src_channels[sid]); c.set("id",tid); new.append(c)
-        for p in src_programmes.get(sid,[]):
-            q=copy.deepcopy(p); q.set("channel",tid); new.append(q)
-        report.append(f"OK {tid} <= {sid} [{method}] | {name}")
+
+        score, negprio, useful_count, raw_id, method = chosen
+        meta=candidates[raw_id]
+        effective += 1
+        ch=copy.deepcopy(meta["channel"])
+        ch.set("id", tid)
+        new.append(ch)
+        for p in meta["useful"]:
+            q=copy.deepcopy(p)
+            q.set("channel", tid)
+            new.append(q)
+        report.append(
+            f"OK {tid} <= {meta['source']}:{meta['base_id']} [{method}] "
+            f"programmes={useful_count} | {name}"
+        )
+
     ET.indent(new, space="  ")
     ET.ElementTree(new).write("kr-tivimate-epg.xml", encoding="utf-8", xml_declaration=True)
-    Path("epg-update-report.txt").write_text(
-        f"Matched {matched}/{len(playlist)}\n\n"+"\n".join(report)+"\n", encoding="utf-8")
-    print(f"Final EPG matched {matched}/{len(playlist)} channels")
+    total=len(playlist)
+    empty=total-effective
+    header=(
+        f"Effective EPG channels: {effective}/{total}\n"
+        f"ID matched but zero current/future programmes: {id_matched_zero}\n"
+        f"No matching EPG source: {miss}\n"
+        f"Still empty: {empty}\n\n"
+    )
+    Path("epg-update-report.txt").write_text(header+"\n".join(report)+"\n",encoding="utf-8")
+    print(header.strip())
 
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
