@@ -24,6 +24,9 @@ jobs:
       - name: Refresh official live channels
         run: python build_playlist.py
 
+      - name: Show official live resolver status
+        run: cat official-channel-report.txt
+
       - name: Build multi-source Korea channel definition
         run: python build_current_epg.py prepare
 
@@ -88,7 +91,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add kr-tivimate.m3u kr-tivimate-epg.xml epg-update-report.txt
+          git add kr-tivimate.m3u kr-tivimate-epg.xml epg-update-report.txt official-channel-report.txt
           git diff --cached --quiet && exit 0
           git commit -m "chore: update Korea playlist and EPG"
           git push
