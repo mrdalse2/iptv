@@ -1,11 +1,12 @@
-Effective EPG channels: 47/73
+Effective EPG channels: 48/74
 ID matched but zero current/future programmes: 11
 No matching EPG source: 15
 Still empty: 26
 
+OK MBN.kr@SD <= kr1:MBN.kr [fuzzy:0.93] programmes=63 | MBN
 MISS ABN.kr@SD | ABN TV (720p)
 OK ArirangRadio.kr@SD <= kr1:Arirang.Radio.kr [fuzzy:0.93] programmes=58 | Arirang Radio (720p)
-OK ArirangTV.kr@SD <= arirang:ArirangTV.kr@SD [exact-id] programmes=157 | Arirang TV (1080p)
+OK ArirangTV.kr@SD <= arirang:ArirangTV.kr@SD [exact-id] programmes=155 | Arirang TV (1080p)
 MISS ArirangTV.kr@HD | Arirang TV HD (720p)
 OK BBSTV.kr@SD <= kr1:BBS.불교방송.kr [alias] programmes=98 | BBS Buddhist Broadcasting (1080p)
 OK BTNTV.kr@SD <= kr1:BTN불교TV.kr [alias] programmes=89 | BTN TV (1080p)
