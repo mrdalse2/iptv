@@ -1,0 +1,79 @@
+name: Update Korea EPG
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 02:15 UTC = 11:15 KST
+    - cron: "15 2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build current KR1 channel definition
+        run: python build_current_epg.py prepare
+
+      - name: Checkout iptv-org EPG engine
+        uses: actions/checkout@v4
+        with:
+          repository: iptv-org/epg
+          ref: master
+          path: epg-engine
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: epg-engine/package-lock.json
+
+      - name: Install EPG engine dependencies
+        working-directory: epg-engine
+        run: npm ci
+
+      - name: Grab fresh Korean EPG
+        working-directory: epg-engine
+        run: |
+          npm run grab --- \
+            --channels=../korea.channels.xml \
+            --output=../fresh-source.xml \
+            --days=3 \
+            --maxConnections=3 \
+            --timeout=45000
+
+      - name: Remap EPG IDs to IPTV-org playlist IDs
+        run: python build_current_epg.py finalize
+
+      - name: Validate generated EPG
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          root=ET.parse("kr-tivimate-epg.xml").getroot()
+          channels=root.findall("channel")
+          programmes=root.findall("programme")
+          print("channels:", len(channels), "programmes:", len(programmes))
+          if not channels or not programmes:
+              raise SystemExit("Generated EPG is empty")
+          starts=[p.get("start","")[:8] for p in programmes if p.get("start")]
+          print("date range:", min(starts), "to", max(starts))
+          PY
+
+      - name: Commit updated guide
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add kr-tivimate-epg.xml epg-update-report.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: update Korea EPG"
+          git push
