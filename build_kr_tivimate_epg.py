@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-IPTV-org Korea M3U -> TiviMate EPG-friendly M3U builder
+v3 - IPTV-org Korea + Korea EPG -> TiviMate auto-match bundle
 
-Matching order:
-1) Explicit IPTV-org tvg-id -> EPG id aliases (highest confidence)
-2) Explicit name aliases
-3) Safe canonical/name matching with token guards
-4) Optional network fallback for regional MBC/SBS stations
+Outputs:
+  kr-tivimate.m3u
+  kr-tivimate-epg.xml
+  kr-tivimate-epg-report.txt
 
-The script NEVER assigns an alias unless that EPG channel id actually exists
-in the downloaded XMLTV file.
+Core idea:
+- Keep IPTV-org M3U tvg-id values as the final canonical IDs.
+- Find the matching EPG channel in globetvapp's korea1.xml.
+- Rewrite BOTH:
+    <channel id="...">
+    <programme channel="...">
+  to the IPTV-org tvg-id.
+- This removes any need for TiviMate's manual "Assign EPG" feature.
+
+Notes:
+- A regional MBC/SBS stream may fall back to the nationwide MBC/SBS guide
+  if a dedicated regional guide cannot be identified.
+- Only confident mappings are rewritten.
 """
 
+import copy
 import re
 import unicodedata
 import urllib.request
@@ -23,16 +34,14 @@ from pathlib import Path
 M3U_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
 EPG_URL = "https://raw.githubusercontent.com/globetvapp/epg/main/Korea/korea1.xml"
 
-OUT_M3U = "kr-tivimate-epg.m3u"
+OUT_M3U = "kr-tivimate.m3u"
+OUT_EPG = "kr-tivimate-epg.xml"
 OUT_REPORT = "kr-tivimate-epg-report.txt"
 
-# True = regional MBC/SBS streams may use the nationwide MBC/SBS guide when
-# a dedicated regional guide cannot be found. This is useful in TiviMate
-# because national schedules overlap heavily, but local inserts may differ.
 ENABLE_NETWORK_FALLBACK = True
 
-# Candidate EPG ids. The first id that really exists in korea1.xml is used.
-# This makes the rules resilient to small naming changes in the source.
+# IPTV-org tvg-id -> candidate source EPG IDs.
+# First candidate that actually exists in the downloaded EPG is used.
 ID_ALIASES = {
     "ChannelA.kr@SD": ["Channel A.kr", "ChannelA.kr"],
     "CJOnStyle.kr@SD": ["CJ ONSTYLE.kr", "CJ OnStyle.kr"],
@@ -63,13 +72,9 @@ ID_ALIASES = {
     "YTN.kr@SD": ["YTN.kr"],
 }
 
-# Name aliases are useful when IPTV-org changes its tvg-id while the visible
-# channel name remains recognizable.
 NAME_ALIASES = {
-    "abntv": ["ABN.kr", "ABN TV.kr"],
     "arirangradio": ["Arirang Radio.kr"],
     "arirangtv": ["Arirang TV.kr", "ArirangTV.kr"],
-    "bb buddhistbroadcasting": ["BBS불교방송.kr", "BBS TV.kr"],
     "btntv": ["BTN불교TV.kr"],
     "channel a": ["Channel A.kr", "ChannelA.kr"],
     "ebs1": ["EBS.kr", "EBS1.kr"],
@@ -83,8 +88,8 @@ NAME_ALIASES = {
     "gsshop": ["GS SHOP.kr"],
     "gugaktv국악방송": ["국악방송.kr"],
     "koreatv": ["KTV.kr"],
-    "mbc drama": ["MBC Dramanet.kr"],
-    "mbc net": ["MBC NET.kr"],
+    "mbcdrama": ["MBC Dramanet.kr"],
+    "mbcnet": ["MBC NET.kr"],
     "mtn": ["MTN 머니투데이방송.kr"],
     "oun": ["OUN.kr"],
     "tbsseoul": ["TBS TV.kr"],
@@ -93,11 +98,10 @@ NAME_ALIASES = {
     "ytn": ["YTN.kr"],
 }
 
-# Prevent dangerous fuzzy matches between similarly named but different
-# channels (e.g. YTN -> YTN Science, TV Chosun -> TV Chosun 2).
 DISTINCT_MARKERS = [
-    "science", "사이언스", "plus", "플러스", "kids", "키즈", "english",
-    "golf", "sports", "biz", "drama", "dramanet", "movies", "2", "3"
+    "science", "사이언스", "plus", "플러스", "kids", "키즈",
+    "english", "golf", "sports", "biz", "drama", "dramanet",
+    "movies", "2", "3"
 ]
 
 def fetch(url):
@@ -108,8 +112,12 @@ def fetch(url):
 def strip_annotations(s):
     s = s or ""
     s = re.sub(r"\[[^\]]*\]", " ", s)
-    # IPTV-org resolution / availability suffixes
-    s = re.sub(r"\((?:[^)]*?\b(?:2160|1440|1080|720|576|540|480|450|406|400|360|352)p\b[^)]*)\)", " ", s, flags=re.I)
+    s = re.sub(
+        r"\((?:[^)]*?\b(?:2160|1440|1080|720|576|540|480|450|406|400|360|352)p\b[^)]*)\)",
+        " ",
+        s,
+        flags=re.I,
+    )
     return re.sub(r"\s+", " ", s).strip()
 
 def norm(s):
@@ -120,7 +128,6 @@ def norm(s):
         "home shopping": "homeshop",
         "home & shopping": "homeshop",
         "shopping": "shop",
-        "onstyle": "onstyle",
         "korea": "",
         "대한민국": "",
         "서울": "seoul",
@@ -162,64 +169,42 @@ def parse_m3u(text):
             m = re.search(r'tvg-id="([^"]*)"', extinf)
             old_id = m.group(1) if m else ""
             items.append({
-                "extinf": extinf, "extras": extras, "url": url,
-                "name": name, "old_id": old_id,
+                "extinf": extinf,
+                "extras": extras,
+                "url": url,
+                "name": name,
+                "old_id": old_id,
             })
         i += 1
     return items
 
 def parse_epg(xml_bytes):
     root = ET.fromstring(xml_bytes)
-    chans = []
+    channels = []
     for ch in root.findall("channel"):
-        cid = ch.get("id", "").strip()
+        cid = (ch.get("id") or "").strip()
         names = [(x.text or "").strip() for x in ch.findall("display-name") if (x.text or "").strip()]
         if cid:
-            chans.append({"id": cid, "names": names})
-    return chans
+            channels.append({"id": cid, "names": names, "element": ch})
+    return root, channels
 
 def build_epg_indexes(chans):
     by_id = {c["id"]: c for c in chans}
-    by_norm = {}
-    for c in chans:
-        for value in [c["id"]] + c["names"]:
-            n = norm(value)
-            if n:
-                by_norm.setdefault(n, []).append(c)
-    return by_id, by_norm
+    return by_id
 
 def first_existing_id(candidates, by_id):
     for cid in candidates:
         if cid in by_id:
             return by_id[cid]
-    # also allow normalized exact lookup if source changed spaces/case
     wanted = [norm(x) for x in candidates]
     for cid, ch in by_id.items():
         if norm(cid) in wanted:
             return ch
     return None
 
-def exact_alias_match(item, by_id):
-    candidates = ID_ALIASES.get(item["old_id"])
-    if candidates:
-        ch = first_existing_id(candidates, by_id)
-        if ch:
-            return ch, "MANUAL-ID"
-
-    nname = norm(item["name"])
-    for alias_name, candidates in NAME_ALIASES.items():
-        if nname == norm(alias_name):
-            ch = first_existing_id(candidates, by_id)
-            if ch:
-                return ch, "MANUAL-NAME"
-    return None, None
-
 def marker_conflict(a_text, b_text):
     a = unicodedata.normalize("NFKC", a_text or "").lower()
     b = unicodedata.normalize("NFKC", b_text or "").lower()
-
-    # A marker present only on one side is a warning. Numeric "2" is checked
-    # as a standalone-ish channel suffix to avoid TV Chosun -> TV Chosun 2.
     for m in DISTINCT_MARKERS:
         if m.isdigit():
             pa = bool(re.search(rf"(?<!\d){re.escape(m)}(?!\d)", a))
@@ -235,74 +220,77 @@ def fuzzy_score(mname, ch):
     a = norm(mname)
     if not a:
         return 0.0
-
     best = 0.0
     for candidate in [ch["id"]] + ch["names"]:
         b = norm(candidate)
         if not b:
             continue
-
-        if marker_conflict(mname, candidate):
-            penalty = 0.16
-        else:
-            penalty = 0.0
-
+        penalty = 0.16 if marker_conflict(mname, candidate) else 0.0
         if a == b:
             s = 1.0
         elif len(a) >= 4 and len(b) >= 4 and (a in b or b in a):
             s = 0.94
         else:
             s = SequenceMatcher(None, a, b).ratio()
-
-        # Token overlap bonus helps regional/named stations without letting
-        # one generic token (TV/MBC/SBS) dominate.
         ta, tb = token_set(mname), token_set(candidate)
         common = {t for t in ta & tb if t not in {"tv", "hd", "sd"}}
         if len(common) >= 2:
             s = min(1.0, s + 0.05)
-
         best = max(best, s - penalty)
     return max(0.0, best)
 
+def explicit_match(item, by_id):
+    candidates = ID_ALIASES.get(item["old_id"])
+    if candidates:
+        ch = first_existing_id(candidates, by_id)
+        if ch:
+            return ch, "MANUAL-ID"
+
+    nname = norm(item["name"])
+    for alias_name, candidates in NAME_ALIASES.items():
+        if nname == norm(alias_name):
+            ch = first_existing_id(candidates, by_id)
+            if ch:
+                return ch, "MANUAL-NAME"
+    return None, None
+
 def find_regional_epg(item, chans):
-    """Try dedicated regional MBC/SBS guides before nationwide fallback."""
     text = unicodedata.normalize("NFKC", item["name"]).lower()
 
-    regions = {
-        "andong": ["andong", "안동"],
-        "busan": ["busan", "부산"],
-        "chuncheon": ["chuncheon", "춘천"],
-        "chungbuk": ["chungbuk", "충북"],
-        "daegu": ["daegu", "대구"],
-        "daejeon": ["daejeon", "대전"],
-        "gangwon": ["gangwon", "강원"],
-        "gwangju": ["gwangju", "광주"],
-        "gyeongnam": ["gyeongnam", "경남"],
-        "jeju": ["jeju", "제주"],
-        "jeonju": ["jeonju", "전주"],
-        "mokpo": ["mokpo", "목포"],
-        "yeosu": ["yeosu", "여수"],
-        "cjb": ["cjb"],
-        "g1": ["g1"],
-        "jibs": ["jibs"],
-        "jtv": ["jtv"],
-        "kbc": ["kbc"],
-        "knn": ["knn"],
-        "tbc": ["tbc"],
-        "ubc": ["ubc"],
-    }
+    region_terms = [
+        ["andong", "안동"],
+        ["busan", "부산"],
+        ["chuncheon", "춘천"],
+        ["chungbuk", "충북"],
+        ["daegu", "대구"],
+        ["daejeon", "대전"],
+        ["gangwon", "강원"],
+        ["gwangju", "광주"],
+        ["gyeongnam", "경남"],
+        ["jeju", "제주"],
+        ["jeonju", "전주"],
+        ["mokpo", "목포"],
+        ["yeosu", "여수"],
+        ["cjb"],
+        ["g1"],
+        ["jibs"],
+        ["jtv"],
+        ["kbc"],
+        ["knn"],
+        ["tbc"],
+        ["ubc"],
+    ]
 
     network = "mbc" if "mbc" in text else ("sbs" if "sbs" in text else None)
     if not network:
         return None
 
-    wanted_region_terms = []
-    for aliases in regions.values():
-        if any(a in text for a in aliases):
-            wanted_region_terms = aliases
+    wanted = None
+    for terms in region_terms:
+        if any(t in text for t in terms):
+            wanted = terms
             break
-
-    if not wanted_region_terms:
+    if not wanted:
         return None
 
     candidates = []
@@ -310,153 +298,198 @@ def find_regional_epg(item, chans):
         hay = " ".join([c["id"]] + c["names"]).lower()
         if network not in hay:
             continue
-        if any(term in hay for term in wanted_region_terms):
+        if any(t in hay for t in wanted):
             candidates.append(c)
 
+    if not candidates:
+        return None
     if len(candidates) == 1:
         return candidates[0]
-    if candidates:
-        return max(candidates, key=lambda c: fuzzy_score(item["name"], c))
-    return None
+    return max(candidates, key=lambda c: fuzzy_score(item["name"], c))
 
 def network_fallback(item, by_id):
     if not ENABLE_NETWORK_FALLBACK:
         return None
-
     name = unicodedata.normalize("NFKC", item["name"]).lower()
     old = item["old_id"]
 
-    # IPTV-org regional MBC station IDs are mostly call signs (HLA*/HLC*...)
     if "mbc" in name and old not in {"MBCDrama.kr@SD", "MBCNet.kr@SD"}:
         return first_existing_id(["MBC.kr", "MBC TV.kr"], by_id)
 
-    # Regional SBS affiliates. Avoid SBS-branded specialty channels.
     if "sbs" in name and not any(x in name for x in ["biz", "golf", "sports", "fun", "plus"]):
         return first_existing_id(["SBS.kr", "SBS TV.kr"], by_id)
 
     return None
 
-def replace_tvg_id(extinf, new_id):
-    if re.search(r'tvg-id="[^"]*"', extinf):
-        return re.sub(r'tvg-id="[^"]*"', f'tvg-id="{new_id}"', extinf, count=1)
-    return re.sub(r'^(#EXTINF:[^ ]+)', r'\1 tvg-id="' + new_id + '"', extinf, count=1)
+def choose_epg_channel(item, chans, by_id):
+    ch, method = explicit_match(item, by_id)
+    if ch:
+        return ch, method, None
 
-def epg_label(ch):
-    return ch["names"][0] if ch["names"] else ch["id"]
+    ch = find_regional_epg(item, chans)
+    if ch:
+        return ch, "REGIONAL", None
+
+    ranked = sorted(
+        ((fuzzy_score(item["name"], c), c) for c in chans),
+        key=lambda x: x[0],
+        reverse=True,
+    )
+    best_s, best_c = ranked[0] if ranked else (0.0, None)
+    second_s = ranked[1][0] if len(ranked) > 1 else 0.0
+
+    if best_c and (
+        best_s >= 0.965 or
+        (best_s >= 0.90 and best_s - second_s >= 0.10)
+    ):
+        return best_c, "AUTO", best_s
+
+    ch = network_fallback(item, by_id)
+    if ch:
+        return ch, "NETWORK-FALLBACK", None
+
+    return None, "MISS", best_s if best_c else None
+
+def rewrite_m3u(items):
+    out = [f'#EXTM3U x-tvg-url="https://raw.githubusercontent.com/mrdalse2/iptv/main/{OUT_EPG}"']
+    for item in items:
+        out.append(item["extinf"])
+        out.extend(item["extras"])
+        out.append(item["url"])
+    return "\n".join(out) + "\n"
+
+def build_rewritten_epg(root, mapping):
+    """
+    mapping: source_epg_id -> list of IPTV-org ids that should receive that guide
+
+    If multiple IPTV channels share one source guide (e.g. regional fallback),
+    duplicate the channel/programme entries so each IPTV tvg-id gets its own
+    XMLTV channel id.
+    """
+    new_root = ET.Element(root.tag, root.attrib)
+
+    source_channels = {ch.get("id"): ch for ch in root.findall("channel")}
+    source_programmes = {}
+    for p in root.findall("programme"):
+        source_programmes.setdefault(p.get("channel"), []).append(p)
+
+    # Preserve non-channel/non-programme top-level elements if any.
+    for child in root:
+        if child.tag not in {"channel", "programme"}:
+            new_root.append(copy.deepcopy(child))
+
+    used_targets = set()
+
+    for source_id, target_ids in mapping.items():
+        src_ch = source_channels.get(source_id)
+        if src_ch is None:
+            continue
+
+        for target_id in target_ids:
+            if not target_id or target_id in used_targets:
+                continue
+            used_targets.add(target_id)
+
+            ch_copy = copy.deepcopy(src_ch)
+            ch_copy.set("id", target_id)
+            new_root.append(ch_copy)
+
+            for prog in source_programmes.get(source_id, []):
+                p_copy = copy.deepcopy(prog)
+                p_copy.set("channel", target_id)
+                new_root.append(p_copy)
+
+    return new_root
+
+def indent_xml(elem, level=0):
+    # Works on Python 3.9+, but keep a fallback for safety.
+    try:
+        ET.indent(elem, space="  ")
+    except AttributeError:
+        pass
 
 def main():
     print("Downloading IPTV-org Korea M3U...")
-    m3u = fetch(M3U_URL).decode("utf-8-sig", errors="replace")
+    m3u_text = fetch(M3U_URL).decode("utf-8-sig", errors="replace")
+
     print("Downloading Korea EPG XML...")
-    epg = fetch(EPG_URL)
+    epg_bytes = fetch(EPG_URL)
 
-    items = parse_m3u(m3u)
-    chans = parse_epg(epg)
-    by_id, _ = build_epg_indexes(chans)
+    items = parse_m3u(m3u_text)
+    root, chans = parse_epg(epg_bytes)
+    by_id = build_epg_indexes(chans)
 
-    out = [f'#EXTM3U x-tvg-url="{EPG_URL}"']
+    # source EPG id -> IPTV-org target ids
+    mapping = {}
     report = []
 
     counts = {
         "manual": 0,
         "regional": 0,
-        "exact_fuzzy": 0,
-        "network_fallback": 0,
+        "auto": 0,
+        "fallback": 0,
         "miss": 0,
     }
 
     for item in items:
-        chosen = None
-        method = None
-        chosen_score = None
+        if not item["old_id"]:
+            counts["miss"] += 1
+            report.append(f"MISS             {item['name']}  reason=no-tvg-id")
+            continue
 
-        # 1. Explicit curated aliases.
-        chosen, method = exact_alias_match(item, by_id)
-
-        # 2. Dedicated regional guide if present.
-        if not chosen:
-            chosen = find_regional_epg(item, chans)
-            if chosen:
-                method = "REGIONAL"
-
-        # 3. Conservative generic matching.
-        if not chosen:
-            ranked = sorted(
-                ((fuzzy_score(item["name"], c), c) for c in chans),
-                key=lambda x: x[0],
-                reverse=True,
-            )
-            best_s, best_c = ranked[0] if ranked else (0.0, None)
-            second_s = ranked[1][0] if len(ranked) > 1 else 0.0
-
-            # Stricter than before for ambiguous names, but allows very strong
-            # exact/canonical matches.
-            if best_c and (
-                best_s >= 0.965 or
-                (best_s >= 0.90 and best_s - second_s >= 0.10)
-            ):
-                chosen = best_c
-                method = "AUTO"
-                chosen_score = best_s
-
-        # 4. Regional network fallback, only when no dedicated/strong match.
-        if not chosen:
-            chosen = network_fallback(item, by_id)
-            if chosen:
-                method = "NETWORK-FALLBACK"
+        chosen, method, score = choose_epg_channel(item, chans, by_id)
 
         if chosen:
-            extinf = replace_tvg_id(item["extinf"], chosen["id"])
+            mapping.setdefault(chosen["id"], []).append(item["old_id"])
 
             if method in {"MANUAL-ID", "MANUAL-NAME"}:
                 counts["manual"] += 1
             elif method == "REGIONAL":
                 counts["regional"] += 1
             elif method == "AUTO":
-                counts["exact_fuzzy"] += 1
+                counts["auto"] += 1
             elif method == "NETWORK-FALLBACK":
-                counts["network_fallback"] += 1
+                counts["fallback"] += 1
 
-            score_txt = f" score={chosen_score:.3f}" if chosen_score is not None else ""
+            score_txt = f" score={score:.3f}" if score is not None else ""
+            display = chosen["names"][0] if chosen["names"] else chosen["id"]
             report.append(
-                f"{method:<16} {item['name']}  =>  {epg_label(chosen)} "
-                f"[{chosen['id']}]{score_txt}"
+                f"{method:<16} {item['name']}  IPTV={item['old_id']} "
+                f"<= EPG={display} [{chosen['id']}]{score_txt}"
             )
         else:
-            extinf = item["extinf"]
             counts["miss"] += 1
-
-            ranked = sorted(
-                ((fuzzy_score(item["name"], c), c) for c in chans),
-                key=lambda x: x[0],
-                reverse=True,
-            )
-            hint = ""
-            if ranked:
-                s, c = ranked[0]
-                hint = f" best={epg_label(c)} [{c['id']}] score={s:.3f}"
             report.append(
-                f"{'MISS':<16} {item['name']} old={item['old_id']}{hint}"
+                f"{'MISS':<16} {item['name']}  IPTV={item['old_id']}"
+                + (f" best-score={score:.3f}" if score is not None else "")
             )
 
-        out.append(extinf)
-        out.extend(item["extras"])
-        out.append(item["url"])
+    # M3U remains IPTV-org ids; only x-tvg-url points to our rewritten EPG.
+    Path(OUT_M3U).write_text(rewrite_m3u(items), encoding="utf-8")
+
+    new_root = build_rewritten_epg(root, mapping)
+    indent_xml(new_root)
+
+    tree = ET.ElementTree(new_root)
+    tree.write(OUT_EPG, encoding="utf-8", xml_declaration=True)
 
     matched = len(items) - counts["miss"]
 
-    Path(OUT_M3U).write_text("\n".join(out) + "\n", encoding="utf-8")
     Path(OUT_REPORT).write_text(
         "\n".join([
             f"M3U channels: {len(items)}",
-            f"EPG channels: {len(chans)}",
+            f"EPG source channels: {len(chans)}",
             f"Matched total: {matched}",
             f"Manual aliases: {counts['manual']}",
             f"Dedicated regional: {counts['regional']}",
-            f"Automatic strong matches: {counts['exact_fuzzy']}",
-            f"Network fallback: {counts['network_fallback']}",
+            f"Automatic strong matches: {counts['auto']}",
+            f"Network fallback: {counts['fallback']}",
             f"Unmatched: {counts['miss']}",
             f"Network fallback enabled: {ENABLE_NETWORK_FALLBACK}",
+            "",
+            "IMPORTANT:",
+            "The generated XMLTV uses IPTV-org tvg-id values as channel IDs.",
+            "TiviMate should therefore auto-match without Assign EPG.",
             "",
             *report,
             "",
@@ -465,13 +498,23 @@ def main():
     )
 
     print(f"Done: {OUT_M3U}")
+    print(f"Done: {OUT_EPG}")
     print(f"Report: {OUT_REPORT}")
     print(
         f"Matched {matched}/{len(items)} "
         f"(manual={counts['manual']}, regional={counts['regional']}, "
-        f"auto={counts['exact_fuzzy']}, fallback={counts['network_fallback']}, "
-        f"miss={counts['miss']})"
+        f"auto={counts['auto']}, fallback={counts['fallback']}, miss={counts['miss']})"
     )
+    print()
+    print("Upload these two files to GitHub:")
+    print(f"  {OUT_M3U}")
+    print(f"  {OUT_EPG}")
+    print()
+    print("Then use in TiviMate:")
+    print("M3U:")
+    print(f"  https://raw.githubusercontent.com/mrdalse2/iptv/main/{OUT_M3U}")
+    print("EPG:")
+    print(f"  https://raw.githubusercontent.com/mrdalse2/iptv/main/{OUT_EPG}")
 
 if __name__ == "__main__":
     main()
