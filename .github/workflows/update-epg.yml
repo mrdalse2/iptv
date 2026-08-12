@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Build current KR1 channel definition
+      - name: Build multi-source Korea channel definition
         run: python build_current_epg.py prepare
 
       - name: Checkout iptv-org EPG engine
@@ -42,7 +42,7 @@ jobs:
         working-directory: epg-engine
         run: npm ci
 
-      - name: Grab fresh Korean EPG
+      - name: Grab fresh Korean EPG from all sources
         working-directory: epg-engine
         run: |
           npm run grab --- \
@@ -52,21 +52,33 @@ jobs:
             --maxConnections=3 \
             --timeout=45000
 
-      - name: Remap EPG IDs to IPTV-org playlist IDs
+      - name: Select live source and remap IDs
         run: python build_current_epg.py finalize
 
       - name: Validate generated EPG
         run: |
           python - <<'PY'
+          import re
           import xml.etree.ElementTree as ET
-          root=ET.parse("kr-tivimate-epg.xml").getroot()
-          channels=root.findall("channel")
-          programmes=root.findall("programme")
-          print("channels:", len(channels), "programmes:", len(programmes))
-          if not channels or not programmes:
-              raise SystemExit("Generated EPG is empty")
-          starts=[p.get("start","")[:8] for p in programmes if p.get("start")]
-          print("date range:", min(starts), "to", max(starts))
+          from pathlib import Path
+
+          root = ET.parse("kr-tivimate-epg.xml").getroot()
+          channels = root.findall("channel")
+          programmes = root.findall("programme")
+          report = Path("epg-update-report.txt").read_text(encoding="utf-8")
+
+          m = re.search(r"Effective EPG channels: (\d+)/(\d+)", report)
+          if not m:
+              raise SystemExit("Coverage summary missing")
+          effective, total = map(int, m.groups())
+
+          print("effective channels:", effective, "/", total)
+          print("xml channels:", len(channels), "programmes:", len(programmes))
+
+          if effective == 0 or not programmes:
+              raise SystemExit("Generated EPG has no usable programme data")
+          if len(channels) != effective:
+              raise SystemExit("Coverage/report mismatch")
           PY
 
       - name: Commit updated guide
