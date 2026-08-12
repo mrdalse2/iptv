@@ -6,7 +6,7 @@ from datetime import datetime, timezone, timedelta
 from difflib import SequenceMatcher
 from pathlib import Path
 
-M3U_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
+M3U_PATH = Path("kr-tivimate.m3u")
 SOURCE_CHANNEL_URLS = [
     ("tving", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/m.tving.com/m.tving.com.channels.xml"),
     ("wavve", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/wavve.com/wavve.com.channels.xml"),
@@ -70,7 +70,9 @@ def norm(s):
     return re.sub(r"[^0-9a-z가-힣]+","",s)
 
 def parse_m3u():
-    txt=get(M3U_URL).decode("utf-8-sig","replace")
+    if not M3U_PATH.exists():
+        raise SystemExit(f"Missing custom playlist: {M3U_PATH}")
+    txt=M3U_PATH.read_text(encoding="utf-8-sig")
     out=[]
     for line in txt.replace("\r\n","\n").splitlines():
         if not line.startswith("#EXTINF:"):
@@ -250,7 +252,6 @@ def finalize():
             f"programmes={useful_count} | {name}"
         )
 
-    # XMLTV canonical order: all channel definitions first, then all programmes.
     for ch in out_channels:
         new.append(ch)
     for p in out_programmes:
