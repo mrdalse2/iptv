@@ -2,6 +2,12 @@ name: Update Korea EPG
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "build_playlist.py"
+      - "build_current_epg.py"
+      - ".github/workflows/update-epg.yml"
   schedule:
     # Refresh tokenized official streams and EPG every 6 hours
     - cron: "15 */6 * * *"
