@@ -6,9 +6,15 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 M3U_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
-KR1_URL = "https://raw.githubusercontent.com/iptv-org/epg/master/sites/epgshare01.online/epgshare01.online_KR1.channels.xml"
+SOURCE_CHANNEL_URLS = [
+    # Priority order: sources with IPTV-org IDs already assigned first.
+    ("wavve", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/wavve.com/wavve.com.channels.xml"),
+    ("arirang", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/arirang.com/arirang.com.channels.xml"),
+    ("kr1", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/epgshare01.online/epgshare01.online_KR1.channels.xml"),
+]
 
 ALIASES = {
+    "BBSTV.kr@SD": ["BBS.불교방송.kr", "BBS불교방송.kr"],
     "ChannelA.kr@SD": ["Channel A.kr", "ChannelA.kr"],
     "CJOnStyle.kr@SD": ["CJ 온스타일.kr", "CJOnStyle.kr"],
     "CJOnStylePlus.kr@SD": ["CJ 온스타일플러스.kr", "CJOnStylePlus.kr"],
@@ -39,6 +45,8 @@ ALIASES = {
     "WShopping.kr@SD": ["W SHOPPING.kr", "W쇼핑.kr"],
     "YTN.kr@SD": ["YTN.kr"],
 }
+
+SPECIALTY_MBC_IDS = {"MBCDrama.kr@SD", "MBCNet.kr@SD"}
 
 def get(url):
     req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0"})
@@ -72,18 +80,50 @@ def parse_m3u():
     return out
 
 def prepare():
-    root=ET.fromstring(get(KR1_URL))
-    kept=0
-    for ch in root.findall("channel"):
-        sid=ch.get("site_id","")
-        xid=sid.split("#",1)[1] if "#" in sid else sid
-        ch.set("xmltv_id", xid)
-        kept += 1
-    ET.indent(root, space="  ")
-    ET.ElementTree(root).write("korea.channels.xml", encoding="utf-8", xml_declaration=True)
-    print(f"Prepared {kept} KR1 channels")
+    merged = ET.Element("channels")
+    seen = set()
+    per_source = {}
+
+    for source_name, url in SOURCE_CHANNEL_URLS:
+        root = ET.fromstring(get(url))
+        added = 0
+        for ch in root.findall("channel"):
+            c = ET.fromstring(ET.tostring(ch, encoding="unicode"))
+            xid = (c.get("xmltv_id") or "").strip()
+
+            # KR1 intentionally leaves xmltv_id blank; derive it from site_id.
+            if source_name == "kr1":
+                sid = (c.get("site_id") or "").strip()
+                xid = sid.split("#",1)[1] if "#" in sid else sid
+                c.set("xmltv_id", xid)
+
+            if not xid:
+                continue
+
+            # Prefer Wavve/Arirang entries when they already use canonical IDs.
+            key = xid
+            if key in seen:
+                continue
+            seen.add(key)
+            merged.append(c)
+            added += 1
+        per_source[source_name] = added
+
+    ET.indent(merged, space="  ")
+    ET.ElementTree(merged).write("korea.channels.xml", encoding="utf-8", xml_declaration=True)
+    print(f"Prepared {len(seen)} channels: {per_source}")
 
 def best_source(target_id, target_name, source_ids):
+    # Strongest possible match: the EPG source already uses the playlist tvg-id.
+    if target_id in source_ids:
+        return target_id, "exact-id"
+
+    # Also accept same ID ignoring punctuation/case.
+    ntid = norm(target_id)
+    for sid in source_ids:
+        if norm(sid) == ntid:
+            return sid, "exact-id-normalized"
+
     for cand in ALIASES.get(target_id, []):
         if cand in source_ids:
             return cand, "alias"
@@ -91,8 +131,13 @@ def best_source(target_id, target_name, source_ids):
         for sid in source_ids:
             if norm(sid)==nc:
                 return sid, "alias-normalized"
+
     low=target_name.lower()
     network = "mbc" if "mbc" in low else ("sbs" if "sbs" in low else None)
+    # Do not incorrectly map MBC Drama/MBC Net to terrestrial MBC.
+    if target_id in SPECIALTY_MBC_IDS:
+        network = None
+
     if network:
         regions = ["andong","busan","chuncheon","chungbuk","daegu","daejeon",
                    "gangwon","gwangju","gyeongnam","jeju","jeonju","mokpo","yeosu",
@@ -104,6 +149,7 @@ def best_source(target_id, target_name, source_ids):
         national = "MBC.kr" if network=="mbc" else "SBS.kr"
         if national in source_ids:
             return national, "network-fallback"
+
     a=norm(target_name)
     ranked=[]
     for sid in source_ids:
@@ -129,7 +175,7 @@ def finalize():
         src_programmes.setdefault(p.get("channel"),[]).append(p)
     playlist=parse_m3u()
     new=ET.Element("tv", {
-        "generator-info-name":"mrdalse2/iptv + iptv-org/epg KR1",
+        "generator-info-name":"mrdalse2/iptv + iptv-org/epg multi-source",
         "generator-info-url":"https://github.com/iptv-org/epg"
     })
     report=[]
