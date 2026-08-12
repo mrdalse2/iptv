@@ -1,78 +1,83 @@
 M3U channels: 73
 EPG channels: 315
-Auto-matched: 15
-Unmatched: 58
+Matched total: 47
+Manual aliases: 26
+Dedicated regional: 0
+Automatic strong matches: 0
+Network fallback: 21
+Unmatched: 26
+Network fallback enabled: True
 
-MISS ABN TV (720p)  old=ABN.kr@SD best=NBNTV.kr [NBNTV.kr] score=0.667
-MISS Arirang Radio (720p)  old=ArirangRadio.kr@SD best=AsiaN.kr [AsiaN.kr] score=0.526
-MISS Arirang TV (1080p)  old=ArirangTV.kr@SD best=AsiaN.kr [AsiaN.kr] score=0.500
-MISS Arirang TV HD (720p)  old=ArirangTV.kr@HD best=Asia UHD U.kr [Asia UHD U.kr] score=0.476
-MISS BBS Buddhist Broadcasting (1080p)  old=BBSTV.kr@SD best=ABC Australia.kr [ABC Australia.kr] score=0.378
-MISS BTN TV (1080p)  old=BTNTV.kr@SD best=BTN불교TV.kr [BTN불교TV.kr] score=0.714
-MISS Channel A [Geo-blocked]  old=ChannelA.kr@SD best=ABC Australia.kr [ABC Australia.kr] score=0.860
-OK   CJ OnStyle (540p)  =>  CJ ONSTYLE.kr  [CJ ONSTYLE.kr]  score=0.940
-MISS CJ OnStyle Plus (540p)  old=CJOnStylePlus.kr@SD best=CJ ONSTYLE.kr [CJ ONSTYLE.kr] score=0.750
-MISS EBS 1 (400p) [Not 24/7]  old=EBS1TV.kr@SD best=EBS.kr [EBS.kr] score=0.667
-OK   EBS 2 (400p) [Not 24/7]  =>  EBS2.kr  [EBS2.kr]  score=0.940
-OK   EBS E (400p) [Not 24/7]  =>  EBS English.kr  [EBS English.kr]  score=0.940
-OK   EBS kids (400p) [Not 24/7]  =>  EBS KIDS.kr  [EBS KIDS.kr]  score=0.940
-MISS EBS+ 1 (400p)  old=EBSPlus1.kr@SD best=EBS.kr [EBS.kr] score=0.667
-OK   EBS+ 2 (400p)  =>  EBS2.kr  [EBS2.kr]  score=0.940
-MISS FGTV (720p)  old=FGTV.kr@SD best=FTV.kr [FTV.kr] score=0.667
-MISS GCN24 Korean (720p)  old=GCN.kr@SD best=CGN.kr [CGN.kr] score=0.364
-MISS Gongyoung Shopping (720p)  old=GongyoungHomeShopping.kr@SD best=GS MY SHOP.kr [GS MY SHOP.kr] score=0.522
-OK   GoodTV (1080p)  =>  Good TV.kr  [Good TV.kr]  score=0.940
-OK   GS My Shop (1080p)  =>  GS MY SHOP.kr  [GS MY SHOP.kr]  score=0.940
-OK   GS Shop (1080p)  =>  GS SHOP.kr  [GS SHOP.kr]  score=0.940
-MISS GugakTV 국악방송 (1080p)  old=GugakTV.kr@SD best=국악방송.kr [국악방송.kr] score=0.471
-MISS Gugbang TV (1080p) [Not 24/7]  old=GugbangTV.kr@SD best=FUN TV.kr [FUN TV.kr] score=0.500
-MISS Home & Shopping (720p)  old=HomeShopping.kr@SD best=GS MY SHOP.kr [GS MY SHOP.kr] score=0.556
-MISS Hyundai Home Shopping (720p)  old=HyundaiHomeShopping.kr@SD best=NS Shop+.kr [NS Shop+.kr] score=0.435
-MISS Hyundai Home Shopping Plus (720p)  old=HyundaiHomeShoppingPlusShop.kr@SD best=EBS PLUS1.kr [EBS PLUS1.kr] score=0.414
-MISS KCTV 광주 CH05 (720p) [Not 24/7]  old=KCTV.kr@SD best=KTV.kr [KTV.kr] score=0.400
-MISS Korea TV (1080p)  old=KTV.kr@SD best=BALL TV.kr [BALL TV.kr] score=0.860
-MISS KShopping (1080p)  old=KShopping.kr@SD best=GS SHOP.kr [GS SHOP.kr] score=0.615
-MISS Lotte Home Shopping (720p)  old=LotteHomeShopping.kr@SD best=LOTTE OneTV.kr [LOTTE OneTV.kr] score=0.560
-OK   Lotte OneTV (720p)  =>  LOTTE OneTV.kr  [LOTTE OneTV.kr]  score=0.940
-MISS MBC Andong (안동 MBC) (360p) [Not 24/7]  old=HLAWDTV.kr@SD best=MBC ON.kr [MBC ON.kr] score=0.476
-MISS MBC Busan (부산MBC) (360p) [Not 24/7]  old=HLKUDTV.kr@SD best=MBC M.kr [MBC M.kr] score=0.421
-MISS MBC Chuncheon (춘천 MBC) (480p) [Not 24/7]  old=HLANDTV.kr@SD best=MBC ON.kr [MBC ON.kr] score=0.417
-MISS MBC Chungbuk (MBC 충북) (720p) [Not 24/7]  old=HLAODTV.kr@SD best=MBC ON.kr [MBC ON.kr] score=0.435
-MISS MBC Daegu (대구 MBC) (480p) [Not 24/7]  old=HLCTDTV.kr@SD best=MBC Dramanet.kr [MBC Dramanet.kr] score=0.462
-MISS MBC Daejeon (대전 MBC) (720p) [Not 24/7]  old=HLCQDTV.kr@SD best=MBC ON.kr [MBC ON.kr] score=0.455
-OK   MBC Drama (480p) [Geo-blocked]  =>  MBC Dramanet.kr  [MBC Dramanet.kr]  score=0.940
-MISS MBC Gangwon (MBC 강원영동) (1080p) [Not 24/7]  old=HLAQDTV.kr@SD best=MBC ON.kr [MBC ON.kr] score=0.417
-MISS MBC Gwangju (광주 MBC) (1080p) [Geo-blocked] [Not 24/7]  old=HLCNDTV.kr@SD best=MBC M.kr [MBC M.kr] score=0.381
-MISS MBC Gyeongnam (경남 MBC) (1080p) [Not 24/7]  old=MBCGyeongnamTV.kr@SD best=MBC ON.kr [MBC ON.kr] score=0.417
-MISS MBC Jeju (제주 MBC) (352p) [Not 24/7]  old=HLAJDTV.kr@SD best=MBC M.kr [MBC M.kr] score=0.444
-MISS MBC Jeonju (450p)  old=HLCXDTV.kr@SD best=MBC ON.kr [MBC ON.kr] score=0.625
-MISS MBC Mokpo (목포 MBC) (720p) [Not 24/7]  old=HLAMDTV.kr@SD best=MBC M.kr [MBC M.kr] score=0.526
-OK   MBC Net (480p) [Geo-blocked]  =>  MBC NET.kr  [MBC NET.kr]  score=0.940
-MISS MBC Yeosu (여수 MBC) (1080p) [Not 24/7]  old=HLATDTV.kr@SD best=MBC M.kr [MBC M.kr] score=0.421
-MISS like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="General",MNB World (1080p)  old=MNBWorld.mn@SD best=CNN International.kr [CNN International.kr] score=0.267
-OK   MTN (720p)  =>  MTN 머니투데이방송.kr  [MTN 머니투데이방송.kr]  score=0.860
-MISS National Assembly TV (720p)  old=NationalAssemblyTV.kr@SD best=CNN International.kr [CNN International.kr] score=0.444
-MISS NBS Korea Agricultural Broadcasting (720p)  old=NBS.kr@SD best=ABC Australia.kr [ABC Australia.kr] score=0.341
-MISS NHTV (720p)  old=NHTV.kr@SD best=CNTV.kr [CNTV.kr] score=0.600
-MISS NS Home Shopping (720p)  old=NSHomeShopping.kr@SD best=NS Shop+.kr [NS Shop+.kr] score=0.667
-MISS NS Shop Plus (720p)  old=NSShopPlus.kr@SD best=NS Shop+.kr [NS Shop+.kr] score=0.667
-MISS OBS Gyeongin TV (OBS경인TV) (540p) [Not 24/7]  old=HLQSDTV.kr@SD best=EBS English.kr [EBS English.kr] score=0.438
-OK   OUN (1080p)  =>  OUN.kr  [OUN.kr]  score=0.860
-MISS RTV (720p)  old=RTV.kr@SD best=FTV.kr [FTV.kr] score=0.500
-MISS RUTC TV (720p)  old=RUTCTV.kr@SD best=CNTV.kr [CNTV.kr] score=0.500
-MISS SBS CJB (540p) [Not 24/7]  old=HLDRDTV.kr@SD best=SBS Biz.kr [SBS Biz.kr] score=0.571
-MISS SBS G1 (360p) [Not 24/7]  old=HLCGDTV.kr@SD best=SBS.kr [SBS.kr] score=0.600
-MISS SBS JIBS (720p) [Not 24/7]  old=HLKJDTV.kr@SD best=SBS Biz.kr [SBS Biz.kr] score=0.533
-MISS SBS JTV (406p) [Not 24/7]  old=HLDQDTV.kr@SD best=TBS TV.kr [TBS TV.kr] score=0.615
-MISS SBS KBC (1080p) [Not 24/7]  old=HLDHDTV.kr@SD best=SBS.kr [SBS.kr] score=0.727
-MISS SBS KNN (1080p) [Not 24/7]  old=HLDGDTV.kr@SD best=SBS.kr [SBS.kr] score=0.727
-MISS SBS TBC (540p) [Geo-blocked] [Not 24/7]  old=HLDEDTV.kr@SD best=SBS Biz.kr [SBS Biz.kr] score=0.571
-MISS SBS UBC (540p) [Not 24/7]  old=HLDPDTV.kr@SD best=SBS Biz.kr [SBS Biz.kr] score=0.571
-MISS Shinsegae Shopping TV (720p)  old=ShinsegaeTVShopping.kr@SD best=NS Shop+.kr [NS Shop+.kr] score=0.522
-MISS Shopping NT (720p)  old=ShoppingNT.kr@SD best=GS SHOP.kr [GS SHOP.kr] score=0.571
-MISS TBS Seoul (720p)  old=TBSTV.kr@SD best=SBSGOLF.kr [SBSGOLF.kr] score=0.471
-OK   TV Chosun (720p)  =>  TVCHOSUN2.kr  [TVCHOSUN2.kr]  score=0.940
-OK   TV Chosun 2 (720p)  =>  TVCHOSUN2.kr  [TVCHOSUN2.kr]  score=0.940
-MISS W Shopping (720p)  old=WShopping.kr@SD best=GS SHOP.kr [GS SHOP.kr] score=0.615
-MISS YTN (720p)  old=YTN.kr@SD best=YTN 사이언스.kr [YTN 사이언스.kr] score=0.860
-MISS Zee Bollymovies (1080p) [Geo-blocked]  old=ZeeBollymovies.in@SD best=OCN Movies.kr [OCN Movies.kr] score=0.560
+MISS             ABN TV (720p) old=ABN.kr@SD best=NBNTV.kr [NBNTV.kr] score=0.667
+MISS             Arirang Radio (720p) old=ArirangRadio.kr@SD best=AsiaN.kr [AsiaN.kr] score=0.526
+MISS             Arirang TV (1080p) old=ArirangTV.kr@SD best=AsiaN.kr [AsiaN.kr] score=0.500
+MISS             Arirang TV HD (720p) old=ArirangTV.kr@HD best=Asia UHD U.kr [Asia UHD U.kr] score=0.476
+MISS             BBS Buddhist Broadcasting (1080p) old=BBSTV.kr@SD best=History.kr [History.kr] score=0.400
+MANUAL-ID        BTN TV (1080p)  =>  BTN불교TV.kr [BTN불교TV.kr]
+MISS             Channel A [Geo-blocked] old=ChannelA.kr@SD best=C Channel.kr [C Channel.kr] score=0.778
+MANUAL-ID        CJ OnStyle (540p)  =>  CJ ONSTYLE.kr [CJ ONSTYLE.kr]
+MISS             CJ OnStyle Plus (540p) old=CJOnStylePlus.kr@SD best=CJ ONSTYLE.kr [CJ ONSTYLE.kr] score=0.640
+MANUAL-ID        EBS 1 (400p) [Not 24/7]  =>  EBS.kr [EBS.kr]
+MANUAL-ID        EBS 2 (400p) [Not 24/7]  =>  EBS2.kr [EBS2.kr]
+MANUAL-ID        EBS E (400p) [Not 24/7]  =>  EBS English.kr [EBS English.kr]
+MANUAL-ID        EBS kids (400p) [Not 24/7]  =>  EBS KIDS.kr [EBS KIDS.kr]
+MANUAL-ID        EBS+ 1 (400p)  =>  EBS PLUS1.kr [EBS PLUS1.kr]
+MANUAL-ID        EBS+ 2 (400p)  =>  EBS PLUS2.kr [EBS PLUS2.kr]
+MISS             FGTV (720p) old=FGTV.kr@SD best=FTV.kr [FTV.kr] score=0.667
+MISS             GCN24 Korean (720p) old=GCN.kr@SD best=C Channel.kr [C Channel.kr] score=0.375
+MISS             Gongyoung Shopping (720p) old=GongyoungHomeShopping.kr@SD best=GS MY SHOP.kr [GS MY SHOP.kr] score=0.522
+MANUAL-NAME      GoodTV (1080p)  =>  Good TV.kr [Good TV.kr]
+MANUAL-NAME      GS My Shop (1080p)  =>  GS MY SHOP.kr [GS MY SHOP.kr]
+MANUAL-NAME      GS Shop (1080p)  =>  GS SHOP.kr [GS SHOP.kr]
+MANUAL-ID        GugakTV 국악방송 (1080p)  =>  국악방송.kr [국악방송.kr]
+MISS             Gugbang TV (1080p) [Not 24/7] old=GugbangTV.kr@SD best=FUN TV.kr [FUN TV.kr] score=0.500
+MISS             Home & Shopping (720p) old=HomeShopping.kr@SD best=GS MY SHOP.kr [GS MY SHOP.kr] score=0.556
+MISS             Hyundai Home Shopping (720p) old=HyundaiHomeShopping.kr@SD best=NS Shop+.kr [NS Shop+.kr] score=0.435
+MISS             Hyundai Home Shopping Plus (720p) old=HyundaiHomeShoppingPlusShop.kr@SD best=EBS PLUS1.kr [EBS PLUS1.kr] score=0.414
+MISS             KCTV 광주 CH05 (720p) [Not 24/7] old=KCTV.kr@SD best=KTV.kr [KTV.kr] score=0.300
+MANUAL-ID        Korea TV (1080p)  =>  KTV.kr [KTV.kr]
+MANUAL-ID        KShopping (1080p)  =>  kt알파쇼핑.kr [kt알파쇼핑.kr]
+MISS             Lotte Home Shopping (720p) old=LotteHomeShopping.kr@SD best=LOTTE OneTV.kr [LOTTE OneTV.kr] score=0.560
+MANUAL-ID        Lotte OneTV (720p)  =>  LOTTE OneTV.kr [LOTTE OneTV.kr]
+NETWORK-FALLBACK MBC Andong (안동 MBC) (360p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Busan (부산MBC) (360p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Chuncheon (춘천 MBC) (480p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Chungbuk (MBC 충북) (720p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Daegu (대구 MBC) (480p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Daejeon (대전 MBC) (720p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+MANUAL-ID        MBC Drama (480p) [Geo-blocked]  =>  MBC Dramanet.kr [MBC Dramanet.kr]
+NETWORK-FALLBACK MBC Gangwon (MBC 강원영동) (1080p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Gwangju (광주 MBC) (1080p) [Geo-blocked] [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Gyeongnam (경남 MBC) (1080p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Jeju (제주 MBC) (352p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Jeonju (450p)  =>  MBC.kr [MBC.kr]
+NETWORK-FALLBACK MBC Mokpo (목포 MBC) (720p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+MANUAL-ID        MBC Net (480p) [Geo-blocked]  =>  MBC NET.kr [MBC NET.kr]
+NETWORK-FALLBACK MBC Yeosu (여수 MBC) (1080p) [Not 24/7]  =>  MBC.kr [MBC.kr]
+MISS             like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="General",MNB World (1080p) old=MNBWorld.mn@SD best=CNN International.kr [CNN International.kr] score=0.267
+MANUAL-ID        MTN (720p)  =>  MTN 머니투데이방송.kr [MTN 머니투데이방송.kr]
+MISS             National Assembly TV (720p) old=NationalAssemblyTV.kr@SD best=CNN International.kr [CNN International.kr] score=0.444
+MISS             NBS Korea Agricultural Broadcasting (720p) old=NBS.kr@SD best=BALL TV.kr [BALL TV.kr] score=0.435
+MISS             NHTV (720p) old=NHTV.kr@SD best=CNTV.kr [CNTV.kr] score=0.600
+MANUAL-ID        NS Home Shopping (720p)  =>  NS홈쇼핑.kr [NS홈쇼핑.kr]
+MANUAL-ID        NS Shop Plus (720p)  =>  NS Shop+.kr [NS Shop+.kr]
+MANUAL-ID        OBS Gyeongin TV (OBS경인TV) (540p) [Not 24/7]  =>  OBS.kr [OBS.kr]
+MANUAL-ID        OUN (1080p)  =>  OUN.kr [OUN.kr]
+MISS             RTV (720p) old=RTV.kr@SD best=FTV.kr [FTV.kr] score=0.500
+MISS             RUTC TV (720p) old=RUTCTV.kr@SD best=CNTV.kr [CNTV.kr] score=0.500
+NETWORK-FALLBACK SBS CJB (540p) [Not 24/7]  =>  SBS.kr [SBS.kr]
+NETWORK-FALLBACK SBS G1 (360p) [Not 24/7]  =>  SBS.kr [SBS.kr]
+NETWORK-FALLBACK SBS JIBS (720p) [Not 24/7]  =>  SBS.kr [SBS.kr]
+NETWORK-FALLBACK SBS JTV (406p) [Not 24/7]  =>  SBS.kr [SBS.kr]
+NETWORK-FALLBACK SBS KBC (1080p) [Not 24/7]  =>  SBS.kr [SBS.kr]
+NETWORK-FALLBACK SBS KNN (1080p) [Not 24/7]  =>  SBS.kr [SBS.kr]
+NETWORK-FALLBACK SBS TBC (540p) [Geo-blocked] [Not 24/7]  =>  SBS.kr [SBS.kr]
+NETWORK-FALLBACK SBS UBC (540p) [Not 24/7]  =>  SBS.kr [SBS.kr]
+MISS             Shinsegae Shopping TV (720p) old=ShinsegaeTVShopping.kr@SD best=NS Shop+.kr [NS Shop+.kr] score=0.522
+MISS             Shopping NT (720p) old=ShoppingNT.kr@SD best=GS SHOP.kr [GS SHOP.kr] score=0.571
+MANUAL-ID        TBS Seoul (720p)  =>  TBS TV.kr [TBS TV.kr]
+MANUAL-ID        TV Chosun (720p)  =>  TV조선.kr [TV조선.kr]
+MANUAL-ID        TV Chosun 2 (720p)  =>  TVCHOSUN2.kr [TVCHOSUN2.kr]
+MISS             W Shopping (720p) old=WShopping.kr@SD best=GS SHOP.kr [GS SHOP.kr] score=0.615
+MANUAL-ID        YTN (720p)  =>  YTN.kr [YTN.kr]
+MISS             Zee Bollymovies (1080p) [Geo-blocked] old=ZeeBollymovies.in@SD best=OCN Movies.kr [OCN Movies.kr] score=0.560
