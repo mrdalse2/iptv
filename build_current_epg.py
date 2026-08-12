@@ -8,11 +8,12 @@ from pathlib import Path
 
 M3U_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
 SOURCE_CHANNEL_URLS = [
+    ("tving", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/m.tving.com/m.tving.com.channels.xml"),
     ("wavve", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/wavve.com/wavve.com.channels.xml"),
     ("arirang", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/arirang.com/arirang.com.channels.xml"),
     ("kr1", "https://raw.githubusercontent.com/iptv-org/epg/master/sites/epgshare01.online/epgshare01.online_KR1.channels.xml"),
 ]
-SOURCE_PRIORITY = {"wavve": 0, "arirang": 1, "kr1": 2}
+SOURCE_PRIORITY = {"tving": 0, "wavve": 1, "arirang": 2, "kr1": 3}
 SEP = "__SRC__"
 
 ALIASES = {
@@ -96,7 +97,6 @@ def prepare():
                 xid = sid.split("#",1)[1] if "#" in sid else sid
             if not xid:
                 continue
-            # Keep duplicate logical channels from every source by namespacing the grab ID.
             c.set("xmltv_id", f"{source_name}{SEP}{xid}")
             merged.append(c)
             added += 1
@@ -129,7 +129,6 @@ def parse_xmltv_time(value):
     return dt.replace(tzinfo=tz).astimezone(timezone.utc)
 
 def useful_programmes(programmes, now_utc):
-    # Keep schedules that are current or upcoming; tolerate 6h lag around collection time.
     cutoff = now_utc - timedelta(hours=6)
     useful=[]
     for p in programmes:
@@ -216,11 +215,12 @@ def finalize():
     effective=0
     id_matched_zero=0
     miss=0
+    out_channels=[]
+    out_programmes=[]
 
     for tid,name in playlist:
         chosen = choose_source(tid, name, candidates)
         if not chosen:
-            # Distinguish IDs that matched but had no current/future programme data.
             any_id_match=False
             for raw_id, meta in candidates.items():
                 score,_ = match_score(tid,name,meta["base_id"])
@@ -240,15 +240,21 @@ def finalize():
         effective += 1
         ch=copy.deepcopy(meta["channel"])
         ch.set("id", tid)
-        new.append(ch)
+        out_channels.append(ch)
         for p in meta["useful"]:
             q=copy.deepcopy(p)
             q.set("channel", tid)
-            new.append(q)
+            out_programmes.append(q)
         report.append(
             f"OK {tid} <= {meta['source']}:{meta['base_id']} [{method}] "
             f"programmes={useful_count} | {name}"
         )
+
+    # XMLTV canonical order: all channel definitions first, then all programmes.
+    for ch in out_channels:
+        new.append(ch)
+    for p in out_programmes:
+        new.append(p)
 
     ET.indent(new, space="  ")
     ET.ElementTree(new).write("kr-tivimate-epg.xml", encoding="utf-8", xml_declaration=True)
