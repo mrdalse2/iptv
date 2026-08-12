@@ -7,6 +7,7 @@ import urllib.request
 from pathlib import Path
 
 PLAYLIST = Path("kr-tivimate.m3u")
+REPORT = Path("official-channel-report.txt")
 BASE_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
 EPG_URL = "https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
 
@@ -66,15 +67,12 @@ def resolve_sbs():
 
 def resolve_mbn():
     body, final_url, content_type = fetch(MBN_AUTH, referer=MBN_REFERER)
-    # The official auth endpoint may redirect straight to a signed HLS URL.
     if final_url != MBN_AUTH and ".m3u8" in final_url:
         return final_url
     text = body.decode("utf-8", "replace").strip()
-    # Some deployments return the signed URL as text instead of a redirect.
     m = re.search(r"https?://[^\s\"'<>]+\.m3u8(?:\?[^\s\"'<>]*)?", text)
     if m:
         return m.group(0).replace("&amp;", "&")
-    # If the endpoint itself serves an HLS manifest, TiviMate can follow it directly.
     if "mpegurl" in content_type.lower() or text.startswith("#EXTM3U"):
         return MBN_AUTH
     return None
@@ -95,6 +93,10 @@ def strip_channel(lines, tvg_id):
         out.append(line)
         i += 1
     return out
+
+
+def has_channel(lines, tvg_id):
+    return any(line.startswith("#EXTINF:") and f'tvg-id="{tvg_id}"' in line for line in lines)
 
 
 def upsert_official(lines, tvg_id, name, stream_url, referer, group="General;Official"):
@@ -118,31 +120,33 @@ def main():
     if not lines or not lines[0].startswith("#EXTM3U"):
         raise SystemExit("Invalid playlist")
     lines[0] = f'#EXTM3U x-tvg-url="{EPG_URL}"'
+    status = []
 
-    # Do not remove a previously working official entry when a resolver temporarily fails.
     try:
         sbs_url = resolve_sbs()
     except Exception as e:
-        print(f"SBS official API unavailable: {e}")
+        status.append(f"SBS ERROR {type(e).__name__}: {e}")
         sbs_url = None
     if sbs_url:
         lines = upsert_official(lines, SBS_ID, "SBS", sbs_url, SBS_REFERER)
-        print("Added/refreshed SBS from official SBS API")
+        status.append("SBS OK official API HLS refreshed")
     else:
-        print("Keeping existing SBS entry because the official API returned no playable HLS URL")
+        status.append(f"SBS KEEP existing={has_channel(lines, SBS_ID)}")
 
     try:
         mbn_url = resolve_mbn()
     except Exception as e:
-        print(f"MBN official auth endpoint unavailable: {e}")
+        status.append(f"MBN ERROR {type(e).__name__}: {e}")
         mbn_url = None
     if mbn_url:
         lines = upsert_official(lines, MBN_ID, "MBN", mbn_url, MBN_REFERER)
-        print("Added/refreshed MBN from official MBN on-air endpoint")
+        status.append("MBN OK official on-air HLS refreshed")
     else:
-        print("Keeping existing MBN entry because the official endpoint returned no playable HLS URL")
+        status.append(f"MBN KEEP existing={has_channel(lines, MBN_ID)}")
 
     PLAYLIST.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    REPORT.write_text("\n".join(status) + "\n", encoding="utf-8")
+    print("\n".join(status))
 
 
 if __name__ == "__main__":
