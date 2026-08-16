@@ -1,7 +1,7 @@
 #EXTM3U x-tvg-url="https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NjkwNjA2Nn0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=Cwnssy0tbQFbvOFNIc4lviGOcLWSl~NQ4pC7VpE9T8bC~qWNQgT0rWb5M7ixDDmCbhqqVhtGh4nzFy3CBvw~8Ha5dL9oR-9o3KeZrr1zxjwxv9MuPTHemqE9K1E0F-0juJt1MrV68F0wQ8W11qPoZAAn3YhVBBCPnOKkL6fIRFk_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NjkzMTg2Nn0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=HwOKcaza-u7MKg4pAi9k-gYApseU760DtKTKwJ0Z6rjKT3a~zMH2eAzYJpwHAUDuyoW9cSjb2Wq-e2U1Nc1Ue1lg1hb0OfIw9Eho0g~M9krA79J8gkDe5tu8ZGZBpXMIZ29arBSfAp49YyC5xK-sgajUejC6l41~7EroznxkIXE_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
