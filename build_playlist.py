@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import json
 import re
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -9,7 +10,10 @@ from pathlib import Path
 PLAYLIST = Path("kr-tivimate.m3u")
 REPORT = Path("official-channel-report.txt")
 BASE_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
-SECONDARY_URL = "https://raw.githubusercontent.com/mjpark-dev/iptv/master/korean.m3u"
+SECONDARY_SOURCES = [
+    ("mjpark-dev/iptv", "https://raw.githubusercontent.com/mjpark-dev/iptv/master/korean.m3u"),
+    ("GoonhoLee/koreaiptv-auto-updater", "https://raw.githubusercontent.com/GoonhoLee/koreaiptv-auto-updater/main/korean_tv.m3u"),
+]
 EPG_URL = "https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
 
 SBS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S01"
@@ -27,21 +31,54 @@ MBN_AUTH = (
     "https%3A%2F%2Fhls-live.mbn.co.kr%2Fmbn-on-air%2F1000k%2Fplaylist.m3u8"
 )
 
+HEALTH_CACHE = {}
 
-def fetch(url, params=None, referer=None):
-    if params:
-        url += "?" + urllib.parse.urlencode(params)
+
+def request_headers(url, referer=None):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
-        "Accept": "application/json,text/plain,*/*",
+        "Accept": "application/vnd.apple.mpegurl,application/x-mpegURL,application/json,text/plain,*/*",
     }
     if "sbs.co.kr" in url:
         headers["Origin"] = "https://www.sbs.co.kr"
     if referer:
         headers["Referer"] = referer
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=30) as r:
+    return headers
+
+
+def fetch(url, params=None, referer=None, timeout=30):
+    if params:
+        url += "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers=request_headers(url, referer))
+    with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read(), r.geturl(), r.headers.get("Content-Type", "")
+
+
+def is_stream_alive(url, referer=None):
+    cache_key = (url, referer or "")
+    if cache_key in HEALTH_CACHE:
+        return HEALTH_CACHE[cache_key]
+    if not url.startswith(("http://", "https://")):
+        HEALTH_CACHE[cache_key] = False
+        return False
+
+    headers = request_headers(url, referer)
+    headers["Range"] = "bytes=0-4095"
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=6) as r:
+            status = getattr(r, "status", 200)
+            content_type = (r.headers.get("Content-Type", "") or "").lower()
+            sample = r.read(4096)
+            text = sample.decode("utf-8", "ignore")
+            alive = status < 400
+            if ".m3u8" in url.lower() or "mpegurl" in content_type:
+                alive = alive and ("#EXTM3U" in text or "mpegurl" in content_type)
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError, ValueError):
+        alive = False
+
+    HEALTH_CACHE[cache_key] = alive
+    return alive
 
 
 def media_candidates(obj):
@@ -101,48 +138,37 @@ def resolve_mbn():
     return None
 
 
-def strip_channel(lines, tvg_id):
-    out = []
-    i = 0
-    while i < len(lines):
-        line = lines[i]
-        if line.startswith("#EXTINF:") and f'tvg-id="{tvg_id}"' in line:
-            i += 1
-            while i < len(lines) and lines[i].startswith("#EXT") and not lines[i].startswith("#EXTINF:"):
-                i += 1
-            if i < len(lines) and not lines[i].startswith("#"):
-                i += 1
-            continue
-        out.append(line)
-        i += 1
-    return out
-
-
-def has_channel(lines, tvg_id):
-    return any(line.startswith("#EXTINF:") and f'tvg-id="{tvg_id}"' in line for line in lines)
-
-
-def upsert_official(lines, tvg_id, name, stream_url, referer, group="General;Official"):
-    lines = strip_channel(lines, tvg_id)
-    block = [
-        f'#EXTINF:-1 tvg-id="{tvg_id}" group-title="{group}",{name}',
-        f'#EXTVLCOPT:http-referrer={referer}',
-        stream_url,
-    ]
-    return lines[:1] + block + lines[1:]
-
-
 def channel_name(extinf):
     if "," not in extinf:
         return ""
     return extinf.rsplit(",", 1)[1].strip()
 
 
+def tvg_id(extinf):
+    m = re.search(r'tvg-id="([^"]+)"', extinf)
+    return m.group(1).strip() if m else ""
+
+
 def normalize_name(name):
+    name = re.sub(r"[（(].*?[)）]", "", name)
     return re.sub(r"[^0-9a-z가-힣]", "", name.lower())
 
 
-def active_secondary_entries(text):
+def normalize_tvg_id(value):
+    value = value.lower().strip()
+    value = re.sub(r"@(sd|hd|fhd)$", "", value)
+    return value
+
+
+def canonical_key(extinf):
+    tid = normalize_tvg_id(tvg_id(extinf))
+    if tid:
+        return "id:" + tid
+    name = normalize_name(channel_name(extinf))
+    return "name:" + name if name else ""
+
+
+def parse_entries(text, source):
     src = text.replace("\r\n", "\n").splitlines()
     entries = []
     i = 0
@@ -151,51 +177,129 @@ def active_secondary_entries(text):
             i += 1
             continue
         extinf = src[i].strip()
-        name = channel_name(extinf)
+        opts = []
         i += 1
         url = None
         while i < len(src) and not src[i].startswith("#EXTINF:"):
             candidate = src[i].strip()
-            if candidate and not candidate.startswith("#") and candidate.startswith(("http://", "https://")):
+            if candidate.startswith("#EXT"):
+                opts.append(candidate)
+            elif candidate and not candidate.startswith("#") and candidate.startswith(("http://", "https://")):
                 url = candidate
+                i += 1
                 break
             i += 1
-        if name and url:
-            entries.append((name, extinf, url))
+        if url:
+            entries.append({
+                "extinf": extinf,
+                "opts": opts,
+                "url": url,
+                "source": source,
+                "key": canonical_key(extinf),
+                "name": channel_name(extinf),
+            })
     return entries
 
 
-def merge_secondary(lines):
-    body, _, _ = fetch(SECONDARY_URL)
-    secondary = body.decode("utf-8-sig", "replace")
+def entry_referer(entry):
+    for opt in entry.get("opts", []):
+        if opt.startswith("#EXTVLCOPT:http-referrer="):
+            return opt.split("=", 1)[1]
+    return None
 
-    # Drop the old generated SBS Plus block when the official API did not work;
-    # the mjpark list is then allowed to provide its current fallback entry.
-    lines = strip_channel(lines, SBS_PLUS_ID)
 
-    existing = set()
-    for line in lines:
-        if line.startswith("#EXTINF:"):
-            n = channel_name(line)
-            if n:
-                existing.add(normalize_name(n))
+def pick_preferred(old, new):
+    old_alive = is_stream_alive(old["url"], entry_referer(old))
+    new_alive = is_stream_alive(new["url"], entry_referer(new))
+    if new_alive and not old_alive:
+        return new, "replaced-dead"
+    if old_alive and not new_alive:
+        return old, "kept-live"
+    if new_alive and old_alive:
+        # Later sources are fresher secondary feeds; prefer them only when both
+        # identify the same channel and the newer candidate is independently live.
+        return new, "replaced-live"
+    return old, "kept-unverified"
 
-    added = []
-    for name, extinf, url in active_secondary_entries(secondary):
-        key = normalize_name(name)
-        if not key or key in existing:
+
+def merge_sources(lines):
+    current = parse_entries("\n".join(lines), "current")
+    ordered = []
+    index = {}
+    for entry in current:
+        key = entry["key"] or "url:" + entry["url"]
+        if key in index:
             continue
+        index[key] = len(ordered)
+        ordered.append(entry)
 
-        if key == "sbsplus":
-            extinf = '#EXTINF:-1 tvg-id="SBSPlus.kr@SD" group-title="Entertainment;Secondary",SBS Plus'
-        else:
-            extinf = re.sub(r'group-title="[^"]*"', 'group-title="Secondary"', extinf)
+    stats = []
+    for source_name, source_url in SECONDARY_SOURCES:
+        body, _, _ = fetch(source_url)
+        incoming = parse_entries(body.decode("utf-8-sig", "replace"), source_name)
+        added = replaced = kept = 0
+        for entry in incoming:
+            key = entry["key"] or "url:" + entry["url"]
+            if key not in index:
+                # For brand-new channels, require a live endpoint before adding.
+                if is_stream_alive(entry["url"], entry_referer(entry)):
+                    index[key] = len(ordered)
+                    ordered.append(entry)
+                    added += 1
+                continue
 
-        lines.extend([extinf, url])
-        existing.add(key)
-        added.append(name)
+            pos = index[key]
+            chosen, reason = pick_preferred(ordered[pos], entry)
+            if chosen is entry:
+                ordered[pos] = entry
+                replaced += 1
+            else:
+                kept += 1
+        stats.append((source_name, added, replaced, kept))
 
-    return lines, added
+    out = [f'#EXTM3U x-tvg-url="{EPG_URL}"']
+    for entry in ordered:
+        extinf = entry["extinf"]
+        if entry["source"] != "current":
+            if 'group-title="' in extinf:
+                extinf = re.sub(r'group-title="[^"]*"', f'group-title="Secondary;{entry["source"]}"', extinf)
+            else:
+                extinf = extinf.replace(",", f' group-title="Secondary;{entry["source"]}",', 1)
+        out.append(extinf)
+        out.extend(entry["opts"])
+        out.append(entry["url"])
+    return out, stats
+
+
+def strip_channel(lines, channel_tvg_id):
+    target = normalize_tvg_id(channel_tvg_id)
+    out = []
+    entries = parse_entries("\n".join(lines), "strip")
+    for entry in entries:
+        if normalize_tvg_id(tvg_id(entry["extinf"])) == target:
+            continue
+        out.append(entry["extinf"])
+        out.extend(entry["opts"])
+        out.append(entry["url"])
+    return [lines[0]] + out if lines else out
+
+
+def has_channel(lines, channel_tvg_id):
+    target = normalize_tvg_id(channel_tvg_id)
+    for line in lines:
+        if line.startswith("#EXTINF:") and normalize_tvg_id(tvg_id(line)) == target:
+            return True
+    return False
+
+
+def upsert_official(lines, channel_tvg_id, name, stream_url, referer, group="General;Official"):
+    lines = strip_channel(lines, channel_tvg_id)
+    block = [
+        f'#EXTINF:-1 tvg-id="{channel_tvg_id}" group-title="{group}",{name}',
+        f'#EXTVLCOPT:http-referrer={referer}',
+        stream_url,
+    ]
+    return lines[:1] + block + lines[1:]
 
 
 def main():
@@ -212,22 +316,29 @@ def main():
     status = []
 
     try:
+        lines, merge_stats = merge_sources(lines)
+        for source_name, added, replaced, kept in merge_stats:
+            status.append(f"SOURCE OK {source_name} added={added} replaced={replaced} kept={kept}")
+    except Exception as e:
+        status.append(f"SOURCE ERROR {type(e).__name__}: {e}")
+
+    try:
         sbs_url = resolve_sbs()
     except Exception as e:
         status.append(f"SBS ERROR {type(e).__name__}: {e}")
         sbs_url = None
-    if sbs_url:
+    if sbs_url and is_stream_alive(sbs_url, SBS_REFERER):
         lines = upsert_official(lines, SBS_ID, "SBS", sbs_url, SBS_REFERER)
         status.append("SBS OK official API HLS refreshed")
     else:
-        status.append(f"SBS KEEP existing={has_channel(lines, SBS_ID)}")
+        status.append(f"SBS KEEP merged={has_channel(lines, SBS_ID)}")
 
     try:
         sbs_plus_url = resolve_sbs_plus()
     except Exception as e:
         status.append(f"SBS Plus ERROR {type(e).__name__}: {e}")
         sbs_plus_url = None
-    if sbs_plus_url:
+    if sbs_plus_url and is_stream_alive(sbs_plus_url, SBS_PLUS_REFERER):
         lines = upsert_official(
             lines,
             SBS_PLUS_ID,
@@ -238,24 +349,18 @@ def main():
         )
         status.append("SBS Plus OK official API HLS refreshed")
     else:
-        try:
-            lines, added = merge_secondary(lines)
-            status.append(f"SECONDARY OK added={len(added)} source=mjpark-dev/iptv")
-            status.append(f"SBS Plus secondary={has_channel(lines, SBS_PLUS_ID)}")
-        except Exception as e:
-            status.append(f"SECONDARY ERROR {type(e).__name__}: {e}")
-            status.append(f"SBS Plus KEEP existing={has_channel(lines, SBS_PLUS_ID)}")
+        status.append(f"SBS Plus KEEP merged={has_channel(lines, SBS_PLUS_ID)}")
 
     try:
         mbn_url = resolve_mbn()
     except Exception as e:
         status.append(f"MBN ERROR {type(e).__name__}: {e}")
         mbn_url = None
-    if mbn_url:
+    if mbn_url and is_stream_alive(mbn_url, MBN_REFERER):
         lines = upsert_official(lines, MBN_ID, "MBN", mbn_url, MBN_REFERER)
         status.append("MBN OK official on-air HLS refreshed")
     else:
-        status.append(f"MBN KEEP existing={has_channel(lines, MBN_ID)}")
+        status.append(f"MBN KEEP merged={has_channel(lines, MBN_ID)}")
 
     PLAYLIST.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
     REPORT.write_text("\n".join(status) + "\n", encoding="utf-8")
