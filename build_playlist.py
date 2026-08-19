@@ -15,9 +15,9 @@ SBS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S01"
 SBS_ID = "SBS.kr@SD"
 SBS_REFERER = "https://www.sbs.co.kr/live/S01"
 
-SBS_PLUS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03"
+SBS_PLUS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/SAB"
 SBS_PLUS_ID = "SBSPlus.kr@SD"
-SBS_PLUS_REFERER = "https://www.sbs.co.kr/live/S03"
+SBS_PLUS_REFERER = "https://www.sbs.co.kr/live/SAB"
 
 MBN_ID = "MBN.kr@SD"
 MBN_REFERER = "https://www.mbn.co.kr/vod/onair"
