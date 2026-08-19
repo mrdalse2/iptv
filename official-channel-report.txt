@@ -1,3 +1,4 @@
 SBS KEEP existing=False
+SBS Plus ERROR HTTPError: HTTP Error 404: Not Found
 SBS Plus KEEP existing=False
 MBN OK official on-air HLS refreshed
