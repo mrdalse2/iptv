@@ -216,9 +216,9 @@ def pick_preferred(old, new):
     if old_alive and not new_alive:
         return old, "kept-live"
     if new_alive and old_alive:
-        # Later sources are fresher secondary feeds; prefer them only when both
-        # identify the same channel and the newer candidate is independently live.
+        # Both work: prefer the later/fresher source.
         return new, "replaced-live"
+    # Neither could be verified now: keep the existing entry for stability.
     return old, "kept-unverified"
 
 
@@ -237,15 +237,21 @@ def merge_sources(lines):
     for source_name, source_url in SECONDARY_SOURCES:
         body, _, _ = fetch(source_url)
         incoming = parse_entries(body.decode("utf-8-sig", "replace"), source_name)
-        added = replaced = kept = 0
+        added = replaced = kept = live_added = unverified_added = 0
         for entry in incoming:
             key = entry["key"] or "url:" + entry["url"]
             if key not in index:
-                # For brand-new channels, require a live endpoint before adding.
-                if is_stream_alive(entry["url"], entry_referer(entry)):
-                    index[key] = len(ordered)
-                    ordered.append(entry)
-                    added += 1
+                # Include every active EXTINF+URL item from secondary playlists.
+                # Health is advisory for new channels; it only decides preference
+                # when duplicate routes exist for the same channel.
+                alive = is_stream_alive(entry["url"], entry_referer(entry))
+                index[key] = len(ordered)
+                ordered.append(entry)
+                added += 1
+                if alive:
+                    live_added += 1
+                else:
+                    unverified_added += 1
                 continue
 
             pos = index[key]
@@ -255,7 +261,7 @@ def merge_sources(lines):
                 replaced += 1
             else:
                 kept += 1
-        stats.append((source_name, added, replaced, kept))
+        stats.append((source_name, len(incoming), added, live_added, unverified_added, replaced, kept))
 
     out = [f'#EXTM3U x-tvg-url="{EPG_URL}"']
     for entry in ordered:
@@ -317,8 +323,12 @@ def main():
 
     try:
         lines, merge_stats = merge_sources(lines)
-        for source_name, added, replaced, kept in merge_stats:
-            status.append(f"SOURCE OK {source_name} added={added} replaced={replaced} kept={kept}")
+        for source_name, total, added, live_added, unverified_added, replaced, kept in merge_stats:
+            status.append(
+                f"SOURCE OK {source_name} total={total} added={added} "
+                f"live_added={live_added} unverified_added={unverified_added} "
+                f"replaced={replaced} kept={kept}"
+            )
     except Exception as e:
         status.append(f"SOURCE ERROR {type(e).__name__}: {e}")
 
