@@ -1,7 +1,7 @@
 #EXTM3U x-tvg-url="https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzIzMzgzMn0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=063GGtBauHMoOP2h~mZtBgBTmnfw7Stu6B4fWVyx9Xa5j1dZsoIoYcA5Fw5GSURjz8x9H~kkW9bBElokcwb99~V8yatDW8fs9~g27qKtovQS4BrW2bgBpKOPcqSLWL~htioieh-vh48HcHUYav-Owju3GFz5dsJzmCIOXMBbYYc_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzIzNDQ3OH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=Lb-MiCYKmY2r4X1is9k1XUW2U9csocBEtnRC8m-qUK6Y24W7iHWsi7N4ihHugVhmVs-so8doYg1gYVUtA4SQ2H9pzzDTtaGWfeyCAj4s9ZO5o2vtTpA-7iuNIuWbHUmx2RMhfisoJt1t2KBJI4hR3M1B5YaKuEwiphUbGlFLaHk_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="SBSPlus.kr@SD" group-title="Entertainment",SBS Plus
 #EXTVLCOPT:http-referrer=https://www.sbs.co.kr/live/S03
 http://124.50.45.145:9981/stream/channelid/1646315493
@@ -152,18 +152,18 @@ https://liveout.catenoid.net/live-05-wshopping/wshopping_1500k/playlist.m3u8
 https://ytnlive.ytn.co.kr/ytn/_definst_/ytnlive_stream_20220426/medialist_9171188557012390620_hls.m3u8
 #EXTINF:-1 tvg-id="ZeeBollymovies.in@SD" tvg-logo="https://framerusercontent.com/images/mqfJ18x4jYe0GbZUbxSHsbnWU.png?scale-down-to=512" group-title="Movies",Zee Bollymovies (1080p) [Geo-blocked]
 https://amg17931-zee-amg17931c8-samsung-th-6526.playouts.now.amagi.tv/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS Drama
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_drama_540&sid=paKP8quwQXA1v3f8CDgxH6h7IfCezfoMX4CPYs9i&secret=0f3e15ed586d8b39e2197abcdaa39726&time=1772754511
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSDrama
+http://koreatv.dothome.co.kr/kbsdrama.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS
 http://123.140.197.22/stream/1/play.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", MBC
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbc_540&sid=IpaGWtS1yBSO7JUbq1qO5wzVEOxA49k1jXoRVIbD&secret=a359917fe5cd684f8a1b9e21443c4710&time=1765891937
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC
+http://211.33.246.4:32954/cj_live/myStream.sdp/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TV Chosun 2
 http://onair2.cdn.tvchosun.com/origin2/_definst_/tvchosun_s3/playlist.m3u8?checkedby:iptvcat.com
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBC
 https://noh-slb-samsung-fastcdn.uplus.co.kr/jtbc.stream/noll_index-v1-a1.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&castis.cid=jtbc.strea
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TVN
-https://k227.jk-cdn.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", tvN
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSStory
 http://koreatv.dothome.co.kr/kbsstory.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSLife
@@ -436,3 +436,153 @@ https://tistory1.daumcdn.net/tistory/2864485/skin/images/Public_58.m3u8
 http://koreatv.dothome.co.kr/mbc.php
 #EXTINF:-1 tvg-id="MBCChuncheon.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC춘천
 https://stream.chmbc.co.kr/TV/myStream/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS1
+http://koreatv.dothome.co.kr/kbs1.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS 2
+http://koreatv.dothome.co.kr/kbs2.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC2
+http://1.214.67.38/vod/60601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC4
+http://1.214.67.38/vod/76701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC3
+http://1.214.67.103/vod/79501.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;720P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsplus
+http://koreatv.dothome.co.kr/sbsplus.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsfune
+http://koreatv.dothome.co.kr/sbsfune.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsbiz
+http://koreatv.dothome.co.kr/sbsbiz.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,mbcnet
+http://koreatv.dothome.co.kr/mbcnet.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OCN Movies
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=cgv_540&sid=6IfK2042MazcEh2MY6thHqMyXWOOzRh9FaQSIxLw&secret=584c956493c0e0d7a34e81eb52cdd34c&time=1765892161
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OCN Movies2
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=super_action_540&sid=Aq9QkNY4Pe5i5qqbZ80wYIPOMlJlncdshNl59Ykd&secret=ace12c806a4f2f6a255b1c93813fe49f&time=1765892291
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,BilliardsTV
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=billiardstv_540&sid=bxoGY0nBKiAsgx13rEU3crfrjbFtDTDW1LWK3Eoz&secret=827efadef3e0e6ea7ac261cedae42030&time=1765893296
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,Skysports F1
+https://bl.rutube.ru/livestream/e5df6984021365a58b3ba22dab2f670a/index.m3u8?s=Br5URhDulDNVzAtwJhUHgA&e=2072611046&scheme=https
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MNet
+https://k227.jk-cdn.com/watch/live.m3u8?video=mnet_540&sid=SC46Lwd9aCihIv74PE76odBGLTwnTgpH9GyOD6eg&secret=390a59b7f8b450dfb170e5c47590050f&time=1773168944
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,tvN SHOW
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=xtm_540&sid=btei8SrdZCpwjr93FgzI7OGAdeeXCXGw4BXFPzQo&secret=a9025939f2d1e981d2020031a966729e&time=1765893046
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,tvN DRAMA
+http://warlock0.synology.me:9999/klive/api/url.m3u8?m=url&s=tving&i=C01143&q=FHD&apikey=5MY50EII66
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,FTV
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=ftv_540&sid=6RPjuu8hzNESESu6ZqL0GZ6LvgJipWnDyobzV8dY&secret=262db54492c46ab76dce040f93621f46&time=1772754633
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,History
+https://live-th10.myjktv.com:434/watch/live.m3u8?video=history_540&sid=ktDYnxAlcjz7V3RTfpIGFtr5pGjLTXXbuEqQQTjG&secret=fa393d7a7f8b5c570fa9a02d67e5ddb8&time=1742556221
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,iNET
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=inet_540&sid=OPbFOFpoTQ729gz3U05zWdlE920QJze3POZPfHuO&secret=5121ac51f8f56d26f013a0db2cbe06e9&time=1742556350
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JEI 재능TV
+https://live-th10.myjktv.com:43/watch/live.m3u8?video=jei_jenung_540&sid=5x1n6FyzRQMkri2LhZ71Mjao59LSpdVKNNnvDkJW&secret=1fd8004ee3d2c119d064ec88b38d97b3&time=1742556811
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,ANIPLUS
+http://warlock0.synology.me:9999/klive/api/url.m3u8?m=url&s=tving&i=C00901&q=FHD&apikey=5MY50EII66
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,NHK World
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=nhk_wold_540&sid=VQ5jdk6wCPjw6VcPfOv76Syot6CoP9YgzBLFeHjZ&secret=a86dad9133b53ffc834fe98b63c98919&time=1742558568
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,TV조선
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=tvchosun_540&sid=fKZsnPIjdoVZrjIWsqL5dPcQwba75T2ANFPAQIih&secret=18d00e092d1f8fa5a6107f0328ff4972&time=1742500050
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  ,GMTV
+http://1.214.67.38/vod/68801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",더라이프
+http://1.214.67.38/vod/77201.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",라이프타임
+http://1.214.67.38/vod/60301.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OCN Thrills
+http://180.69.60.42:8856/udp/239.192.67.228:49220
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",HCN 부산방송
+http://edge4.hcnmobile.tv/etv/phddmcbusan/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSN 스포츠
+http://180.69.60.42:8856/udp/239.192.67.132:49220
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV GOLF
+http://1.214.67.38/vod/65001.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  ,STATV
+http://1.214.67.38/vod/72701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  ,장기TV
+http://1.214.67.38/vod/70701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  ,빌리어즈TV
+http://1.214.67.38/vod/66801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,한국낚시
+http://1.214.67.38/vod/62501.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",IB SPORTS
+https://live-edge-th136.myjktv.com:443/watch/live.m3u8?video=jtbc_3_540&sid=Apn7LTiUje3L7FmQObTgYnKBNeDUDytdiUSkqYw1&secret=7e6facc78d8f68a85388b1945d966a04&time=1742501522
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"   , EBS-1
+http://1.214.67.38/vod/38901.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",EBS어린이
+http://1.214.67.38/vod/60701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",애니맥스
+http://1.214.67.38/vod/70301.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",애니플러스
+http://1.214.67.38/vod/69901.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",브라보키즈
+http://1.214.67.38/vod/72801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",대교어린이TV
+http://1.214.67.38/vod/76101.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",플레이런TV
+http://1.214.67.38/vod/17501.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",폴라리스TV
+http://1.214.67.38/vod/72601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",토마토증권통
+http://1.214.67.38/vod/77101.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",Asia N
+http://1.214.67.38/vod/65801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  ,OBS
+http://1.214.67.38/vod/59601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",OBS W
+http://1.214.67.38/vod/64801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",국회방송
+https://m.webcast.go.kr/live/_definst_/smil:natv_720p.smil/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",다문화TV
+https://10st.vcast.im/MYASIATV/SC82767452/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",소상공인방송
+https://cdnlive179.smartucc.kr/smartlive/558/91258ac21591769e21f41b96f26d883e/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",CJ OnStyle
+http://1.214.67.38/vod/67201.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",롯데홈쇼핑
+http://1.214.67.38/vod/67401.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",QVC
+http://cdn-live1.qvc.jp/iPhone/800/800.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  , 조선방송
+https://tv.intchoson.com/kctv/main_stream.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",OBS경인TV
+https://vod.obs.co.kr:444/live/obsstream1/tv.stream/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",C채널
+http://112.175.51.214:1935/live/myStream/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS KNN
+https://stream1.knn.co.kr/hls/9ly4534y7dm2xfa123r2_tv/index.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS JTV
+http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS TBC
+http://203.251.91.122:1935/on-air-Backup/tv/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",티비조선
+http://211.170.95.22/vod/74601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",EBS少아동
+http://1.214.67.38/vod/60701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",벌거벗은 세계사
+https://6c3a25b5ffc14307b39a6a959806e536.mediatailor.ap-northeast-1.amazonaws.com/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-f49y0pr4caw7w-ssai-prd/724240eb-5902-4cc4-8f8c-95ebec24739f/0.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",tvn 삼시세끼
+https://dmnsygceaez9z.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-kugwkm0rtsyfv-ssai-prd/89a2b732_7d4e_4098_9b82_f8e829ab07f0/hls/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",어린이 만화동산
+https://kbsnvod.gscdn.kbs.co.kr/playlists/nvod10.m3u8?Expires=1757374054&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9rYnNudm9kLmdzY2RuLmticy5jby5rci9wbGF5bGlzdHMvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc1NzM3NDA1NH19fV19&Signature=IIls1h8FQVUVtOIseVYjQaESEBwIpgvGEEcFdZOa5vnlCZPzA3FGw79zUVksUPyqE-OdmKJGtF8KLdX0I7Ww8lELhSXcJ6sdWD54FA7ebj2-oijVXVodjdlF2noBHlTIDJdJJaGDq8imzByqtEmNKs-PoRqcnGaLpwALekxBmR~6TKVBunSbv8LlIdbBksvUPJf04zX0tUw-JynkVJaRZWWqqUkcO2zXQWR4aoD5Yvm0I3cDMCUdSEqkxJ9ZDaacTjnl8wIkCs72UVqeBeqEiUO4VZKn7hNxCHBHsbcZ-gj42kn0nDk2b8JJ1TygU-JZC2xgVce6nHBN2hALIlIuzg__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA
+#EXTINF:-1 tvg-id="KBS1.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS1
+https://1tv.gscdn.kbs.co.kr/1tv_3.m3u8
+#EXTINF:-1 tvg-id="KBS2.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS2
+https://2tv.gscdn.kbs.co.kr/2tv_1.m3u8
+#EXTINF:-1 tvg-id="KBS24.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS 24
+https://news24.gscdn.kbs.co.kr/news24-02/news24-02_hd.m3u8
+#EXTINF:-1 tvg-id="SBS.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",SBS
+http://koreatv.dothome.co.kr/sbs.php
+#EXTINF:-1 tvg-id="SBSJTV.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",SBS JTV (406p) [Not 24/7]
+http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
+#EXTINF:-1 tvg-id="MBCJeju.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC제주TV
+https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8
+#EXTINF:-1 tvg-id="JTBC.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",JTBC
+https://jtbclive-cdn.jtbc.co.kr/pcweb/newpcweb.stream/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHAqOi8vanRiY2xpdmUtY2RuLmp0YmMuY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2ODYwNjIzMH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=ZdxxAlLyvlBEJHh6YuT2Ne7bNg0EjrA7XdXyxIX9wytnkCl32y7VoD6~YsEYXjbcWMOfiHUz~pBAXk2ZQYukJAP5ueN9PR~Ju5jfD2ZyaQClq9VWxM-d67ydlmzRxBwEcQzi5uG6kGJ7fnUbcXVrNeXQiQ3JnB174mIMRCCpfB8_&Key-Pair-Id=pub_jtbclive-cdn.jtbc.co.kr
+#EXTINF:-1 tvg-id="KBSDRAMA.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS DRAMA
+https://kbsndrama.gscdn.kbs.co.kr/kbsndrama-02/kbsndrama-02_sd.m3u8
+#EXTINF:-1 tvg-id="KBSJOY.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS JOY
+https://kbsnjoy.gscdn.kbs.co.kr/kbsnjoy-02/kbsnjoy-02_sd.m3u8
+#EXTINF:-1 tvg-id="KBSSTORY.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS STORY
+https://kbsnw.gscdn.kbs.co.kr/kbsnw-02/kbsnw-02_sd.m3u8
+#EXTINF:-1 tvg-id="KBSLIFE.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS LIFE
+https://kbsnlife.gscdn.kbs.co.kr/kbsnlife-02/kbsnlife-02_sd.m3u8
