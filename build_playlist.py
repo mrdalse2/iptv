@@ -15,9 +15,9 @@ SBS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S01"
 SBS_ID = "SBS.kr@SD"
 SBS_REFERER = "https://www.sbs.co.kr/live/S01"
 
-SBS_PLUS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/SAB"
+SBS_PLUS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03"
 SBS_PLUS_ID = "SBSPlus.kr@SD"
-SBS_PLUS_REFERER = "https://www.sbs.co.kr/live/SAB"
+SBS_PLUS_REFERER = "https://www.sbs.co.kr/live/S03"
 
 MBN_ID = "MBN.kr@SD"
 MBN_REFERER = "https://www.mbn.co.kr/vod/onair"
@@ -31,8 +31,9 @@ def fetch(url, params=None, referer=None):
     if params:
         url += "?" + urllib.parse.urlencode(params)
     headers = {
-        "User-Agent": "Mozilla/5.0",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
         "Accept": "application/json,text/plain,*/*",
+        "Origin": "https://www.sbs.co.kr",
     }
     if referer:
         headers["Referer"] = referer
@@ -59,7 +60,16 @@ def media_candidates(obj):
 
 
 def resolve_sbs_channel(api_url, referer):
-    params = {"platform": "pcweb", "protocol": "hls", "ssl": "Y"}
+    # Current SBS web player request shape. S03 is SBS Plus.
+    params = {
+        "v_type": "2",
+        "platform": "pcweb",
+        "protocol": "hls",
+        "ssl": "N",
+        "rscuse": "",
+        "jwt-token": "",
+        "sbsmain": "",
+    }
     body, _, _ = fetch(api_url, params=params, referer=referer)
     data = json.loads(body.decode("utf-8", "replace"))
     candidates = media_candidates(data)
