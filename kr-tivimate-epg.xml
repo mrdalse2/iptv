@@ -3,6 +3,9 @@
   <channel id="MBN.kr@SD">
     <display-name>MBN</display-name>
   </channel>
+  <channel id="SBSPlus.kr@SD">
+    <display-name>SBS Plus</display-name>
+  </channel>
   <channel id="ArirangTV.kr@SD">
     <display-name>KOREA</display-name>
   </channel>
@@ -356,11 +359,148 @@
   <programme start="20260821234000 +0000" stop="20260822001000 +0000" channel="MBN.kr@SD">
     <title lang="ko">강철소방대 파이어로보Z</title>
   </programme>
-  <programme start="20260819070500 +0000" stop="20260819073000 +0000" channel="ArirangTV.kr@SD">
-    <title lang="en">Arirang Special</title>
-    <desc lang="en">Arirang Special features a variety of unique and special programs produced by Arirang TV. These exciting programs will open your eyes to a new part of the world.</desc>
-    <category lang="en">Culture</category>
-    <image>https://img.arirang.com/v1/AUTH_d52449c16d3b4bbca17d4fffd9fc44af/public/images/202410/2728785761695433474.png</image>
+  <programme start="20260819064900 +0000" stop="20260819081700 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">시간추적자 설록</title>
+  </programme>
+  <programme start="20260819081700 +0000" stop="20260819100400 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">틈만나면</title>
+  </programme>
+  <programme start="20260819100400 +0000" stop="20260819113200 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
+    <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
+  </programme>
+  <programme start="20260819113200 +0000" stop="20260819133000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260819133000 +0000" stop="20260819152700 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260819152700 +0000" stop="20260819172300 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260819172300 +0000" stop="20260819190000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">신빨 토크쇼 귀묘한 이야기 2</title>
+  </programme>
+  <programme start="20260819190000 +0000" stop="20260819205000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260819205000 +0000" stop="20260819223000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">틈만나면</title>
+  </programme>
+  <programme start="20260819223000 +0000" stop="20260819235000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">시간추적자 설록</title>
+  </programme>
+  <programme start="20260819235000 +0000" stop="20260820015000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260820015000 +0000" stop="20260820031000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">재벌X형사 2</title>
+  </programme>
+  <programme start="20260820031000 +0000" stop="20260820043000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">재벌X형사 2</title>
+  </programme>
+  <programme start="20260820043000 +0000" stop="20260820062000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">틈만나면</title>
+  </programme>
+  <programme start="20260820062000 +0000" stop="20260820082000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">미운 우리 새끼</title>
+    <desc lang="ko">아들의 일상을 관찰하고, 육아일기라는 장치를 통해 순간을 기록하는 프로그램입니다. 아직도 철부지 같은 자식과, 늘 자식 걱정인 엄마의 이야기를 통해 유쾌하고 따뜻한 웃음, 뭉클한 감동을 전달한다. 아들의 일상을 관찰하고, 육아일기라는 장치를 통해 순간을 기록하는 프로그램입니다. 아직도 철부지 같은 자식과, 늘 자식 걱정인 엄마의 이야기를 통해 유쾌하고 따뜻한 웃음, 뭉클한 감동을 전달한다.</desc>
+  </programme>
+  <programme start="20260820082000 +0000" stop="20260820101000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">동상이몽2 너는 내 운명</title>
+    <desc lang="ko">광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기! 광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기!</desc>
+  </programme>
+  <programme start="20260820101000 +0000" stop="20260820121000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260820121000 +0000" stop="20260820133000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
+    <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
+  </programme>
+  <programme start="20260820133000 +0000" stop="20260820145000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
+    <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
+  </programme>
+  <programme start="20260820145000 +0000" stop="20260820161000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
+    <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
+  </programme>
+  <programme start="20260820161000 +0000" stop="20260820173000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">내가 만난 사이코패스</title>
+    <desc lang="ko">사이코패스, 소시오패스, 나르시시스트 등 우리 주변에 숨어있는 반사회적 인격들과 마주한 실제 경험담을 다루는 실화 기반 스릴러 토크 프로그램. 사이코패스, 소시오패스, 나르시시스트 등 우리 주변에 숨어있는 반사회적 인격들과 마주한 실제 경험담을 다루는 실화 기반 스릴러 토크 프로그램.</desc>
+  </programme>
+  <programme start="20260820173000 +0000" stop="20260820190000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">동상이몽2 너는 내 운명</title>
+    <desc lang="ko">광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기! 광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기!</desc>
+  </programme>
+  <programme start="20260820190000 +0000" stop="20260820210000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260820210000 +0000" stop="20260820225000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">틈만나면</title>
+  </programme>
+  <programme start="20260820225000 +0000" stop="20260821003000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">동상이몽2 너는 내 운명</title>
+    <desc lang="ko">광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기! 광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기!</desc>
+  </programme>
+  <programme start="20260821003000 +0000" stop="20260821021000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">틈만나면</title>
+  </programme>
+  <programme start="20260821021000 +0000" stop="20260821033000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">기이안 연애</title>
+  </programme>
+  <programme start="20260821033000 +0000" stop="20260821045000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">시간추적자 설록</title>
+  </programme>
+  <programme start="20260821045000 +0000" stop="20260821065000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO</title>
+    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
+  </programme>
+  <programme start="20260821065000 +0000" stop="20260821081000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">재벌X형사 2</title>
+  </programme>
+  <programme start="20260821081000 +0000" stop="20260821093000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">재벌X형사 2</title>
+  </programme>
+  <programme start="20260821093000 +0000" stop="20260821110000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">니돈내산 독박투어3</title>
+  </programme>
+  <programme start="20260821110000 +0000" stop="20260821123000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">니돈내산 독박투어3</title>
+  </programme>
+  <programme start="20260821123000 +0000" stop="20260821135000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
+    <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
+  </programme>
+  <programme start="20260821135000 +0000" stop="20260821153000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">신빨 토크쇼 귀묘한 이야기 2</title>
+  </programme>
+  <programme start="20260821153000 +0000" stop="20260821165000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">시간추적자 설록</title>
+  </programme>
+  <programme start="20260821165000 +0000" stop="20260821184000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">틈만나면</title>
+  </programme>
+  <programme start="20260821184000 +0000" stop="20260821190000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">골든타임 in CCTV</title>
+  </programme>
+  <programme start="20260821190000 +0000" stop="20260821203000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
+    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
+  </programme>
+  <programme start="20260821203000 +0000" stop="20260821221000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">니돈내산 독박투어3</title>
+  </programme>
+  <programme start="20260821221000 +0000" stop="20260822000000 +0000" channel="SBSPlus.kr@SD">
+    <title lang="ko">동상이몽2 너는 내 운명</title>
+    <desc lang="ko">광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기! 광활한 우주, 어쩌다 너는 나의 운명이 되었을까.. 사랑에 빠진 커플들, 그 속의 같고 다름을 들여다보는 영화 같은 이야기 똑같은 일이라도 남녀 입장에 따라 서로 기억의 조각이 다르다. 그래서 시작되는 이야기!</desc>
   </programme>
   <programme start="20260819073000 +0000" stop="20260819080000 +0000" channel="ArirangTV.kr@SD">
     <title lang="en">The Art of Pairing</title>
@@ -1497,9 +1637,6 @@
     <title lang="ko">작가 월명의 자투리타임</title>
     <desc lang="ko">서울 남산 월명사(주지 월명스님)의 불교서적 자료와 저서를 통한 국민들의 마음을 치유하는 &amp;apos;힐링&amp;apos;를 전달 하는 영상에세이. 서울 남산 월명사(주지 월명스님)의 불교서적 자료와 저서를 통한 국민들의 마음을 치유하는 &amp;apos;힐링&amp;apos;를 전달 하는 영상에세이.</desc>
   </programme>
-  <programme start="20260819070000 +0000" stop="20260819073000 +0000" channel="BTNTV.kr@SD">
-    <title lang="ko">꽃보다 출가 시즌2</title>
-  </programme>
   <programme start="20260819073000 +0000" stop="20260819080000 +0000" channel="BTNTV.kr@SD">
     <title lang="ko">몽이와 동이의 절따라 전설따라</title>
   </programme>
@@ -1787,9 +1924,6 @@
   <programme start="20260821233000 +0000" stop="20260822003000 +0000" channel="BTNTV.kr@SD">
     <title lang="ko">용학스님의 대방광불화엄경 강설</title>
   </programme>
-  <programme start="20260819063000 +0000" stop="20260819073000 +0000" channel="CJOnStyle.kr@SD">
-    <title lang="ko">라이나생명 심플건강보험</title>
-  </programme>
   <programme start="20260819073000 +0000" stop="20260819093000 +0000" channel="CJOnStyle.kr@SD">
     <title lang="ko">정호영 명란/손질 낙지</title>
   </programme>
@@ -2074,9 +2208,6 @@
   </programme>
   <programme start="20260821230000 +0000" stop="20260822010000 +0000" channel="CJOnStylePlus.kr@SD">
     <title lang="ko">kt알파 쇼핑 추천상품</title>
-  </programme>
-  <programme start="20260819070500 +0000" stop="20260819072000 +0000" channel="EBS1TV.kr@SD">
-    <title lang="ko">블록스</title>
   </programme>
   <programme start="20260819072000 +0000" stop="20260819074000 +0000" channel="EBS1TV.kr@SD">
     <title lang="ko">딩동댕 딩동댕</title>
@@ -2498,12 +2629,6 @@
   </programme>
   <programme start="20260821234500 +0000" stop="20260822000000 +0000" channel="EBS1TV.kr@SD">
     <title lang="ko">지구 영웅 번개맨</title>
-  </programme>
-  <programme start="20260819070000 +0000" stop="20260819071500 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">EBSe 초등 4학년 영어</title>
-  </programme>
-  <programme start="20260819071500 +0000" stop="20260819073000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">EBSe 초등 5학년 영어</title>
   </programme>
   <programme start="20260819073000 +0000" stop="20260819074500 +0000" channel="EBSEnglish.kr@SD">
     <title lang="ko">EBSe 초등 6학년 영어</title>
@@ -3049,9 +3174,6 @@
   </programme>
   <programme start="20260821233000 +0000" stop="20260822000000 +0000" channel="EBSEnglish.kr@SD">
     <title lang="ko">왕초보 영어</title>
-  </programme>
-  <programme start="20260819063000 +0000" stop="20260819073000 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">[2027 FINAL 실전모의고사] 생명과학I</title>
   </programme>
   <programme start="20260819073000 +0000" stop="20260819083000 +0000" channel="EBSPlus1.kr@SD">
     <title lang="ko">[2027 FINAL 실전모의고사] 지구과학l</title>
@@ -3664,9 +3786,6 @@
   </programme>
   <programme start="20260821233000 +0000" stop="20260822000000 +0000" channel="EBSPlus2.kr@SD">
     <title lang="ko">내:일을 여는 인문학 (4)</title>
-  </programme>
-  <programme start="20260819070000 +0000" stop="20260819073000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">사랑의 메시지</title>
   </programme>
   <programme start="20260819073000 +0000" stop="20260819080000 +0000" channel="GoodTV.kr@SD">
     <title lang="ko">행복한 쉼터</title>
@@ -4353,9 +4472,6 @@
   <programme start="20260821233600 +0000" stop="20260822003600 +0000" channel="GSMyShop.kr@SD">
     <title lang="ko">의류</title>
   </programme>
-  <programme start="20260819063000 +0000" stop="20260819073000 +0000" channel="GSShop.kr@SD">
-    <title lang="ko">비버리힐스폴로클럽</title>
-  </programme>
   <programme start="20260819073000 +0000" stop="20260819083000 +0000" channel="GSShop.kr@SD">
     <title lang="ko">베네팜 대마종자유</title>
   </programme>
@@ -4508,9 +4624,6 @@
   </programme>
   <programme start="20260821232000 +0000" stop="20260822022000 +0000" channel="GSShop.kr@SD">
     <title lang="ko">왕영은의 톡 투게더</title>
-  </programme>
-  <programme start="20260819070000 +0000" stop="20260819073000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">살어리랏다</title>
   </programme>
   <programme start="20260819073000 +0000" stop="20260819083000 +0000" channel="KTV.kr@SD">
     <title lang="ko">LIVE 정책 K 3부</title>
@@ -4922,9 +5035,6 @@
   </programme>
   <programme start="20260821233000 +0000" stop="20260822000000 +0000" channel="KTV.kr@SD">
     <title lang="ko">유자식 상팔자</title>
-  </programme>
-  <programme start="20260819063300 +0000" stop="20260819073300 +0000" channel="KShopping.kr@SD">
-    <title lang="ko">오렐리안 풍기인견 냉감 브라탑 3종</title>
   </programme>
   <programme start="20260819073300 +0000" stop="20260819083300 +0000" channel="KShopping.kr@SD">
     <title lang="ko">조리기능장 임성근의 국내산 특 키로도가니탕</title>
@@ -8806,9 +8916,6 @@
   <programme start="20260821230000 +0000" stop="20260822010000 +0000" channel="NSShopPlus.kr@SD">
     <title lang="ko">NSshop+추천상품</title>
   </programme>
-  <programme start="20260819063000 +0000" stop="20260819073000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">OBS 뉴스 &amp;lt;오늘&amp;gt;</title>
-  </programme>
   <programme start="20260819073000 +0000" stop="20260819083000 +0000" channel="HLQSDTV.kr@SD">
     <title lang="ko">주식학교</title>
   </programme>
@@ -11542,9 +11649,6 @@
   </programme>
   <programme start="20260821230000 +0000" stop="20260822010000 +0000" channel="TVChosun2.kr@SD">
     <title lang="ko">미스트롯 포유</title>
-  </programme>
-  <programme start="20260819061900 +0000" stop="20260819071900 +0000" channel="WShopping.kr@SD">
-    <title lang="ko">흥국생명 암보험</title>
   </programme>
   <programme start="20260819071900 +0000" stop="20260819082000 +0000" channel="WShopping.kr@SD">
     <title lang="ko">까사맘 전기 압력 가마솥</title>

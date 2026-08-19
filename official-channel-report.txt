@@ -1,3 +1,3 @@
 SBS KEEP existing=False
-SBS Plus KEEP existing=False
+SBS Plus OK fallback stream applied
 MBN OK official on-air HLS refreshed
