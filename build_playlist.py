@@ -18,6 +18,7 @@ SBS_REFERER = "https://www.sbs.co.kr/live/S01"
 SBS_PLUS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03"
 SBS_PLUS_ID = "SBSPlus.kr@SD"
 SBS_PLUS_REFERER = "https://www.sbs.co.kr/live/S03"
+SBS_PLUS_FALLBACK = "http://124.50.45.145:9981/stream/channelid/1646315493"
 
 MBN_ID = "MBN.kr@SD"
 MBN_REFERER = "https://www.mbn.co.kr/vod/onair"
@@ -60,7 +61,6 @@ def media_candidates(obj):
 
 
 def resolve_sbs_channel(api_url, referer):
-    # Current SBS web player request shape. S03 is SBS Plus.
     params = {
         "v_type": "2",
         "platform": "pcweb",
@@ -171,7 +171,15 @@ def main():
         )
         status.append("SBS Plus OK official API HLS refreshed")
     else:
-        status.append(f"SBS Plus KEEP existing={has_channel(lines, SBS_PLUS_ID)}")
+        lines = upsert_official(
+            lines,
+            SBS_PLUS_ID,
+            "SBS Plus",
+            SBS_PLUS_FALLBACK,
+            SBS_PLUS_REFERER,
+            group="Entertainment",
+        )
+        status.append("SBS Plus OK fallback stream applied")
 
     try:
         mbn_url = resolve_mbn()
