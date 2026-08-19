@@ -9,6 +9,7 @@ from pathlib import Path
 PLAYLIST = Path("kr-tivimate.m3u")
 REPORT = Path("official-channel-report.txt")
 BASE_URL = "https://iptv-org.github.io/iptv/countries/kr.m3u"
+SECONDARY_URL = "https://raw.githubusercontent.com/mjpark-dev/iptv/master/korean.m3u"
 EPG_URL = "https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
 
 SBS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S01"
@@ -18,7 +19,6 @@ SBS_REFERER = "https://www.sbs.co.kr/live/S01"
 SBS_PLUS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03"
 SBS_PLUS_ID = "SBSPlus.kr@SD"
 SBS_PLUS_REFERER = "https://www.sbs.co.kr/live/S03"
-SBS_PLUS_FALLBACK = "http://124.50.45.145:9981/stream/channelid/1646315493"
 
 MBN_ID = "MBN.kr@SD"
 MBN_REFERER = "https://www.mbn.co.kr/vod/onair"
@@ -34,8 +34,9 @@ def fetch(url, params=None, referer=None):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
         "Accept": "application/json,text/plain,*/*",
-        "Origin": "https://www.sbs.co.kr",
     }
+    if "sbs.co.kr" in url:
+        headers["Origin"] = "https://www.sbs.co.kr"
     if referer:
         headers["Referer"] = referer
     req = urllib.request.Request(url, headers=headers)
@@ -131,6 +132,72 @@ def upsert_official(lines, tvg_id, name, stream_url, referer, group="General;Off
     return lines[:1] + block + lines[1:]
 
 
+def channel_name(extinf):
+    if "," not in extinf:
+        return ""
+    return extinf.rsplit(",", 1)[1].strip()
+
+
+def normalize_name(name):
+    return re.sub(r"[^0-9a-z가-힣]", "", name.lower())
+
+
+def active_secondary_entries(text):
+    src = text.replace("\r\n", "\n").splitlines()
+    entries = []
+    i = 0
+    while i < len(src):
+        if not src[i].startswith("#EXTINF:"):
+            i += 1
+            continue
+        extinf = src[i].strip()
+        name = channel_name(extinf)
+        i += 1
+        url = None
+        while i < len(src) and not src[i].startswith("#EXTINF:"):
+            candidate = src[i].strip()
+            if candidate and not candidate.startswith("#") and candidate.startswith(("http://", "https://")):
+                url = candidate
+                break
+            i += 1
+        if name and url:
+            entries.append((name, extinf, url))
+    return entries
+
+
+def merge_secondary(lines):
+    body, _, _ = fetch(SECONDARY_URL)
+    secondary = body.decode("utf-8-sig", "replace")
+
+    # Drop the old generated SBS Plus block when the official API did not work;
+    # the mjpark list is then allowed to provide its current fallback entry.
+    lines = strip_channel(lines, SBS_PLUS_ID)
+
+    existing = set()
+    for line in lines:
+        if line.startswith("#EXTINF:"):
+            n = channel_name(line)
+            if n:
+                existing.add(normalize_name(n))
+
+    added = []
+    for name, extinf, url in active_secondary_entries(secondary):
+        key = normalize_name(name)
+        if not key or key in existing:
+            continue
+
+        if key == "sbsplus":
+            extinf = '#EXTINF:-1 tvg-id="SBSPlus.kr@SD" group-title="Entertainment;Secondary",SBS Plus'
+        else:
+            extinf = re.sub(r'group-title="[^"]*"', 'group-title="Secondary"', extinf)
+
+        lines.extend([extinf, url])
+        existing.add(key)
+        added.append(name)
+
+    return lines, added
+
+
 def main():
     if PLAYLIST.exists():
         text = PLAYLIST.read_text(encoding="utf-8-sig")
@@ -171,15 +238,13 @@ def main():
         )
         status.append("SBS Plus OK official API HLS refreshed")
     else:
-        lines = upsert_official(
-            lines,
-            SBS_PLUS_ID,
-            "SBS Plus",
-            SBS_PLUS_FALLBACK,
-            SBS_PLUS_REFERER,
-            group="Entertainment",
-        )
-        status.append("SBS Plus OK fallback stream applied")
+        try:
+            lines, added = merge_secondary(lines)
+            status.append(f"SECONDARY OK added={len(added)} source=mjpark-dev/iptv")
+            status.append(f"SBS Plus secondary={has_channel(lines, SBS_PLUS_ID)}")
+        except Exception as e:
+            status.append(f"SECONDARY ERROR {type(e).__name__}: {e}")
+            status.append(f"SBS Plus KEEP existing={has_channel(lines, SBS_PLUS_ID)}")
 
     try:
         mbn_url = resolve_mbn()
