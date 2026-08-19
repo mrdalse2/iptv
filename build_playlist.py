@@ -15,6 +15,10 @@ SBS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S01"
 SBS_ID = "SBS.kr@SD"
 SBS_REFERER = "https://www.sbs.co.kr/live/S01"
 
+SBS_PLUS_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03"
+SBS_PLUS_ID = "SBSPlus.kr@SD"
+SBS_PLUS_REFERER = "https://www.sbs.co.kr/live/S03"
+
 MBN_ID = "MBN.kr@SD"
 MBN_REFERER = "https://www.mbn.co.kr/vod/onair"
 MBN_AUTH = (
@@ -54,15 +58,23 @@ def media_candidates(obj):
     return out
 
 
-def resolve_sbs():
+def resolve_sbs_channel(api_url, referer):
     params = {"platform": "pcweb", "protocol": "hls", "ssl": "Y"}
-    body, _, _ = fetch(SBS_API, params=params, referer=SBS_REFERER)
+    body, _, _ = fetch(api_url, params=params, referer=referer)
     data = json.loads(body.decode("utf-8", "replace"))
     candidates = media_candidates(data)
     if not candidates:
         return None
     candidates.sort(key=lambda x: x[0], reverse=True)
     return candidates[0][1]
+
+
+def resolve_sbs():
+    return resolve_sbs_channel(SBS_API, SBS_REFERER)
+
+
+def resolve_sbs_plus():
+    return resolve_sbs_channel(SBS_PLUS_API, SBS_PLUS_REFERER)
 
 
 def resolve_mbn():
@@ -132,6 +144,24 @@ def main():
         status.append("SBS OK official API HLS refreshed")
     else:
         status.append(f"SBS KEEP existing={has_channel(lines, SBS_ID)}")
+
+    try:
+        sbs_plus_url = resolve_sbs_plus()
+    except Exception as e:
+        status.append(f"SBS Plus ERROR {type(e).__name__}: {e}")
+        sbs_plus_url = None
+    if sbs_plus_url:
+        lines = upsert_official(
+            lines,
+            SBS_PLUS_ID,
+            "SBS Plus",
+            sbs_plus_url,
+            SBS_PLUS_REFERER,
+            group="Entertainment;Official",
+        )
+        status.append("SBS Plus OK official API HLS refreshed")
+    else:
+        status.append(f"SBS Plus KEEP existing={has_channel(lines, SBS_PLUS_ID)}")
 
     try:
         mbn_url = resolve_mbn()
