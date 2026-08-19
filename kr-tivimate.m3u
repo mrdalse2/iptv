@@ -1,7 +1,7 @@
 #EXTM3U x-tvg-url="https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzIzNDQ3OH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=Lb-MiCYKmY2r4X1is9k1XUW2U9csocBEtnRC8m-qUK6Y24W7iHWsi7N4ihHugVhmVs-so8doYg1gYVUtA4SQ2H9pzzDTtaGWfeyCAj4s9ZO5o2vtTpA-7iuNIuWbHUmx2RMhfisoJt1t2KBJI4hR3M1B5YaKuEwiphUbGlFLaHk_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzI1MjU4MH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=Okat-lznjUyQZfokFQGUExO9kwWUHz0ONt0zNhfhogFqsUgs9SwXOWV1dqoh9CZd8dZTTiRQcKQVkrSxbT3FnNrFRKj-LheAfoeLQzPgOVO07WJxPPwwPsSibg0gP~VM7KiOi-VDm09D3rmQbH6z9DiX8jyAXzZhXnyDCozoN5g_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="SBSPlus.kr@SD" group-title="Entertainment",SBS Plus
 #EXTVLCOPT:http-referrer=https://www.sbs.co.kr/live/S03
 http://124.50.45.145:9981/stream/channelid/1646315493
@@ -152,18 +152,18 @@ https://liveout.catenoid.net/live-05-wshopping/wshopping_1500k/playlist.m3u8
 https://ytnlive.ytn.co.kr/ytn/_definst_/ytnlive_stream_20220426/medialist_9171188557012390620_hls.m3u8
 #EXTINF:-1 tvg-id="ZeeBollymovies.in@SD" tvg-logo="https://framerusercontent.com/images/mqfJ18x4jYe0GbZUbxSHsbnWU.png?scale-down-to=512" group-title="Movies",Zee Bollymovies (1080p) [Geo-blocked]
 https://amg17931-zee-amg17931c8-samsung-th-6526.playouts.now.amagi.tv/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSDrama
-http://koreatv.dothome.co.kr/kbsdrama.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS Drama
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_drama_540&sid=paKP8quwQXA1v3f8CDgxH6h7IfCezfoMX4CPYs9i&secret=0f3e15ed586d8b39e2197abcdaa39726&time=1772754511
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS
 http://123.140.197.22/stream/1/play.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC
-http://211.33.246.4:32954/cj_live/myStream.sdp/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", MBC
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbc_540&sid=IpaGWtS1yBSO7JUbq1qO5wzVEOxA49k1jXoRVIbD&secret=a359917fe5cd684f8a1b9e21443c4710&time=1765891937
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TV Chosun 2
 http://onair2.cdn.tvchosun.com/origin2/_definst_/tvchosun_s3/playlist.m3u8?checkedby:iptvcat.com
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBC
-https://noh-slb-samsung-fastcdn.uplus.co.kr/jtbc.stream/noll_index-v1-a1.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&castis.cid=jtbc.strea
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", tvN
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=jtbc_540&sid=kbtxyuPVF37QVO3zGKMNyQSQo063cYeik0Vr0GoS&secret=133ec1aaf7cf7cf8f6aa77e714da7059&time=1765892075
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TVN
+https://k227.jk-cdn.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSStory
 http://koreatv.dothome.co.kr/kbsstory.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSLife
@@ -366,8 +366,8 @@ http://61.82.49.4:1935/live/_definst_/tv.stream/playlist.m3u8
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_216_AB271679.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TV Chosun
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_53_245B29EC.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",mbn
-https://wms2-kortv.akamaized.net/a_live/81992167/smil:20tv121.smil/chunklist_b2500000.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBN
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbn_540&sid=JrgTsnJKQo0TU9yiyoZf7eA9llHJEMpTQlgyggsJ&secret=68b0e61613ec8fda51fd248052b6aa69&time=1742500229
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",mbc 아메리카
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_236_0B21695E.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",MBC에브리원
@@ -437,17 +437,17 @@ http://koreatv.dothome.co.kr/mbc.php
 #EXTINF:-1 tvg-id="MBCChuncheon.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC춘천
 https://stream.chmbc.co.kr/TV/myStream/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS1
-http://koreatv.dothome.co.kr/kbs1.php
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS 2
-http://koreatv.dothome.co.kr/kbs2.php
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs1_540&sid=EZ5881Rv73XGA0AECIYF9UX34lt3YBvq6RLJ1voI&secret=e7d5668457a260527ef38656f6b0082e&time=1765891871
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS2
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs2_540&sid=AyMBt8STQi7J8FnSd0PeQSXX6kQBHrmnVJljjl8w&secret=b232cc97122ea9f507475b72065f7562&time=1765891904
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC2
 http://1.214.67.38/vod/60601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC4
 http://1.214.67.38/vod/76701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC3
 http://1.214.67.103/vod/79501.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;720P;WIFI
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsplus
-http://koreatv.dothome.co.kr/sbsplus.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SBS Plus
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=sbs_plus_540&sid=PSGAnCYbuV5h5n957kwavdsTd1M9EtFZwsixuxcN&secret=703094f919241535d243917621af3c53&time=1765893212
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsfune
 http://koreatv.dothome.co.kr/sbsfune.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsbiz
