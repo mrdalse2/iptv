@@ -1,3 +1,5 @@
-SBS KEEP existing=False
-SBS Plus OK fallback stream applied
+SOURCE OK mjpark-dev/iptv added=138 replaced=44 kept=21
+SOURCE OK GoonhoLee/koreaiptv-auto-updater added=4 replaced=5 kept=0
+SBS KEEP merged=False
+SBS Plus KEEP merged=True
 MBN OK official on-air HLS refreshed
