@@ -42,6 +42,7 @@ ALIASES = {
     "NSShopPlus.kr@SD": ["NS Shop+.kr"],
     "OUN.kr@SD": ["OUN.kr"],
     "HLQSDTV.kr@SD": ["OBS.kr", "OBS경인TV.kr"],
+    "SBSPlus.kr@SD": ["SBS Plus.kr", "SBSPlus.kr", "SBS PLUS.kr"],
     "TBSTV.kr@SD": ["TBS TV.kr", "TBS.kr"],
     "TVChosun.kr@SD": ["TVCHOSUN.kr", "TV조선.kr"],
     "TVChosun2.kr@SD": ["TVCHOSUN2.kr", "TV조선2.kr"],
