@@ -1,7 +1,7 @@
 #EXTM3U x-tvg-url="https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzI1MjU4MH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=Okat-lznjUyQZfokFQGUExO9kwWUHz0ONt0zNhfhogFqsUgs9SwXOWV1dqoh9CZd8dZTTiRQcKQVkrSxbT3FnNrFRKj-LheAfoeLQzPgOVO07WJxPPwwPsSibg0gP~VM7KiOi-VDm09D3rmQbH6z9DiX8jyAXzZhXnyDCozoN5g_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzI3NzY5OH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=r02yVTlxRj~P2UyAMjLlFwRmbsBT6aSZj4tlEAo~-Lf8RhN-9EoQ03BGh9viLak3TvR4JLaFPEvEdGsBJl9tFxlOiM0n2QLLuPKtaBArgh82rzQRG7Qvv-CiG0v0SQ-71lkuoRo7tmKPhBXLe8ODk1nyveLkbW-Txp5rkBW0PKQ_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="SBSPlus.kr@SD" group-title="Entertainment",SBS Plus
 #EXTVLCOPT:http-referrer=https://www.sbs.co.kr/live/S03
 http://124.50.45.145:9981/stream/channelid/1646315493
@@ -210,8 +210,8 @@ https://jmp2.uk/stvp-KR44000010Y
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_540&sid=NV3u8ksyqK92z938RZFBkv2YbPVJAMLA6kwyTOLJ&secret=e9d4f0a64292fabf306ba48f62275fa0&time=1765891235
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV2
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_2_540&sid=6Os571NBiR8XVEhIx6diM3X01l5UsPRTzvBWMF53&secret=75e5132e9ae7097fd4dcb9ff1a881527&time=1765892545
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime
-https://k227.jk-cdn.com:443/watch/live.m3u8?video=spotv_on_540&sid=EQlmnOkHl5Esy6PNLmk1Sg1dVK1CKw2tkgZBj7nL&secret=dbbfb4a09b4bd1c862748c947b533db6&time=1765892639
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime+
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_prime_540&sid=qyI7BM30mUHBJ16jx15KF2NMLVTKKEhI9ZhSC23Y&secret=a8100c7415537e5da2db40962181614a&time=1765892590
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime2
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_on2_540&sid=bQRIUtyfpTIV2IWGvrm9eDXXDpgeD452TYwz27ds&secret=22948804ea0eaae93297a9a5b766ef95&time=1765892812
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OGN starleague
