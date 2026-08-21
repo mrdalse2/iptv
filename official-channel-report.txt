@@ -4,3 +4,4 @@ SBS KEEP merged=True
 SBS Plus DROP no official mediaurl
 MBN OK official on-air HLS refreshed
 SBS Plus FINAL DROP no verified route
+SBS Plus STATE RESTORED local official route
