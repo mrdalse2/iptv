@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
     private void startProxy() {
         Intent i = new Intent(this, ProxyService.class).setAction(ProxyService.ACTION_START);
         if (Build.VERSION.SDK_INT >= 26) startForegroundService(i); else startService(i);
-        urlText.postDelayed(this::refresh, 500);
+        urlText.postDelayed(this::refresh, 700);
     }
 
     private void stopProxy() {
@@ -71,21 +71,23 @@ public class MainActivity extends Activity {
     }
 
     private void refresh() {
-        statusText.setText(ProxyService.running ? "서버 실행 중 · 포트 8787" : "서버 중지됨");
-        List<String> playlists = NetworkUtils.localPlaylistUrls();
+        statusText.setText(ProxyService.running ? "서버 실행 중 · mDNS iptvproxy.local · 포트 8787" : "서버 중지됨");
+        List<String> fallbacks = NetworkUtils.localPlaylistUrls();
+        StringBuilder playlist = new StringBuilder(NetworkUtils.STABLE_PLAYLIST_URL);
+        if (!fallbacks.isEmpty()) {
+            playlist.append("\n\nIP 직접접속(대체):\n").append(String.join("\n", fallbacks));
+        }
+        urlText.setText(playlist.toString());
+
         List<String> sbsUrls = NetworkUtils.localProxyUrls();
-        urlText.setText(playlists.isEmpty() ? "사용 가능한 IPv4 주소를 찾지 못했습니다." : String.join("\n", playlists));
-        sbsUrlText.setText(sbsUrls.isEmpty() ? "-" : String.join("\n", sbsUrls));
+        StringBuilder sbs = new StringBuilder(NetworkUtils.STABLE_SBS_URL);
+        if (!sbsUrls.isEmpty()) sbs.append("\n").append(String.join("\n", sbsUrls));
+        sbsUrlText.setText(sbs.toString());
     }
 
     private void copyPlaylist() {
-        String url = NetworkUtils.bestLocalPlaylistUrl();
-        if (url == null) {
-            Toast.makeText(this, "복사할 주소가 없습니다.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        cm.setPrimaryClip(ClipData.newPlainText("Local IPTV Playlist", url));
-        Toast.makeText(this, "통합 플레이리스트 주소를 복사했습니다.", Toast.LENGTH_SHORT).show();
+        cm.setPrimaryClip(ClipData.newPlainText("Local IPTV Playlist", NetworkUtils.STABLE_PLAYLIST_URL));
+        Toast.makeText(this, "고정 통합 플레이리스트 주소를 복사했습니다.", Toast.LENGTH_SHORT).show();
     }
 }
