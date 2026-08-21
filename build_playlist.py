@@ -99,7 +99,6 @@ def media_candidates(obj):
 
 
 def direct_mediaurl(data):
-    """Read the current SBS response shape first, then fall back to recursive search."""
     try:
         media = data["onair"]["source"]["mediasource"]
         if isinstance(media, dict):
@@ -129,11 +128,9 @@ def resolve_sbs_channel(api_url, referer):
     }
     body, _, _ = fetch(api_url, params=params, referer=referer)
     data = json.loads(body.decode("utf-8", "replace"))
-
     url = direct_mediaurl(data)
     if url:
         return url
-
     candidates = media_candidates(data)
     if not candidates:
         return None
@@ -272,7 +269,6 @@ def merge_sources(lines):
                 else:
                     unverified_added += 1
                 continue
-
             pos = index[key]
             chosen, _ = pick_preferred(ordered[pos], entry)
             if chosen is entry:
@@ -380,7 +376,8 @@ def main():
         )
         status.append(f"SBS Plus OK official API HLS written verified={verified}")
     else:
-        status.append(f"SBS Plus KEEP merged={has_channel(lines, SBS_PLUS_ID)}")
+        lines = strip_channel(lines, SBS_PLUS_ID)
+        status.append("SBS Plus DROP no official mediaurl")
 
     try:
         mbn_url = resolve_mbn()
