@@ -98,6 +98,25 @@ def media_candidates(obj):
     return out
 
 
+def direct_mediaurl(data):
+    """Read the current SBS response shape first, then fall back to recursive search."""
+    try:
+        media = data["onair"]["source"]["mediasource"]
+        if isinstance(media, dict):
+            url = media.get("mediaurl")
+            if isinstance(url, str) and url.startswith(("http://", "https://")):
+                return url
+        elif isinstance(media, list):
+            for item in media:
+                if isinstance(item, dict):
+                    url = item.get("mediaurl")
+                    if isinstance(url, str) and url.startswith(("http://", "https://")):
+                        return url
+    except (KeyError, TypeError):
+        pass
+    return None
+
+
 def resolve_sbs_channel(api_url, referer):
     params = {
         "v_type": "2",
@@ -110,6 +129,11 @@ def resolve_sbs_channel(api_url, referer):
     }
     body, _, _ = fetch(api_url, params=params, referer=referer)
     data = json.loads(body.decode("utf-8", "replace"))
+
+    url = direct_mediaurl(data)
+    if url:
+        return url
+
     candidates = media_candidates(data)
     if not candidates:
         return None
@@ -216,9 +240,7 @@ def pick_preferred(old, new):
     if old_alive and not new_alive:
         return old, "kept-live"
     if new_alive and old_alive:
-        # Both work: prefer the later/fresher source.
         return new, "replaced-live"
-    # Neither could be verified now: keep the existing entry for stability.
     return old, "kept-unverified"
 
 
@@ -241,9 +263,6 @@ def merge_sources(lines):
         for entry in incoming:
             key = entry["key"] or "url:" + entry["url"]
             if key not in index:
-                # Include every active EXTINF+URL item from secondary playlists.
-                # Health is advisory for new channels; it only decides preference
-                # when duplicate routes exist for the same channel.
                 alive = is_stream_alive(entry["url"], entry_referer(entry))
                 index[key] = len(ordered)
                 ordered.append(entry)
@@ -255,7 +274,7 @@ def merge_sources(lines):
                 continue
 
             pos = index[key]
-            chosen, reason = pick_preferred(ordered[pos], entry)
+            chosen, _ = pick_preferred(ordered[pos], entry)
             if chosen is entry:
                 ordered[pos] = entry
                 replaced += 1
@@ -337,9 +356,10 @@ def main():
     except Exception as e:
         status.append(f"SBS ERROR {type(e).__name__}: {e}")
         sbs_url = None
-    if sbs_url and is_stream_alive(sbs_url, SBS_REFERER):
+    if sbs_url:
+        verified = is_stream_alive(sbs_url, SBS_REFERER)
         lines = upsert_official(lines, SBS_ID, "SBS", sbs_url, SBS_REFERER)
-        status.append("SBS OK official API HLS refreshed")
+        status.append(f"SBS OK official API HLS written verified={verified}")
     else:
         status.append(f"SBS KEEP merged={has_channel(lines, SBS_ID)}")
 
@@ -348,7 +368,8 @@ def main():
     except Exception as e:
         status.append(f"SBS Plus ERROR {type(e).__name__}: {e}")
         sbs_plus_url = None
-    if sbs_plus_url and is_stream_alive(sbs_plus_url, SBS_PLUS_REFERER):
+    if sbs_plus_url:
+        verified = is_stream_alive(sbs_plus_url, SBS_PLUS_REFERER)
         lines = upsert_official(
             lines,
             SBS_PLUS_ID,
@@ -357,7 +378,7 @@ def main():
             SBS_PLUS_REFERER,
             group="Entertainment;Official",
         )
-        status.append("SBS Plus OK official API HLS refreshed")
+        status.append(f"SBS Plus OK official API HLS written verified={verified}")
     else:
         status.append(f"SBS Plus KEEP merged={has_channel(lines, SBS_PLUS_ID)}")
 
