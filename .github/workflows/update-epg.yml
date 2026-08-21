@@ -6,11 +6,12 @@ on:
     branches: [main]
     paths:
       - "build_playlist.py"
-      - "fix_sbs_plus.py"
+      - "apply_sbs_plus_route.py"
+      - "sbs-plus-route.txt"
       - "build_current_epg.py"
       - ".github/workflows/update-epg.yml"
   schedule:
-    # Refresh streams and purge stale channel routes every 6 hours
+    # Refresh streams and EPG every 6 hours
     - cron: "15 */6 * * *"
 
 permissions:
@@ -31,8 +32,8 @@ jobs:
       - name: Refresh official live channels
         run: python build_playlist.py
 
-      - name: Resolve SBS Plus strictly
-        run: python fix_sbs_plus.py
+      - name: Restore Korean-network SBS Plus route
+        run: python apply_sbs_plus_route.py
 
       - name: Show official live resolver status
         run: cat official-channel-report.txt
