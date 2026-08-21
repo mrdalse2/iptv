@@ -26,9 +26,30 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/errorText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/serverToggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="서버 시작" />
+
+        <CheckBox
+            android:id="@+id/autoStartCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="휴대폰 부팅 후 자동 시작" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
             android:text="TiviMate에 등록할 통합 플레이리스트"
             android:textStyle="bold" />
 
@@ -47,25 +68,13 @@
             android:layout_marginTop="12dp"
             android:text="통합 플레이리스트 주소 복사" />
 
-        <Button
-            android:id="@+id/startButton"
+        <TextView
+            android:id="@+id/healthText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="서버 시작" />
-
-        <Button
-            android:id="@+id/stopButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서버 중지" />
-
-        <CheckBox
-            android:id="@+id/autoStartCheck"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="휴대폰 부팅 후 자동 시작" />
+            android:text="HTTP 상태: 확인 전"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -79,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="/playlist.m3u를 열 때마다 GitHub의 최신 kr-tivimate.m3u를 가져와 전체 채널을 그대로 제공하고, SBS Plus 항목만 이 기기의 무중단 HLS 프록시 주소로 자동 치환합니다. GitHub PAT나 자동 push는 필요 없습니다." />
+            android:text="/playlist.m3u를 열 때마다 GitHub의 최신 kr-tivimate.m3u를 가져와 전체 채널을 제공하고, SBS Plus 항목만 이 기기의 무중단 HLS 프록시 주소로 자동 치환합니다. mDNS가 실패해도 IP 직접접속 주소로 사용할 수 있습니다." />
 
         <TextView
             android:layout_width="match_parent"
