@@ -34,19 +34,21 @@ jobs:
         run: gradle assembleDebug --stacktrace
 
       - name: Prepare APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk ../LocalIPTVProxy-2.3.apk
+        run: cp app/build/outputs/apk/debug/app-debug.apk ../LocalIPTVProxy-2.2-mdns.apk
 
-      - name: Create or update GitHub Release
+      - name: Create or update fixed GitHub Release
         working-directory: .
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG='localiptvproxy-v2.3'
-          TITLE='Local IPTV Proxy 2.3'
+          TAG='localiptvproxy-v2.2'
+          TITLE='Local IPTV Proxy (Latest)'
+          ASSET='LocalIPTVProxy-2.2-mdns.apk'
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" LocalIPTVProxy-2.3.apk --clobber
+            gh release upload "$TAG" "$ASSET" --clobber
+            gh release edit "$TAG" --title "$TITLE" --notes 'Stable download path. The APK asset is replaced with the latest tested build on each publish.'
           else
-            gh release create "$TAG" LocalIPTVProxy-2.3.apk \
+            gh release create "$TAG" "$ASSET" \
               --title "$TITLE" \
-              --notes 'Android local IPTV aggregate playlist proxy. Fixes server startup UI/runtime diagnostics, keeps HTTP alive if mDNS fails, and adds /health.'
+              --notes 'Stable download path. The APK asset is replaced with the latest tested build on each publish.'
           fi
