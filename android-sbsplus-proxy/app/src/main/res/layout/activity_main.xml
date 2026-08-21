@@ -44,7 +44,7 @@
             android:id="@+id/startButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:text="서버 시작" />
 
         <Button
@@ -63,13 +63,61 @@
             android:id="@+id/autoStartCheck"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:text="휴대폰 부팅 후 자동 시작" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="작동 방식: 플레이어가 위 고정 주소를 열 때마다 앱이 SBS S03 API에서 새 60초 토큰을 발급받아 실제 SBS Plus HLS로 자동 연결합니다. 이 앱이 실행 중이어야 합니다." />
+            android:layout_marginTop="24dp"
+            android:text="GitHub 자동 반영"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="최초 1회 Fine-grained PAT를 입력하세요. mrdalse2/iptv 저장소의 Contents: Read and write 권한만 있으면 됩니다. PAT는 Android Keystore로 암호화해 이 기기에만 저장합니다." />
+
+        <EditText
+            android:id="@+id/tokenInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="github_pat_..."
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/saveTokenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PAT 저장 + 지금 GitHub 반영" />
+
+        <Button
+            android:id="@+id/publishNowButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="현재 주소 다시 Push" />
+
+        <Button
+            android:id="@+id/clearTokenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="저장된 PAT 삭제" />
+
+        <TextView
+            android:id="@+id/publishText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="GitHub 자동 push 미설정"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="완전 자동 흐름: 앱 최초 실행 → 서버 자동 시작 → 현재 LAN/핫스팟 IP 감지 → GitHub sbs-plus-route.txt 갱신 → GitHub Actions가 최종 kr-tivimate.m3u의 SBS Plus 주소를 갱신합니다. 서버 실행 중에는 60초마다 IP 변경 여부를 확인하며, 주소가 바뀐 경우에만 다시 push합니다." />
     </LinearLayout>
 </ScrollView>
