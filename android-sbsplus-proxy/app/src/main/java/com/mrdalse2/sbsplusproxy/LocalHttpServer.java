@@ -57,14 +57,31 @@ public final class LocalHttpServer {
             if (request == null) return;
             String[] parts = request.split(" ");
             String rawPath = parts.length > 1 ? parts[1] : "/";
+            String host = null;
             while (true) {
                 String header = reader.readLine();
                 if (header == null || header.isEmpty()) break;
+                int colon = header.indexOf(':');
+                if (colon > 0 && "host".equalsIgnoreCase(header.substring(0, colon).trim())) {
+                    host = header.substring(colon + 1).trim();
+                }
             }
 
             try {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
+                if ("/playlist.m3u".equals(path) || "/playlist.m3u8".equals(path)) {
+                    String authority = host;
+                    if (authority == null || authority.isBlank()) {
+                        authority = socket.getLocalAddress().getHostAddress() + ":8787";
+                    }
+                    String localSbs = "http://" + authority + "/sbsplus.m3u8";
+                    byte[] body = PlaylistAggregator.build(localSbs);
+                    writeHeaders(out, 200, "application/x-mpegURL; charset=utf-8", body.length, "no-store, no-cache, must-revalidate");
+                    out.write(body);
+                    out.flush();
+                    return;
+                }
                 if ("/sbsplus.m3u8".equals(path) || "/sbsplus".equals(path) || "/".equals(path)) {
                     String target = SbsResolver.resolve();
                     allowed.add(target);
@@ -82,7 +99,7 @@ public final class LocalHttpServer {
                 }
                 sendText(out, 404, "Not found");
             } catch (Exception e) {
-                sendText(out, 502, "SBS Plus proxy error: " + e.getMessage());
+                sendText(out, 502, "Local IPTV proxy error: " + e.getMessage());
             }
         } catch (Exception ignored) {}
     }
@@ -107,7 +124,7 @@ public final class LocalHttpServer {
         c.setConnectTimeout(10000);
         c.setReadTimeout(20000);
         c.setInstanceFollowRedirects(true);
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) SBSPlusProxy/2.0");
+        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) SBSPlusProxy/2.1");
         c.setRequestProperty("Accept", "*/*");
         c.setRequestProperty("Referer", "https://www.sbs.co.kr/live/S03");
         c.setRequestProperty("Origin", "https://www.sbs.co.kr");
