@@ -30,6 +30,7 @@ public final class LocalHttpServer {
     public synchronized void start() throws Exception {
         if (running) return;
         server = new ServerSocket(8787, 32, InetAddress.getByName("0.0.0.0"));
+        server.setReuseAddress(true);
         running = true;
         pool.execute(() -> {
             while (running) {
@@ -70,6 +71,10 @@ public final class LocalHttpServer {
             try {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
+                if ("/health".equals(path)) {
+                    sendText(out, 200, "OK Local IPTV Proxy 2.3\n");
+                    return;
+                }
                 if ("/playlist.m3u".equals(path) || "/playlist.m3u8".equals(path)) {
                     String authority = host;
                     if (authority == null || authority.isBlank()) {
@@ -99,7 +104,7 @@ public final class LocalHttpServer {
                 }
                 sendText(out, 404, "Not found");
             } catch (Exception e) {
-                sendText(out, 502, "Local IPTV proxy error: " + e.getMessage());
+                sendText(out, 502, "Local IPTV proxy error: " + safeMessage(e));
             }
         } catch (Exception ignored) {}
     }
@@ -124,12 +129,12 @@ public final class LocalHttpServer {
         c.setConnectTimeout(10000);
         c.setReadTimeout(20000);
         c.setInstanceFollowRedirects(true);
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) SBSPlusProxy/2.1");
+        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/2.3");
         c.setRequestProperty("Accept", "*/*");
         c.setRequestProperty("Referer", "https://www.sbs.co.kr/live/S03");
         c.setRequestProperty("Origin", "https://www.sbs.co.kr");
         int code = c.getResponseCode();
-        if (code < 200 || code >= 300) throw new IllegalStateException("upstream HTTP " + code);
+        if (code < 200 || code >= 300) throw new IllegalStateException("upstream HTTP " + code + " for " + new URL(target).getHost());
         try (InputStream in = c.getInputStream(); ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
             byte[] buf = new byte[64 * 1024];
             int n;
@@ -200,7 +205,7 @@ public final class LocalHttpServer {
     }
 
     private void writeHeaders(OutputStream out, int code, String type, int length, String cache) throws Exception {
-        String reason = code == 200 ? "OK" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : "Bad Gateway";
+        String reason = code == 200 ? "OK" : code == 403 ? "Forbidden" : code == 404 ? "Not Found" : code == 502 ? "Bad Gateway" : "Error";
         String headers = "HTTP/1.1 " + code + " " + reason + "\r\n" +
                 "Content-Type: " + type + "\r\n" +
                 "Content-Length: " + length + "\r\n" +
@@ -208,6 +213,11 @@ public final class LocalHttpServer {
                 "Access-Control-Allow-Origin: *\r\n" +
                 "Connection: close\r\n\r\n";
         out.write(headers.getBytes(StandardCharsets.US_ASCII));
+    }
+
+    private static String safeMessage(Throwable t) {
+        String m = t.getMessage();
+        return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
     }
 
     private static final class Remote {
