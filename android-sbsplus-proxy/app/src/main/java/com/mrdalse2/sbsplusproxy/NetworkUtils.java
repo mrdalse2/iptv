@@ -10,18 +10,27 @@ import java.util.Enumeration;
 import java.util.List;
 
 public final class NetworkUtils {
+    public static final String STABLE_HOST = "iptvproxy.local";
+    public static final String STABLE_PLAYLIST_URL = "http://" + STABLE_HOST + ":8787/playlist.m3u";
+    public static final String STABLE_SBS_URL = "http://" + STABLE_HOST + ":8787/sbsplus.m3u8";
+
     private NetworkUtils() {}
     private record Candidate(String ip, int score) {}
 
     public static List<String> localPlaylistUrls() { return urlsFor("/playlist.m3u"); }
     public static List<String> localProxyUrls() { return urlsFor("/sbsplus.m3u8"); }
     public static String bestLocalPlaylistUrl() {
-        List<String> urls = localPlaylistUrls();
-        return urls.isEmpty() ? null : urls.get(0);
+        String ip = bestLocalIp();
+        return ip == null ? null : "http://" + ip + ":8787/playlist.m3u";
     }
     public static String bestLocalProxyUrl() {
-        List<String> urls = localProxyUrls();
-        return urls.isEmpty() ? null : urls.get(0);
+        String ip = bestLocalIp();
+        return ip == null ? null : "http://" + ip + ":8787/sbsplus.m3u8";
+    }
+    public static String bestLocalIp() {
+        List<Candidate> candidates = candidates();
+        candidates.sort(Comparator.comparingInt(Candidate::score).reversed());
+        return candidates.isEmpty() ? null : candidates.get(0).ip();
     }
 
     private static List<String> urlsFor(String path) {
