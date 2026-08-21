@@ -1,2 +1,0 @@
-mode=local-proxy
-url=http://10.15.144.242:8787/sbsplus.m3u8
