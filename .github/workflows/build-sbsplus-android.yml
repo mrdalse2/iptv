@@ -7,10 +7,12 @@ on:
       - feature/android-sbsplus-proxy
     paths:
       - 'android-sbsplus-proxy/**'
+      - 'sbs_plus_local_proxy.py'
       - '.github/workflows/build-sbsplus-android.yml'
   pull_request:
     paths:
       - 'android-sbsplus-proxy/**'
+      - 'sbs_plus_local_proxy.py'
       - '.github/workflows/build-sbsplus-android.yml'
 
 jobs:
@@ -21,6 +23,9 @@ jobs:
         working-directory: android-sbsplus-proxy
     steps:
       - uses: actions/checkout@v4
+      - name: Validate PC Python proxy
+        working-directory: .
+        run: python -m py_compile sbs_plus_local_proxy.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
