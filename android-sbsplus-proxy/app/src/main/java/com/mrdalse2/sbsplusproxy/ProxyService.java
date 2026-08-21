@@ -8,32 +8,19 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 
 public class ProxyService extends Service {
     public static final String ACTION_START = "com.mrdalse2.sbsplusproxy.START";
     public static final String ACTION_STOP = "com.mrdalse2.sbsplusproxy.STOP";
     public static volatile boolean running = false;
     private static final String CHANNEL = "sbsplus_proxy";
-    private static final long PUBLISH_INTERVAL_MS = 60_000L;
     private LocalHttpServer server;
-    private final Handler handler = new Handler(Looper.getMainLooper());
-
-    private final Runnable routePublisher = new Runnable() {
-        @Override public void run() {
-            if (running) {
-                GitHubPublisher.publishIfConfiguredAsync(ProxyService.this);
-                handler.postDelayed(this, PUBLISH_INTERVAL_MS);
-            }
-        }
-    };
 
     @Override public void onCreate() {
         super.onCreate();
         NotificationManager nm = getSystemService(NotificationManager.class);
-        nm.createNotificationChannel(new NotificationChannel(CHANNEL, "SBS Plus Proxy", NotificationManager.IMPORTANCE_LOW));
+        nm.createNotificationChannel(new NotificationChannel(CHANNEL, "Local IPTV Proxy", NotificationManager.IMPORTANCE_LOW));
     }
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -47,8 +34,6 @@ public class ProxyService extends Service {
                 server = new LocalHttpServer();
                 server.start();
                 running = true;
-                handler.removeCallbacks(routePublisher);
-                handler.postDelayed(routePublisher, 1500L);
             } catch (Exception e) {
                 stopSelf();
                 return START_NOT_STICKY;
@@ -60,9 +45,9 @@ public class ProxyService extends Service {
     private void startAsForeground() {
         Intent open = new Intent(this, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, open, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-        String first = NetworkUtils.bestLocalProxyUrl();
+        String first = NetworkUtils.bestLocalPlaylistUrl();
         Notification n = new Notification.Builder(this, CHANNEL)
-                .setContentTitle("SBS Plus Proxy 실행 중")
+                .setContentTitle("Local IPTV Proxy 실행 중")
                 .setContentText(first == null ? "포트 8787 대기 중" : first)
                 .setSmallIcon(android.R.drawable.stat_sys_download_done)
                 .setContentIntent(pi)
@@ -77,7 +62,6 @@ public class ProxyService extends Service {
 
     @Override public void onDestroy() {
         running = false;
-        handler.removeCallbacks(routePublisher);
         if (server != null) server.stop();
         super.onDestroy();
     }
