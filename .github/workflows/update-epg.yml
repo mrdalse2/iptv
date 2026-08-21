@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "build_playlist.py"
+      - "fix_sbs_plus.py"
       - "build_current_epg.py"
       - ".github/workflows/update-epg.yml"
   schedule:
@@ -29,6 +30,9 @@ jobs:
 
       - name: Refresh official live channels
         run: python build_playlist.py
+
+      - name: Resolve SBS Plus strictly
+        run: python fix_sbs_plus.py
 
       - name: Show official live resolver status
         run: cat official-channel-report.txt
