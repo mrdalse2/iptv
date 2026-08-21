@@ -443,8 +443,6 @@ http://1.214.67.38/vod/60601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-0000201
 http://1.214.67.38/vod/76701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC3
 http://1.214.67.103/vod/79501.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;720P;WIFI
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SBS Plus
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=sbs_plus_540&sid=PSGAnCYbuV5h5n957kwavdsTd1M9EtFZwsixuxcN&secret=703094f919241535d243917621af3c53&time=1765893212
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsfune
 http://koreatv.dothome.co.kr/sbsfune.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,sbsbiz
