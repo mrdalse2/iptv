@@ -49,13 +49,12 @@ public final class NetworkUtils {
             for (NetworkInterface ni : Collections.list(interfaces)) {
                 if (!ni.isUp() || ni.isLoopback()) continue;
                 String name = ni.getName() == null ? "" : ni.getName().toLowerCase();
+                if (name.contains("tun") || name.contains("vpn")) continue;
                 for (InetAddress addr : Collections.list(ni.getInetAddresses())) {
                     if (!(addr instanceof Inet4Address) || addr.isLoopbackAddress()) continue;
                     String ip = addr.getHostAddress();
-                    if (ip == null || ip.startsWith("169.254.")) continue;
-                    int score = score(name, ip);
-                    if (score < 0) continue;
-                    out.add(new Candidate(ip, score));
+                    if (ip == null || ip.startsWith("169.254.") || !isPrivate(ip)) continue;
+                    out.add(new Candidate(ip, score(name, ip)));
                 }
             }
         } catch (Exception ignored) {}
@@ -63,11 +62,10 @@ public final class NetworkUtils {
     }
 
     private static int score(String name, String ip) {
-        int score = 0;
+        int score = 30;
         if (name.contains("swlan") || name.contains("ap") || name.contains("wlan") || name.contains("wifi")) score += 100;
-        if (name.contains("rndis") || name.contains("eth")) score += 80;
-        if (name.contains("rmnet") || name.contains("ccmni") || name.contains("pdp") || name.contains("tun") || name.contains("vpn")) score -= 150;
-        if (isPrivate(ip)) score += 30; else score -= 20;
+        if (name.contains("rndis") || name.contains("eth") || name.contains("usb")) score += 80;
+        if (name.contains("rmnet") || name.contains("ccmni") || name.contains("pdp")) score -= 80;
         return score;
     }
 
