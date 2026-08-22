@@ -18,8 +18,12 @@ MDNS_PORT = 5353
 API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03"
 REFERER = "https://www.sbs.co.kr/live/S03"
 REMOTE_M3U = "https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate.m3u"
+TOKEN_CACHE_SECONDS = 40
 ALLOWED = set()
 ALLOWED_LOCK = threading.Lock()
+TOKEN_LOCK = threading.Lock()
+TOKEN_ROOT = None
+TOKEN_ROOT_AT = 0.0
 
 
 def headers(accept="*/*"):
@@ -58,6 +62,29 @@ def resolve_sbs_plus():
     if not urls:
         raise RuntimeError("S03 API returned no mediaurl")
     return urls[0]
+
+
+def fresh_sbs_root():
+    global TOKEN_ROOT, TOKEN_ROOT_AT
+    now = time.monotonic()
+    if TOKEN_ROOT and now - TOKEN_ROOT_AT < TOKEN_CACHE_SECONDS:
+        return TOKEN_ROOT
+    with TOKEN_LOCK:
+        now = time.monotonic()
+        if TOKEN_ROOT and now - TOKEN_ROOT_AT < TOKEN_CACHE_SECONDS:
+            return TOKEN_ROOT
+        TOKEN_ROOT = resolve_sbs_plus()
+        TOKEN_ROOT_AT = now
+        return TOKEN_ROOT
+
+
+def refresh_sbs_token(target):
+    old = urllib.parse.urlsplit(target)
+    host = (old.hostname or "").lower()
+    if not host.endswith("sbs.co.kr"):
+        return target
+    fresh = urllib.parse.urlsplit(fresh_sbs_root())
+    return urllib.parse.urlunsplit((old.scheme, old.netloc, old.path, fresh.query, ""))
 
 
 def register(url):
@@ -140,7 +167,6 @@ def aggregate_playlist(local_sbs_url):
 
 
 def best_local_ip():
-    # Select the IPv4 address used by the default route. This normally selects the Wi-Fi/hotspot LAN address.
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         s.connect(("8.8.8.8", 80))
@@ -196,7 +222,6 @@ def parse_dns_name(data, offset):
 def mdns_a_response(ip):
     packed_ip = socket.inet_aton(ip)
     name = dns_name(MDNS_HOST)
-    # mDNS authoritative response, cache-flush A record, TTL 120 seconds.
     header = struct.pack("!HHHHHH", 0, 0x8400, 0, 1, 0, 0)
     answer = name + struct.pack("!HHIH", 1, 0x8001, 120, 4) + packed_ip
     return header + answer
@@ -215,8 +240,6 @@ def start_mdns_responder():
             sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
             sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 255)
             sock.settimeout(5.0)
-            print(f"mDNS stable hostname: http://{MDNS_HOST}:{PORT}/playlist.m3u")
-
             last_ip = None
             last_announce = 0.0
             while True:
@@ -253,7 +276,6 @@ def start_mdns_responder():
                 except Exception:
                     continue
         except Exception as exc:
-            # Bonjour/another mDNS service can own UDP 5353 on some Windows systems. HTTP proxy remains usable by IP.
             print("[mdns] unavailable:", exc)
 
     threading.Thread(target=run, name="iptvproxy-mdns", daemon=True).start()
@@ -265,6 +287,15 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed = urllib.parse.urlsplit(self.path)
         try:
+            if parsed.path == "/health":
+                body = b"OK Local IPTV Proxy 2.4\n"
+                self.send_response(200)
+                self.send_header("Content-Type", "text/plain; charset=utf-8")
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Connection", "close")
+                self.end_headers()
+                self.wfile.write(body)
+                return
             if parsed.path in {"/playlist.m3u", "/playlist.m3u8"}:
                 host = self.headers.get("Host") or f"{MDNS_HOST}:{PORT}"
                 body = aggregate_playlist(f"http://{host}/sbsplus.m3u8")
@@ -278,7 +309,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.wfile.write(body)
                 return
             if parsed.path in {"/sbsplus", "/sbsplus.m3u8", "/"}:
-                target = resolve_sbs_plus()
+                target = fresh_sbs_root()
                 register(target)
                 self.proxy(target, root=True)
                 return
@@ -288,7 +319,7 @@ class Handler(BaseHTTPRequestHandler):
                 if not target.startswith(("http://", "https://")) or not is_allowed(target):
                     self.send_error(403, "Unknown HLS resource")
                     return
-                self.proxy(target, root=False)
+                self.proxy(refresh_sbs_token(target), root=False)
                 return
             self.send_error(404)
         except Exception as exc:
@@ -308,7 +339,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate" if root or "mpegurl" in content_type else "private, max-age=5")
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate" if root or "mpegurl" in content_type else "private, max-age=3")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Connection", "close")
         self.end_headers()
@@ -322,5 +353,5 @@ if __name__ == "__main__":
     start_mdns_responder()
     print(f"Stable playlist: http://{MDNS_HOST}:{PORT}/playlist.m3u")
     print(f"IP fallback: http://{HOST}:{PORT}/playlist.m3u")
-    print(f"SBS Plus seamless HLS proxy: http://{MDNS_HOST}:{PORT}/sbsplus.m3u8")
+    print(f"SBS Plus token-refresh HLS proxy: http://{MDNS_HOST}:{PORT}/sbsplus.m3u8")
     ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
