@@ -11,14 +11,13 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class SbsResolver {
     private static final String API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03";
     private static final String REFERER = "https://www.sbs.co.kr/live/S03";
-    private static final long REFRESH_MS = 35_000L;
+    private static final long REFRESH_MS = 30_000L;
     private static final int MAX_ROUNDS = 2;
     private static String cachedRoot;
     private static long cachedAt;
@@ -29,27 +28,25 @@ public final class SbsResolver {
 
     public static synchronized String resolve(boolean force) throws Exception {
         long now = System.currentTimeMillis();
-        if (!force && cachedRoot != null && now - cachedAt < REFRESH_MS && tokenUsable(cachedRoot, 12_000L)) {
-            return cachedRoot;
-        }
+        if (!force && cachedRoot != null && now - cachedAt < REFRESH_MS) return cachedRoot;
 
         Exception last = null;
+        RequestProfile[] profiles = new RequestProfile[] {
+                new RequestProfile("N", false, true),
+                new RequestProfile("N", false, false),
+                new RequestProfile("Y", false, true),
+                new RequestProfile("N", true, true)
+        };
         for (int round = 0; round < MAX_ROUNDS; round++) {
-            RequestProfile[] profiles = new RequestProfile[] {
-                    new RequestProfile("N", false, true),
-                    new RequestProfile("N", false, false),
-                    new RequestProfile("Y", false, true),
-                    new RequestProfile("N", true, true)
-            };
             for (RequestProfile profile : profiles) {
                 try {
                     String media = requestMediaUrl(profile);
-                    if (media != null && tokenUsable(media, 20_000L)) {
+                    if (media != null && isHttpHls(media)) {
                         cachedRoot = media;
                         cachedAt = System.currentTimeMillis();
                         return media;
                     }
-                    last = new IllegalStateException("S03 API returned no usable HLS token");
+                    last = new IllegalStateException("S03 API returned no HLS URL");
                 } catch (Exception e) {
                     last = e;
                 }
@@ -63,8 +60,9 @@ public final class SbsResolver {
             }
         }
 
-        // Only reuse the previous URL if its JWT is actually still valid. Never return an expired token.
-        if (cachedRoot != null && tokenUsable(cachedRoot, 5_000L)) return cachedRoot;
+        // Do not try to interpret SBS' token format locally. A recently fetched URL is usable
+        // until the upstream itself rejects it; 401/403 causes the caller to force a refresh.
+        if (!force && cachedRoot != null && now - cachedAt < 45_000L) return cachedRoot;
         throw last != null ? last : new IllegalStateException("S03 API unavailable");
     }
 
@@ -108,29 +106,17 @@ public final class SbsResolver {
         URI old = URI.create(target);
         Map<String,String> oldQ = parseQuery(old.getRawQuery());
         if (!oldQ.containsKey("token")) return target;
+
         URI fresh = URI.create(resolve(force));
         Map<String,String> freshQ = parseQuery(fresh.getRawQuery());
         String token = freshQ.get("token");
-        if (token == null || token.isEmpty()) throw new IllegalStateException("S03 returned no token");
+        if (token == null || token.isEmpty()) {
+            // If SBS changes token naming/shape, use the newly-issued root URL when refreshing the root;
+            // otherwise let the original child URL reach upstream and rely on 401/403 retry behavior.
+            return target;
+        }
         oldQ.put("token", token);
         return new URI(old.getScheme(), old.getAuthority(), old.getPath(), buildQuery(oldQ), old.getFragment()).toString();
-    }
-
-    private static boolean tokenUsable(String url, long minRemainingMs) {
-        try {
-            URI uri = URI.create(url);
-            String token = parseQuery(uri.getRawQuery()).get("token");
-            if (token == null || token.isEmpty()) return true;
-            String[] parts = token.split("\\.");
-            if (parts.length < 2) return false;
-            byte[] decoded = Base64.getUrlDecoder().decode(parts[1]);
-            JSONObject payload = new JSONObject(new String(decoded, StandardCharsets.UTF_8));
-            long expSeconds = payload.optLong("exp", 0L);
-            if (expSeconds <= 0) return false;
-            return expSeconds * 1000L - System.currentTimeMillis() > minRemainingMs;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private static Map<String,String> parseQuery(String query) throws Exception {
