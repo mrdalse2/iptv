@@ -54,3 +54,8 @@ jobs:
           else
             gh release create "$TAG" "$ASSET" --title 'Legacy 302 SBS Plus Proxy Test' --notes 'Temporary direct-download APK for testing the pre-reverse-proxy 302 redirect implementation.'
           fi
+
+      - name: Verify direct release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release view legacy-302-test --json tagName,assets
