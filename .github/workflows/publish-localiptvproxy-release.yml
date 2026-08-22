@@ -15,11 +15,10 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: android-sbsplus-proxy
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-java@v4
         with:
@@ -30,25 +29,33 @@ jobs:
         with:
           gradle-version: '9.5.0'
 
-      - name: Build APK
+      - name: Build current APK
+        working-directory: android-sbsplus-proxy
         run: gradle assembleDebug --stacktrace
 
-      - name: Prepare APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk ../LocalIPTVProxy-2.2-mdns.apk
+      - name: Prepare current APK
+        run: cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-2.2-mdns.apk
+
+      - name: Build exact legacy 302 APK
+        run: |
+          git worktree add /tmp/legacy302 77840b7fdd9f71c13f3c7f6ddef5ec04e9e9ec87
+          sed -i "s/versionCode 1/versionCode 99/" /tmp/legacy302/android-sbsplus-proxy/app/build.gradle
+          sed -i "s/versionName '1.0.0'/versionName '1.0.302-test'/" /tmp/legacy302/android-sbsplus-proxy/app/build.gradle
+          cd /tmp/legacy302/android-sbsplus-proxy
+          gradle assembleDebug --stacktrace
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/Legacy-302-SBSPlusProxy.apk"
 
       - name: Create or update fixed GitHub Release
-        working-directory: .
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG='localiptvproxy-v2.2'
           TITLE='Local IPTV Proxy (Latest)'
-          ASSET='LocalIPTVProxy-2.2-mdns.apk'
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$ASSET" --clobber
-            gh release edit "$TAG" --title "$TITLE" --notes 'Stable download path. The APK asset is replaced with the latest tested build on each publish.'
+            gh release upload "$TAG" LocalIPTVProxy-2.2-mdns.apk Legacy-302-SBSPlusProxy.apk --clobber
+            gh release edit "$TAG" --title "$TITLE" --notes 'Stable download path. Latest proxy APK plus a temporary legacy 302 test APK.'
           else
-            gh release create "$TAG" "$ASSET" \
+            gh release create "$TAG" LocalIPTVProxy-2.2-mdns.apk Legacy-302-SBSPlusProxy.apk \
               --title "$TITLE" \
-              --notes 'Stable download path. The APK asset is replaced with the latest tested build on each publish.'
+              --notes 'Stable download path. Latest proxy APK plus a temporary legacy 302 test APK.'
           fi
