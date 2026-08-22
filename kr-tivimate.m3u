@@ -1,10 +1,7 @@
 #EXTM3U x-tvg-url="https://raw.githubusercontent.com/mrdalse2/iptv/main/kr-tivimate-epg.xml"
-#EXTINF:-1 tvg-id="SBSPlus.kr@SD" group-title="Entertainment;Official;LocalResolved",SBS Plus
-#EXTVLCOPT:http-referrer=https://www.sbs.co.kr/live/S03
-http://10.15.144.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzQyNjYyN30sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=Sv~jHWJMzQKbghbGHWdzLh5nfrWqxrAD9cySPlwGCHovjms-8G8gUQyp-2Z~3GvsJdaApb8OPVHJuBfpkY3IDQhLYqO4r6vtVj1jTmiY-MaL1pITXIXfqTzdAc0cI2nI-2vOJl~eyQjtDgnv6SSQPxXcqIey0zfnZczMhx6KryY_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzQ1MDMzMH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=o-s58BpRtVialLfcXyX~~EQdHW6ppC~Hjt5kxBXli1~mKzVCx4L2RZRbNFkzgGos27ilPzIZP1krlkJAFZcFGxDH--zAzgHvsTUcm-cxC33jbyyxTAjRbQReEOPeUOc5adhLfBbwHv~QXyCMd~deRN3QPoEdccSb9QMVgDO~YXE_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
@@ -152,8 +149,8 @@ https://liveout.catenoid.net/live-05-wshopping/wshopping_1500k/playlist.m3u8
 https://ytnlive.ytn.co.kr/ytn/_definst_/ytnlive_stream_20220426/medialist_9171188557012390620_hls.m3u8
 #EXTINF:-1 tvg-id="ZeeBollymovies.in@SD" tvg-logo="https://framerusercontent.com/images/mqfJ18x4jYe0GbZUbxSHsbnWU.png?scale-down-to=512" group-title="Movies",Zee Bollymovies (1080p) [Geo-blocked]
 https://amg17931-zee-amg17931c8-samsung-th-6526.playouts.now.amagi.tv/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSDrama
-http://koreatv.dothome.co.kr/kbsdrama.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS Drama
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_drama_540&sid=paKP8quwQXA1v3f8CDgxH6h7IfCezfoMX4CPYs9i&secret=0f3e15ed586d8b39e2197abcdaa39726&time=1772754511
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS
 http://123.140.197.22/stream/1/play.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC
