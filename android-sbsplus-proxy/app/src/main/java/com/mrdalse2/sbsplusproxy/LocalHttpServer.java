@@ -69,7 +69,7 @@ public final class LocalHttpServer {
             try {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
-                if ("/health".equals(path)) { sendText(out, 200, "OK Local IPTV Proxy 2.4\n"); return; }
+                if ("/health".equals(path)) { sendText(out, 200, "OK Local IPTV Proxy 2.7\n"); return; }
                 if ("/playlist.m3u".equals(path) || "/playlist.m3u8".equals(path)) {
                     String authority = host;
                     if (authority == null || authority.isBlank()) authority = socket.getLocalAddress().getHostAddress() + ":8787";
@@ -123,7 +123,7 @@ public final class LocalHttpServer {
         c.setConnectTimeout(10000);
         c.setReadTimeout(20000);
         c.setInstanceFollowRedirects(true);
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/2.4");
+        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/2.7");
         c.setRequestProperty("Accept", "*/*");
         c.setRequestProperty("Referer", "https://www.sbs.co.kr/live/S03");
         c.setRequestProperty("Origin", "https://www.sbs.co.kr");
