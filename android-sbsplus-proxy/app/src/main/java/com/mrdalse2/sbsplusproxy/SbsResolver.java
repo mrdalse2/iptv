@@ -16,8 +16,10 @@ public final class SbsResolver {
     private static final String API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03?v_type=2&platform=pcweb&protocol=hls&ssl=N&rscuse=&jwt-token=&sbsmain=";
     private static final String REFERER = "https://www.sbs.co.kr/";
     private static final long REFRESH_MS = 30_000L;
+    private static final long RETRY_BACKOFF_MS = 5_000L;
     private static String cachedRoot;
     private static long cachedAt;
+    private static long nextRefreshAttemptAt;
     private static volatile String lastDebug = "not probed yet";
 
     private SbsResolver() {}
@@ -26,15 +28,19 @@ public final class SbsResolver {
 
     public static synchronized String resolve(boolean force) throws Exception {
         long now = System.currentTimeMillis();
-        if (!force && cachedRoot != null && now - cachedAt < REFRESH_MS) return cachedRoot;
+        if (!force && cachedRoot != null) {
+            if (now - cachedAt < REFRESH_MS || now < nextRefreshAttemptAt) return cachedRoot;
+        }
 
         Exception last = null;
-        for (int attempt = 1; attempt <= 3; attempt++) {
+        int attempts = force ? 3 : 1;
+        for (int attempt = 1; attempt <= attempts; attempt++) {
             try {
                 Probe p = request();
                 if (p.mediaUrl != null) {
                     cachedRoot = p.mediaUrl;
                     cachedAt = System.currentTimeMillis();
+                    nextRefreshAttemptAt = 0L;
                     return cachedRoot;
                 }
                 last = new IllegalStateException("S03 API returned no HLS URL; " + p.summary);
@@ -42,14 +48,18 @@ public final class SbsResolver {
                 last = e;
                 lastDebug = "attempt=" + attempt + ", error=" + safe(e.getMessage());
             }
-            if (attempt < 3) {
-                try { Thread.sleep(300L * attempt); }
+            if (attempt < attempts) {
+                try { Thread.sleep(350L * attempt); }
                 catch (InterruptedException e) { Thread.currentThread().interrupt(); throw e; }
             }
         }
 
-        // A URL fetched in the last 45 seconds is still worth trying; actual 401/403 is handled by caller.
-        if (!force && cachedRoot != null && now - cachedAt < 45_000L) return cachedRoot;
+        // A proactive refresh failure must not interrupt an already playing stream.
+        // Keep the current signed URL and retry the API only after a short backoff.
+        if (!force && cachedRoot != null) {
+            nextRefreshAttemptAt = System.currentTimeMillis() + RETRY_BACKOFF_MS;
+            return cachedRoot;
+        }
         throw last != null ? last : new IllegalStateException("S03 API unavailable");
     }
 
@@ -63,13 +73,14 @@ public final class SbsResolver {
     }
 
     private static Probe request() throws Exception {
-        HttpURLConnection c = (HttpURLConnection) new URL(API).openConnection();
+        HttpURLConnection c = (HttpURLConnection) new URL(API + "&rnd=" + System.currentTimeMillis()).openConnection();
         c.setConnectTimeout(7000);
         c.setReadTimeout(7000);
         c.setUseCaches(false);
         c.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36");
         c.setRequestProperty("Accept", "application/json,text/plain,*/*");
         c.setRequestProperty("Referer", REFERER);
+        c.setRequestProperty("Cache-Control", "no-cache");
 
         int code = c.getResponseCode();
         String body;
@@ -91,6 +102,7 @@ public final class SbsResolver {
 
         JSONObject json = new JSONObject(body);
         String media = directMediaUrl(json);
+        if (media == null) media = mediaSourceListUrl(json);
         if (media == null) media = findAnyHlsUrl(json);
         String summary = summarize(json, media, code);
         lastDebug = summary;
@@ -99,10 +111,15 @@ public final class SbsResolver {
 
     public static String refreshTokenizedUrl(String target, boolean force) throws Exception {
         URI old = URI.create(target);
-        URI fresh = URI.create(resolve(force));
+        URI fresh;
+        try {
+            fresh = URI.create(resolve(force));
+        } catch (Exception e) {
+            if (!force) return target;
+            throw e;
+        }
         String freshQuery = fresh.getRawQuery();
         if (freshQuery == null || freshQuery.isBlank()) return target;
-        // Keep the exact child resource path, but replace the entire signed query with the latest root query.
         return new URI(old.getScheme(), old.getAuthority(), old.getPath(), freshQuery, old.getFragment()).toString();
     }
 
@@ -112,6 +129,20 @@ public final class SbsResolver {
         JSONObject media = source == null ? null : source.optJSONObject("mediasource");
         String url = media == null ? null : media.optString("mediaurl", null);
         return isHttpHls(url) ? url : null;
+    }
+
+    private static String mediaSourceListUrl(JSONObject json) {
+        JSONObject onair = json.optJSONObject("onair");
+        JSONObject source = onair == null ? null : onair.optJSONObject("source");
+        JSONArray list = source == null ? null : source.optJSONArray("mediasourcelist");
+        if (list == null) return null;
+        for (int i = 0; i < list.length(); i++) {
+            JSONObject item = list.optJSONObject(i);
+            if (item == null) continue;
+            String url = item.optString("mediaurl", null);
+            if (isHttpHls(url)) return url;
+        }
+        return null;
     }
 
     private static String findAnyHlsUrl(Object value) {
@@ -141,20 +172,16 @@ public final class SbsResolver {
         if (media != null) {
             try {
                 URI u = URI.create(media);
-                List<String> qkeys = new ArrayList<>();
-                if (u.getRawQuery() != null) for (String p : u.getRawQuery().split("&")) {
-                    int eq = p.indexOf('=');
-                    qkeys.add(eq < 0 ? p : p.substring(0, eq));
-                }
-                mediaSummary = "host=" + u.getHost() + ", path=" + u.getPath() + ", queryKeys=" + qkeys;
+                mediaSummary = "host=" + u.getHost() + ", path=" + u.getPath();
             } catch (Exception ignored) { mediaSummary = "present but unparsable"; }
         }
         JSONObject onair = json.optJSONObject("onair");
         JSONObject source = onair == null ? null : onair.optJSONObject("source");
         JSONObject ms = source == null ? null : source.optJSONObject("mediasource");
+        JSONArray msl = source == null ? null : source.optJSONArray("mediasourcelist");
         return "apiHttp=" + code + ", topKeys=" + top + ", onair=" + (onair != null)
                 + ", source=" + (source != null) + ", mediasource=" + (ms != null)
-                + ", media=" + mediaSummary;
+                + ", mediasourcelist=" + (msl == null ? 0 : msl.length()) + ", media=" + mediaSummary;
     }
 
     private static String sanitizePrefix(String s) {
