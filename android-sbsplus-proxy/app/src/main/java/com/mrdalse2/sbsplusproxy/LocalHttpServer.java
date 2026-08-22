@@ -22,10 +22,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class LocalHttpServer {
+    private static final long SBS_TOKEN_CACHE_MS = 40_000L;
     private final ExecutorService pool = Executors.newCachedThreadPool();
     private final Set<String> allowed = ConcurrentHashMap.newKeySet();
     private volatile boolean running;
     private ServerSocket server;
+    private final Object tokenLock = new Object();
+    private volatile String cachedSbsRoot;
+    private volatile long cachedSbsRootAt;
 
     public synchronized void start() throws Exception {
         if (running) return;
@@ -72,7 +76,7 @@ public final class LocalHttpServer {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 2.3\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 2.4\n");
                     return;
                 }
                 if ("/playlist.m3u".equals(path) || "/playlist.m3u8".equals(path)) {
@@ -88,7 +92,7 @@ public final class LocalHttpServer {
                     return;
                 }
                 if ("/sbsplus.m3u8".equals(path) || "/sbsplus".equals(path) || "/".equals(path)) {
-                    String target = SbsResolver.resolve();
+                    String target = freshSbsRoot();
                     allowed.add(target);
                     proxy(out, target, true);
                     return;
@@ -99,7 +103,7 @@ public final class LocalHttpServer {
                         sendText(out, 403, "Unknown HLS resource");
                         return;
                     }
-                    proxy(out, target, false);
+                    proxy(out, refreshSbsToken(target), false);
                     return;
                 }
                 sendText(out, 404, "Not found");
@@ -107,6 +111,29 @@ public final class LocalHttpServer {
                 sendText(out, 502, "Local IPTV proxy error: " + safeMessage(e));
             }
         } catch (Exception ignored) {}
+    }
+
+    private String freshSbsRoot() throws Exception {
+        long now = System.currentTimeMillis();
+        String current = cachedSbsRoot;
+        if (current != null && now - cachedSbsRootAt < SBS_TOKEN_CACHE_MS) return current;
+        synchronized (tokenLock) {
+            now = System.currentTimeMillis();
+            if (cachedSbsRoot != null && now - cachedSbsRootAt < SBS_TOKEN_CACHE_MS) return cachedSbsRoot;
+            cachedSbsRoot = SbsResolver.resolve();
+            cachedSbsRootAt = now;
+            return cachedSbsRoot;
+        }
+    }
+
+    private String refreshSbsToken(String target) throws Exception {
+        URL oldUrl = new URL(target);
+        String host = oldUrl.getHost() == null ? "" : oldUrl.getHost().toLowerCase();
+        if (!host.endsWith("sbs.co.kr")) return target;
+        URL fresh = new URL(freshSbsRoot());
+        String query = fresh.getQuery();
+        return new URL(oldUrl.getProtocol(), oldUrl.getHost(), oldUrl.getPort(),
+                oldUrl.getPath() + (query == null || query.isBlank() ? "" : "?" + query)).toString();
     }
 
     private void proxy(OutputStream out, String target, boolean root) throws Exception {
@@ -119,7 +146,7 @@ public final class LocalHttpServer {
             contentType = "application/vnd.apple.mpegurl";
         }
         writeHeaders(out, 200, contentType, body.length,
-                root || contentType.toLowerCase().contains("mpegurl") ? "no-store, no-cache, must-revalidate" : "private, max-age=5");
+                root || contentType.toLowerCase().contains("mpegurl") ? "no-store, no-cache, must-revalidate" : "private, max-age=3");
         out.write(body);
         out.flush();
     }
@@ -129,7 +156,7 @@ public final class LocalHttpServer {
         c.setConnectTimeout(10000);
         c.setReadTimeout(20000);
         c.setInstanceFollowRedirects(true);
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/2.3");
+        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/2.4");
         c.setRequestProperty("Accept", "*/*");
         c.setRequestProperty("Referer", "https://www.sbs.co.kr/live/S03");
         c.setRequestProperty("Origin", "https://www.sbs.co.kr");
