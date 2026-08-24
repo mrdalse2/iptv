@@ -4,7 +4,7 @@
 http://10.15.144.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzY2NDEyOH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=PEpAJUgnn7WSd7lyv9SbV6EUEcssbDl6P~MU8s8ss9XzJM3ZbtfPZb0KOV04nwMvRKFOq-NTMQrkVxziXtik1jZC7Ap3PUk6KFS35SgYrRI3dgVuZluMo79RJ9HVpcyRv2hoPOmLUX62MPp0B6t2-pLj7-1HWTrQA2HC3bUIvLY_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzY4NDkxNn0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=BkuLUzK5mCQTseuhHzKD3HboaNirYo~UsM9oYo1on9T1Bk6kHv42B6rUi1lWy4DEO1eC5E2iD1JTnWdDwuhWMKmxZCjSDg35PEKc7z5kRq50-2GckzaVQR27eF99PTjNsdrPiZhgH951ld40oPjJZWKTQL2aFSCPDtTOuN4gZ8k_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
@@ -156,12 +156,12 @@ https://amg17931-zee-amg17931c8-samsung-th-6526.playouts.now.amagi.tv/playlist.m
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_drama_540&sid=paKP8quwQXA1v3f8CDgxH6h7IfCezfoMX4CPYs9i&secret=0f3e15ed586d8b39e2197abcdaa39726&time=1772754511
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS
 http://123.140.197.22/stream/1/play.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC
-http://211.33.246.4:32954/cj_live/myStream.sdp/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", MBC
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbc_540&sid=IpaGWtS1yBSO7JUbq1qO5wzVEOxA49k1jXoRVIbD&secret=a359917fe5cd684f8a1b9e21443c4710&time=1765891937
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TV Chosun 2
 http://onair2.cdn.tvchosun.com/origin2/_definst_/tvchosun_s3/playlist.m3u8?checkedby:iptvcat.com
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBC
-https://noh-slb-samsung-fastcdn.uplus.co.kr/jtbc.stream/noll_index-v1-a1.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&castis.cid=jtbc.strea
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=jtbc_540&sid=kbtxyuPVF37QVO3zGKMNyQSQo063cYeik0Vr0GoS&secret=133ec1aaf7cf7cf8f6aa77e714da7059&time=1765892075
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", tvN
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSStory
@@ -210,8 +210,8 @@ https://jmp2.uk/stvp-KR44000010Y
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_540&sid=NV3u8ksyqK92z938RZFBkv2YbPVJAMLA6kwyTOLJ&secret=e9d4f0a64292fabf306ba48f62275fa0&time=1765891235
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV2
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_2_540&sid=6Os571NBiR8XVEhIx6diM3X01l5UsPRTzvBWMF53&secret=75e5132e9ae7097fd4dcb9ff1a881527&time=1765892545
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime
-https://k227.jk-cdn.com:443/watch/live.m3u8?video=spotv_on_540&sid=EQlmnOkHl5Esy6PNLmk1Sg1dVK1CKw2tkgZBj7nL&secret=dbbfb4a09b4bd1c862748c947b533db6&time=1765892639
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime+
+https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_prime_540&sid=qyI7BM30mUHBJ16jx15KF2NMLVTKKEhI9ZhSC23Y&secret=a8100c7415537e5da2db40962181614a&time=1765892590
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime2
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_on2_540&sid=bQRIUtyfpTIV2IWGvrm9eDXXDpgeD452TYwz27ds&secret=22948804ea0eaae93297a9a5b766ef95&time=1765892812
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OGN starleague
