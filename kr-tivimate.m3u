@@ -4,7 +4,7 @@
 http://10.15.144.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4Nzc5NjQ0MX0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=u1O5loE36IWgrGpO~BQB-~WnANTSbZCQuNcDGQrqhESWTHC3uWCZZGQshjPwCfEkSbByHYQeV2q1rq3wr8piQwodRH7fM9qRA4KQ3fcrKBPtYfx7zonnGEG7tCT7zhdScet-a580YAE6RU0IfTwLnaoqzx0wEZuGfGLsbOZnUsM_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzgxNTEyMH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=OM6lOmalRIQ7bgZiSqyjKctkUJ8Rx1m~brxP-9W5gIorCVCJeK0rxO~iFtPvoMR7PMRe3xWmE-sUFyAkutS9vX07lSZLGTaV9D6FjKQMRo2im95CViD-MhpUN5U4Jjd~bHL9wVIeGDr-3aIKAEfwh0plP02D2ndRTLWrR-7CYEg_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
