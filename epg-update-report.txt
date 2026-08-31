@@ -3,92 +3,92 @@ ID matched but zero current/future programmes: 12
 No matching EPG source: 16
 Still empty: 28
 
-OK SBSPlus.kr@SD <= kr1:SBS.Plus.kr [alias-normalized] programmes=36 | SBS Plus
-OK MBN.kr@SD <= kr1:MBN.kr [fuzzy:0.93] programmes=53 | MBN
+OK SBSPlus.kr@SD <= kr1:SBS.Plus.kr [alias-normalized] programmes=30 | SBS Plus
+OK MBN.kr@SD <= kr1:MBN.kr [fuzzy:0.93] programmes=45 | MBN
 MISS ABN.kr@SD | ABN TV (720p)
-OK ArirangRadio.kr@SD <= kr1:Arirang.Radio.kr [fuzzy:0.93] programmes=29 | Arirang Radio (720p)
-OK ArirangTV.kr@SD <= arirang:ArirangTV.kr@SD [exact-id] programmes=124 | Arirang TV (1080p)
-OK BBSTV.kr@SD <= kr1:BBS.불교방송.kr [alias] programmes=88 | BBS Buddhist Broadcasting (1080p)
-OK BTNTV.kr@SD <= kr1:BTN불교TV.kr [alias] programmes=78 | BTN TV (1080p)
+OK ArirangRadio.kr@SD <= kr1:Arirang.Radio.kr [fuzzy:0.93] programmes=20 | Arirang Radio (720p)
+OK ArirangTV.kr@SD <= arirang:ArirangTV.kr@SD [exact-id] programmes=160 | Arirang TV (1080p)
+OK BBSTV.kr@SD <= kr1:BBS.불교방송.kr [alias] programmes=74 | BBS Buddhist Broadcasting (1080p)
+OK BTNTV.kr@SD <= kr1:BTN불교TV.kr [alias] programmes=66 | BTN TV (1080p)
 ZERO ChannelA.kr@SD | Channel A [Geo-blocked]
-OK CJOnStyle.kr@SD <= kr1:CJ.온스타일.kr [alias-normalized] programmes=49 | CJ OnStyle (540p)
-OK CJOnStylePlus.kr@SD <= kr1:CJ.온스타일플러스.kr [alias-normalized] programmes=31 | CJ OnStyle Plus (540p)
-OK EBS1TV.kr@SD <= kr1:EBS.kr [alias] programmes=112 | EBS 1 (400p) [Not 24/7]
+OK CJOnStyle.kr@SD <= kr1:CJ.온스타일.kr [alias-normalized] programmes=41 | CJ OnStyle (540p)
+OK CJOnStylePlus.kr@SD <= kr1:CJ.온스타일플러스.kr [alias-normalized] programmes=23 | CJ OnStyle Plus (540p)
+OK EBS1TV.kr@SD <= kr1:EBS.kr [alias] programmes=95 | EBS 1 (400p) [Not 24/7]
 ZERO EBS2TV.kr@SD | EBS 2 (400p) [Not 24/7]
-OK EBSEnglish.kr@SD <= kr1:EBS.English.kr [alias-normalized] programmes=165 | EBS E (400p) [Not 24/7]
+OK EBSEnglish.kr@SD <= kr1:EBS.English.kr [alias-normalized] programmes=146 | EBS E (400p) [Not 24/7]
 ZERO EBSKids.kr@SD | EBS kids (400p) [Not 24/7]
-OK EBSPlus1.kr@SD <= kr1:EBS플러스1.kr [alias] programmes=77 | EBS+ 1 (400p)
-OK EBSPlus2.kr@SD <= kr1:EBS플러스2.kr [alias] programmes=104 | EBS+ 2 (400p)
+OK EBSPlus1.kr@SD <= kr1:EBS플러스1.kr [alias] programmes=64 | EBS+ 1 (400p)
+OK EBSPlus2.kr@SD <= kr1:EBS플러스2.kr [alias] programmes=84 | EBS+ 2 (400p)
 MISS FGTV.kr@SD | FGTV (720p)
 MISS GCN.kr@SD | GCN24 Korean (720p)
 MISS GongyoungHomeShopping.kr@SD | Gongyoung Shopping (720p)
-OK GoodTV.kr@SD <= kr1:GOODTV.kr [alias] programmes=100 | GoodTV (1080p)
-OK GSMyShop.kr@SD <= kr1:GS.MY.SHOP.kr [alias-normalized] programmes=92 | GS My Shop (1080p)
-OK GSShop.kr@SD <= kr1:GS.SHOP.kr [alias-normalized] programmes=44 | GS Shop (1080p)
+OK GoodTV.kr@SD <= kr1:GOODTV.kr [alias] programmes=83 | GoodTV (1080p)
+OK GSMyShop.kr@SD <= kr1:GS.MY.SHOP.kr [alias-normalized] programmes=80 | GS My Shop (1080p)
+OK GSShop.kr@SD <= kr1:GS.SHOP.kr [alias-normalized] programmes=37 | GS Shop (1080p)
 MISS GugakTV.kr@SD | GugakTV 국악방송 (1080p)
 MISS GugbangTV.kr@SD | Gugbang TV (1080p) [Not 24/7]
 ZERO HomeShopping.kr@SD | Home & Shopping (720p)
 ZERO HyundaiHomeShopping.kr@SD | Hyundai Home Shopping (720p)
 ZERO HyundaiHomeShoppingPlusShop.kr@SD | Hyundai Home Shopping Plus (720p)
 MISS KCTV.kr@SD | KCTV 광주 CH05 (720p) [Not 24/7]
-OK KTV.kr@SD <= kr1:KTV.kr [alias] programmes=110 | Korea TV (1080p)
-OK KShopping.kr@SD <= kr1:KT알파쇼핑.kr [alias] programmes=32 | KShopping (1080p)
+OK KTV.kr@SD <= kr1:KTV.kr [alias] programmes=92 | Korea TV (1080p)
+OK KShopping.kr@SD <= kr1:KT알파쇼핑.kr [alias] programmes=24 | KShopping (1080p)
 ZERO LotteHomeShopping.kr@SD | Lotte Home Shopping (720p)
-OK LotteOneTV.kr@SD <= kr1:LOTTE.OneTV.kr [alias-normalized] programmes=51 | Lotte OneTV (720p)
-OK HLAWDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Andong (안동 MBC) (360p) [Not 24/7]
-OK HLKUDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Busan (부산MBC) (360p) [Not 24/7]
-OK HLANDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Chuncheon (춘천 MBC) (480p) [Not 24/7]
-OK HLAODTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Chungbuk (MBC 충북) (720p) [Not 24/7]
-OK HLCTDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Daegu (대구 MBC) (480p) [Not 24/7]
-OK HLCQDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Daejeon (대전 MBC) (720p) [Not 24/7]
+OK LotteOneTV.kr@SD <= kr1:LOTTE.OneTV.kr [alias-normalized] programmes=42 | Lotte OneTV (720p)
+OK HLAWDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Andong (안동 MBC) (360p) [Not 24/7]
+OK HLKUDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Busan (부산MBC) (360p) [Not 24/7]
+OK HLANDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Chuncheon (춘천 MBC) (480p) [Not 24/7]
+OK HLAODTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Chungbuk (MBC 충북) (720p) [Not 24/7]
+OK HLCTDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Daegu (대구 MBC) (480p) [Not 24/7]
+OK HLCQDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Daejeon (대전 MBC) (720p) [Not 24/7]
 ZERO MBCDrama.kr@SD | MBC Drama (480p) [Geo-blocked]
-OK HLAQDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Gangwon (MBC 강원영동) (1080p) [Not 24/7]
-OK HLCNDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Gwangju (광주 MBC) (1080p) [Geo-blocked] [Not 24/7]
-OK MBCGyeongnamTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Gyeongnam (경남 MBC) (1080p) [Not 24/7]
-OK HLAJDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Jeju (제주 MBC) (352p) [Not 24/7]
-OK HLCXDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Jeonju (450p)
-OK HLAMDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Mokpo (목포 MBC) (720p) [Not 24/7]
-OK MBCNet.kr@SD <= kr1:MBC.NET.kr [alias-normalized] programmes=54 | MBC Net (480p) [Geo-blocked]
-OK HLATDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=60 | MBC Yeosu (여수 MBC) (1080p) [Not 24/7]
+OK HLAQDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Gangwon (MBC 강원영동) (1080p) [Not 24/7]
+OK HLCNDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Gwangju (광주 MBC) (1080p) [Geo-blocked] [Not 24/7]
+OK MBCGyeongnamTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Gyeongnam (경남 MBC) (1080p) [Not 24/7]
+OK HLAJDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Jeju (제주 MBC) (352p) [Not 24/7]
+OK HLCXDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Jeonju (450p)
+OK HLAMDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Mokpo (목포 MBC) (720p) [Not 24/7]
+OK MBCNet.kr@SD <= kr1:MBC.NET.kr [alias-normalized] programmes=46 | MBC Net (480p) [Geo-blocked]
+OK HLATDTV.kr@SD <= kr1:MBC.kr [network-fallback] programmes=50 | MBC Yeosu (여수 MBC) (1080p) [Not 24/7]
 MISS MNBWorld.mn@SD | like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="General",MNB World (1080p)
-OK MTN.kr@SD <= kr1:MTN.머니투데이방송.kr [alias-normalized] programmes=52 | MTN (720p)
+OK MTN.kr@SD <= kr1:MTN.머니투데이방송.kr [alias-normalized] programmes=42 | MTN (720p)
 ZERO NationalAssemblyTV.kr@SD | National Assembly TV (720p)
 MISS NBS.kr@SD | NBS Korea Agricultural Broadcasting (720p)
 MISS NHTV.kr@SD | NHTV (720p)
-OK NSHomeShopping.kr@SD <= kr1:NS홈쇼핑.kr [alias] programmes=64 | NS Home Shopping (720p)
-OK NSShopPlus.kr@SD <= kr1:NS.SHOP+.kr [alias-normalized] programmes=33 | NS Shop Plus (720p)
-OK HLQSDTV.kr@SD <= kr1:OBS.kr [alias] programmes=66 | OBS Gyeongin TV (OBS경인TV) (540p) [Not 24/7]
-OK OUN.kr@SD <= kr1:OUN.kr [alias] programmes=73 | OUN (1080p)
+OK NSHomeShopping.kr@SD <= kr1:NS홈쇼핑.kr [alias] programmes=54 | NS Home Shopping (720p)
+OK NSShopPlus.kr@SD <= kr1:NS.SHOP+.kr [alias-normalized] programmes=23 | NS Shop Plus (720p)
+OK HLQSDTV.kr@SD <= kr1:OBS.kr [alias] programmes=54 | OBS Gyeongin TV (OBS경인TV) (540p) [Not 24/7]
+OK OUN.kr@SD <= kr1:OUN.kr [alias] programmes=60 | OUN (1080p)
 MISS RTV.kr@SD | RTV (720p)
 MISS RUTCTV.kr@SD | RUTC TV (720p)
-OK HLDRDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS CJB (540p) [Not 24/7]
-OK HLCGDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS G1 (360p) [Not 24/7]
-OK HLKJDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS JIBS (720p) [Not 24/7]
-OK HLDQDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS JTV (406p) [Not 24/7]
-OK HLDHDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS KBC (1080p) [Not 24/7]
-OK HLDGDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS KNN (1080p) [Not 24/7]
-OK HLDEDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS TBC (540p) [Geo-blocked] [Not 24/7]
-OK HLDPDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=60 | SBS UBC (540p) [Not 24/7]
+OK HLDRDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS CJB (540p) [Not 24/7]
+OK HLCGDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS G1 (360p) [Not 24/7]
+OK HLKJDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS JIBS (720p) [Not 24/7]
+OK HLDQDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS JTV (406p) [Not 24/7]
+OK HLDHDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS KBC (1080p) [Not 24/7]
+OK HLDGDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS KNN (1080p) [Not 24/7]
+OK HLDEDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS TBC (540p) [Geo-blocked] [Not 24/7]
+OK HLDPDTV.kr@SD <= kr1:SBS.kr [network-fallback] programmes=51 | SBS UBC (540p) [Not 24/7]
 ZERO ShinsegaeTVShopping.kr@SD | Shinsegae Shopping TV (720p)
 ZERO ShoppingNT.kr@SD | Shopping NT (720p)
 MISS TBSTV.kr@SD | TBS Seoul (720p)
 ZERO TVChosun.kr | TV Chosun (720p)
-OK TVChosun2.kr <= kr1:TVCHOSUN2.kr [exact-id-normalized] programmes=37 | TV Chosun 2 (720p)
-OK WShopping.kr@SD <= kr1:W쇼핑.kr [alias] programmes=56 | W Shopping (720p)
-OK YTN.kr <= kr1:YTN.kr [exact-id] programmes=41 | YTN
+OK TVChosun2.kr <= kr1:TVCHOSUN2.kr [exact-id-normalized] programmes=31 | TV Chosun 2 (720p)
+OK WShopping.kr@SD <= kr1:W쇼핑.kr [alias] programmes=47 | W Shopping (720p)
+OK YTN.kr <= kr1:YTN.kr [exact-id] programmes=35 | YTN
 MISS ZeeBollymovies.in@SD | Zee Bollymovies (1080p) [Geo-blocked]
-OK YonhapNews.kr <= kr1:연합뉴스TV.kr [fuzzy:0.93] programmes=48 | 연합뉴스
+OK YonhapNews.kr <= kr1:연합뉴스TV.kr [fuzzy:0.93] programmes=40 | 연합뉴스
 MISS JTV.kr | JTV
-OK MBC.kr <= kr1:MBC.kr [exact-id] programmes=60 | MBC
-OK MBCChuncheon.kr <= kr1:MBC.kr [network-fallback] programmes=60 | MBC춘천
-OK KBS1.kr <= kr1:KBS1.kr [exact-id] programmes=72 | KBS1
-OK KBS2.kr <= kr1:KBS2.kr [exact-id] programmes=67 | KBS2
+OK MBC.kr <= kr1:MBC.kr [exact-id] programmes=50 | MBC
+OK MBCChuncheon.kr <= kr1:MBC.kr [network-fallback] programmes=50 | MBC춘천
+OK KBS1.kr <= kr1:KBS1.kr [exact-id] programmes=61 | KBS1
+OK KBS2.kr <= kr1:KBS2.kr [exact-id] programmes=56 | KBS2
 MISS KBS24.kr | KBS 24
-OK SBS.kr <= kr1:SBS.kr [exact-id] programmes=60 | SBS
-OK SBSJTV.kr <= kr1:SBS.kr [network-fallback] programmes=60 | SBS JTV (406p) [Not 24/7]
-OK MBCJeju.kr <= kr1:MBC.kr [network-fallback] programmes=60 | MBC제주TV
-OK JTBC.kr <= kr1:JTBC.kr [exact-id] programmes=47 | JTBC
-OK KBSDRAMA.kr <= kr1:KBS.Drama.kr [exact-id-normalized] programmes=51 | KBS DRAMA
-OK KBSJOY.kr <= kr1:KBS.Joy.kr [exact-id-normalized] programmes=42 | KBS JOY
-OK KBSSTORY.kr <= kr1:KBS.Story.kr [exact-id-normalized] programmes=54 | KBS STORY
-OK KBSLIFE.kr <= kr1:KBS.LIFE.kr [exact-id-normalized] programmes=50 | KBS LIFE
+OK SBS.kr <= kr1:SBS.kr [exact-id] programmes=51 | SBS
+OK SBSJTV.kr <= kr1:SBS.kr [network-fallback] programmes=51 | SBS JTV (406p) [Not 24/7]
+OK MBCJeju.kr <= kr1:MBC.kr [network-fallback] programmes=50 | MBC제주TV
+OK JTBC.kr <= kr1:JTBC.kr [exact-id] programmes=41 | JTBC
+OK KBSDRAMA.kr <= kr1:KBS.Drama.kr [exact-id-normalized] programmes=44 | KBS DRAMA
+OK KBSJOY.kr <= kr1:KBS.Joy.kr [exact-id-normalized] programmes=36 | KBS JOY
+OK KBSSTORY.kr <= kr1:KBS.Story.kr [exact-id-normalized] programmes=45 | KBS STORY
+OK KBSLIFE.kr <= kr1:KBS.LIFE.kr [exact-id-normalized] programmes=43 | KBS LIFE
