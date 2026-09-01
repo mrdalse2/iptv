@@ -4,7 +4,7 @@
 http://10.236.126.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4ODM2Nzg0MX0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=znW3FGiDQ-SyLfp65d-1~k-MG29sFk4FEd6d2kEZ-OoWqOFYAU2YpMctAbirW7N8eEEUFbV7oPOXU3KyIxvSZFC1wiul8F8eCRcvzChKWGbG9ZVcKzI53kEbcV4RBCFO897oGGjwUSt8WQw~ikt~gN0MF3efJ9Ec1sSFR4k1cCY_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4ODM4MzU2OH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=Dv6mVf0uRue09FvoVCTK1jqZ3qFVhUyJyfn4ssJNRiubO5blVabBVFdpDCbct7pZUyRxiRw-TxD3c2h6BudpgzT6OBfUwltfq-ChdAPwPbyOcpQtmHlrLrNRVcNcoznxWtAzmSCrffr7SDdjj-7DS17w6~8f23NbM7ySgkgW3F4_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
@@ -162,8 +162,8 @@ https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbc_540&sid=IpaGWtS1yBSO7
 http://onair2.cdn.tvchosun.com/origin2/_definst_/tvchosun_s3/playlist.m3u8?checkedby:iptvcat.com
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBC
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=jtbc_540&sid=kbtxyuPVF37QVO3zGKMNyQSQo063cYeik0Vr0GoS&secret=133ec1aaf7cf7cf8f6aa77e714da7059&time=1765892075
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", tvN
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TVN
+https://k227.jk-cdn.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSStory
 http://koreatv.dothome.co.kr/kbsstory.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSLife
@@ -242,8 +242,8 @@ https://live-th10.myjktv.com:443/watch/live.m3u8?video=nat_geo_wild_540&sid=0wJq
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=child_care_540&sid=MCMbs5pnRCoyIVAPtv5g0MRDu11MEoQNUSSpZfsk&secret=706abe245cd1b8483e082c3ee34c19b3&time=1742556877
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,뽀요 TV
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=disney_channel_540&sid=f6coDFH9FZGv5Tl9FZinkVetugwWFq3RjSfNJIWl&secret=c0c2de490583ac54b9710cc8ac2a8636&time=1742556938
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS kids
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_kids_540&sid=6GIrIVmGxADvFwNcDZn2ZKO972L101Y0O54pvVUu&secret=e5d3211063e265afd0cd9f542d9d3de2&time=1742557009
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",KBSKids
+http://koreatv.dothome.co.kr/kbskids.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,Toonivers
 https://live-th10.myjktv.com:443/watch/live.m3u8?video=tooniverse_540&sid=fbO9zMMKvUK35ijl9bZvvQFp551em1yMeN1SOcoc&secret=924360c5677f057f590ce2c9ebd64710&time=1765893550
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,Cartoon
@@ -366,8 +366,8 @@ http://61.82.49.4:1935/live/_definst_/tv.stream/playlist.m3u8
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_216_AB271679.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TV Chosun
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_53_245B29EC.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBN
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbn_540&sid=JrgTsnJKQo0TU9yiyoZf7eA9llHJEMpTQlgyggsJ&secret=68b0e61613ec8fda51fd248052b6aa69&time=1742500229
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",mbn
+https://wms2-kortv.akamaized.net/a_live/81992167/smil:20tv121.smil/chunklist_b2500000.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",mbc 아메리카
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_236_0B21695E.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",MBC에브리원
