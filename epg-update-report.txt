@@ -7,7 +7,7 @@ ZERO SBSPlus.kr@SD | SBS Plus
 ZERO MBN.kr@SD | MBN
 MISS ABN.kr@SD | ABN TV (720p)
 ZERO ArirangRadio.kr@SD | Arirang Radio (720p)
-OK ArirangTV.kr@SD <= arirang:ArirangTV.kr@SD [exact-id] programmes=148 | Arirang TV (1080p)
+OK ArirangTV.kr@SD <= arirang:ArirangTV.kr@SD [exact-id] programmes=132 | Arirang TV (1080p)
 ZERO BBSTV.kr@SD | BBS Buddhist Broadcasting (1080p)
 ZERO BTNTV.kr@SD | BTN TV (1080p)
 ZERO ChannelA.kr@SD | Channel A [Geo-blocked]
@@ -31,7 +31,7 @@ ZERO HomeShopping.kr@SD | Home & Shopping (720p)
 ZERO HyundaiHomeShopping.kr@SD | Hyundai Home Shopping (720p)
 ZERO HyundaiHomeShoppingPlusShop.kr@SD | Hyundai Home Shopping Plus (720p)
 MISS KCTV.kr@SD | KCTV 광주 CH05 (720p) [Not 24/7]
-OK KTV.kr@SD <= arirang:ArirangTV.kr@SD [fuzzy:0.93] programmes=148 | Korea TV (1080p)
+OK KTV.kr@SD <= arirang:ArirangTV.kr@SD [fuzzy:0.93] programmes=132 | Korea TV (1080p)
 ZERO KShopping.kr@SD | KShopping (1080p)
 ZERO LotteHomeShopping.kr@SD | Lotte Home Shopping (720p)
 ZERO LotteOneTV.kr@SD | Lotte OneTV (720p)
