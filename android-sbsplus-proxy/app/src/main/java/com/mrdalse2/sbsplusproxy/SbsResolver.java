@@ -37,7 +37,15 @@ public final class SbsResolver {
     public static synchronized String resolve() throws Exception {
         long now = System.currentTimeMillis();
         if (cachedMediaUrl != null && now - cachedAt < GOOD_CACHE_MS) return cachedMediaUrl;
+        return resolveInternal(true);
+    }
 
+    /** Force a new SBS API lookup. Used internally when a signed HLS URL is rejected. */
+    public static synchronized String resolveFresh() throws Exception {
+        return resolveInternal(false);
+    }
+
+    private static String resolveInternal(boolean allowRecentFallback) throws Exception {
         ProbeSet set = probeAll();
         if (set.mediaUrl != null) {
             cachedMediaUrl = set.mediaUrl;
@@ -45,10 +53,8 @@ public final class SbsResolver {
             return set.mediaUrl;
         }
 
-        // If SBS is temporarily overloaded, a very recent last-good signed URL is usually
-        // safer than immediately failing. Keep this grace window below one minute.
-        now = System.currentTimeMillis();
-        if (cachedMediaUrl != null && now - cachedAt < STALE_GRACE_MS) {
+        long now = System.currentTimeMillis();
+        if (allowRecentFallback && cachedMediaUrl != null && now - cachedAt < STALE_GRACE_MS) {
             lastDebug = set.summary + ", fallback=recent-last-good ageMs=" + (now - cachedAt);
             return cachedMediaUrl;
         }
@@ -112,7 +118,6 @@ public final class SbsResolver {
             if (round + 1 < MAX_ROUNDS) {
                 long base = BACKOFF_MS[Math.min(round, BACKOFF_MS.length - 1)];
                 long waitMs = sawTransient ? Math.max(base, serverRetryAfterMs) : Math.min(base, 1_000L);
-                // 0-250 ms jitter prevents multiple clients from retrying in lockstep.
                 waitMs += ThreadLocalRandom.current().nextLong(0L, 251L);
                 diagnostics.add("backoff{round=" + (round + 1) + ",waitMs=" + waitMs + "}");
                 sleep(waitMs);
