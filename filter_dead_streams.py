@@ -10,8 +10,10 @@ The filter is intentionally conservative:
 
 from __future__ import annotations
 
+import base64
 import concurrent.futures
 import ipaddress
+import json
 import re
 import socket
 import time
@@ -110,8 +112,45 @@ def is_private_or_local(url: str) -> bool:
         return False
 
 
+def find_epoch_times(value) -> list[int]:
+    found: list[int] = []
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key.lower() in ("aws:epochtime", "epochtime"):
+                try:
+                    found.append(int(item))
+                except (TypeError, ValueError):
+                    pass
+            found.extend(find_epoch_times(item))
+    elif isinstance(value, list):
+        for item in value:
+            found.extend(find_epoch_times(item))
+    return found
+
+
+def expired_cloudfront_policy(query: dict[str, list[str]], now: int) -> tuple[bool, str]:
+    values = query.get("Policy") or query.get("policy")
+    if not values:
+        return False, ""
+    raw = values[0].strip()
+    if not raw:
+        return False, ""
+    try:
+        # CloudFront's URL-safe alphabet maps + -> -, / -> ~, = -> _.
+        padded = raw.replace("-", "+").replace("~", "/").replace("_", "=")
+        padded += "=" * ((4 - len(padded) % 4) % 4)
+        policy = json.loads(base64.b64decode(padded).decode("utf-8"))
+        epochs = find_epoch_times(policy)
+        if epochs and max(epochs) < now - 30:
+            return True, f"expired CloudFront Policy epoch={max(epochs)}"
+    except Exception:
+        # An undecodable policy is not enough evidence to delete a stream.
+        pass
+    return False, ""
+
+
 def expired_time_signature(url: str) -> tuple[bool, str]:
-    """Detect common query-string epoch signatures that are already expired."""
+    """Detect common query-string and CloudFront epoch signatures already expired."""
     try:
         query = urllib.parse.parse_qs(urllib.parse.urlsplit(url).query, keep_blank_values=True)
     except Exception:
@@ -133,7 +172,8 @@ def expired_time_signature(url: str) -> tuple[bool, str]:
                 return True, f"expired {key}={epoch}"
         except ValueError:
             pass
-    return False, ""
+
+    return expired_cloudfront_policy(query, now)
 
 
 def looks_html(content_type: str, sample: bytes) -> bool:
@@ -156,8 +196,6 @@ def looks_stream(url: str, content_type: str, sample: bytes) -> bool:
         return True
     if "video/mp2t" in ctype or "video/mpeg" in ctype:
         return True
-    # Some CDNs return octet-stream for MPEG-TS chunks/direct streams. Do not reject
-    # those unless the response is clearly HTML/text.
     if "application/octet-stream" in ctype and sample and not looks_html(content_type, sample):
         return True
     return False
@@ -200,8 +238,6 @@ def probe(url: str, referer: str | None) -> Health:
                 if looks_html(content_type, sample):
                     return Health("dead", f"HTTP {status} HTML/non-stream response")
 
-                # A successful response that is not identifiable as HLS/TS is suspicious,
-                # but avoid deleting it unless it is clearly a playlist URL returning text.
                 path = urllib.parse.urlsplit(final_url).path.lower()
                 if path.endswith(".m3u8"):
                     return Health("dead", f"HTTP {status} invalid HLS body ({content_type or 'unknown type'})")
@@ -212,7 +248,6 @@ def probe(url: str, referer: str | None) -> Health:
             last_detail = f"HTTP {code}"
             if code in (404, 410):
                 return Health("dead", last_detail)
-            # 401/403 can be geo/auth/header protection; 429/5xx are transient.
             if code in (401, 403, 405, 406, 408, 425, 429, 451) or 500 <= code <= 599:
                 return Health("uncertain", last_detail)
             if 400 <= code <= 499 and attempt == ATTEMPTS:
@@ -223,7 +258,6 @@ def probe(url: str, referer: str | None) -> Health:
                 if attempt == ATTEMPTS:
                     return Health("dead", last_detail)
             else:
-                # timeouts, temporary DNS failures, refused connections may recover
                 if attempt == ATTEMPTS:
                     return Health("uncertain", last_detail)
         except (TimeoutError, socket.timeout) as e:
