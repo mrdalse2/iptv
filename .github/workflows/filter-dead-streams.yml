@@ -1,0 +1,43 @@
+name: Filter Dead IPTV Streams
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "filter_dead_streams.py"
+      - ".github/workflows/filter-dead-streams.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: filter-dead-iptv-streams
+  cancel-in-progress: true
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Filter definitely dead streams
+        run: python filter_dead_streams.py
+
+      - name: Show removal report
+        run: cat dead-channel-report.txt
+
+      - name: Commit cleaned playlist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add kr-tivimate.m3u dead-channel-report.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: remove dead IPTV streams"
+          git push
