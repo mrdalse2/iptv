@@ -77,22 +77,16 @@ http://211.33.246.4:32954/cj_live/myStream.sdp/playlist.m3u8
 https://5ee1ec6f32118.streamlock.net/live/livetv/playlist.m3u8
 #EXTINF:-1 tvg-id="HLCQDTV.kr@SD" tvg-logo="https://i.imgur.com/HCbvAiM.png" group-title="General",MBC Daejeon (대전 MBC) (720p) [Not 24/7]
 https://ns1.tjmbc.co.kr/live/myStream.sdp/playlist.m3u8
-#EXTINF:-1 tvg-id="MBCDrama.kr@SD" tvg-logo="https://i.imgur.com/Q20rqnX.png" group-title="Entertainment",MBC Drama (480p) [Geo-blocked]
-http://mytv.dothome.co.kr/ch/catv/26.php
 #EXTINF:-1 tvg-id="HLAQDTV.kr@SD" tvg-logo="https://i.imgur.com/FGsKCH3.png" group-title="General",MBC Gangwon (MBC 강원영동) (1080p) [Not 24/7]
 http://123.254.93.7:1935/tvlive/livestream2/playlist.m3u8
 #EXTINF:-1 tvg-id="HLCNDTV.kr@SD" tvg-logo="https://i.imgur.com/wmGJgYh.png" group-title="General",MBC Gwangju (광주 MBC) (1080p) [Geo-blocked] [Not 24/7]
 https://media.kjmbc.co.kr/hls/live/stream/playlist.m3u8
 #EXTINF:-1 tvg-id="MBCGyeongnamTV.kr@SD" tvg-logo="https://i.imgur.com/Ronb1JP.png" group-title="General",MBC Gyeongnam (경남 MBC) (1080p) [Not 24/7]
 https://624a79c87201d.streamlock.net/MBCTV/TV1.stream/playlist.m3u8
-#EXTINF:-1 tvg-id="HLAJDTV.kr@SD" tvg-logo="https://i.imgur.com/JM4rxGU.png" group-title="General",MBC Jeju (제주 MBC) (352p) [Not 24/7]
-https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8
 #EXTINF:-1 tvg-id="HLCXDTV.kr@SD" tvg-logo="https://i.imgur.com/3C57SwN.png" group-title="General",MBC Jeonju (450p)
 https://5ee9633b25727.streamlock.net/jmbc_tv/_definst_/jmbc_tv.stream/playlist.m3u8
 #EXTINF:-1 tvg-id="HLAMDTV.kr@SD" tvg-logo="https://i.imgur.com/5oraHc0.png" group-title="General",MBC Mokpo (목포 MBC) (720p) [Not 24/7]
 http://vod.mpmbc.co.kr:1935/live/encoder-tv/playlist.m3u8
-#EXTINF:-1 tvg-id="MBCNet.kr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/MBCNET_%EB%A1%9C%EA%B3%A0.svg/960px-MBCNET_%EB%A1%9C%EA%B3%A0.svg.png" group-title="Undefined",MBC Net (480p) [Geo-blocked]
-http://mytv.dothome.co.kr/ch/catv/28.php
 #EXTINF:-1 tvg-id="HLATDTV.kr@SD" tvg-logo="https://i.imgur.com/3VSuYsn.png" group-title="General",MBC Yeosu (여수 MBC) (1080p) [Not 24/7]
 https://5c3639aa99149.streamlock.net/live_TV/tv/playlist.m3u8
 #EXTINF:-1 tvg-id="MNBWorld.mn@SD" tvg-logo="https://www.mongolsat.mn/assets/img/channel/22.png" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" group-title="General",MNB World (1080p)
@@ -150,32 +144,16 @@ https://onair2cdn.tvchosun.com/origin2/_definst_/tvchosun_s3/chunklist.m3u8
 https://liveout.catenoid.net/live-05-wshopping/wshopping_1500k/playlist.m3u8
 #EXTINF:-1 tvg-id="YTN.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",YTN
 https://ytnlive.ytn.co.kr/ytn/_definst_/ytnlive_stream_20220426/medialist_9171188557012390620_hls.m3u8
-#EXTINF:-1 tvg-id="ZeeBollymovies.in@SD" tvg-logo="https://framerusercontent.com/images/mqfJ18x4jYe0GbZUbxSHsbnWU.png?scale-down-to=512" group-title="Movies",Zee Bollymovies (1080p) [Geo-blocked]
-https://amg17931-zee-amg17931c8-samsung-th-6526.playouts.now.amagi.tv/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS Drama
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_drama_540&sid=paKP8quwQXA1v3f8CDgxH6h7IfCezfoMX4CPYs9i&secret=0f3e15ed586d8b39e2197abcdaa39726&time=1772754511
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS
 http://123.140.197.22/stream/1/play.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", MBC
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbc_540&sid=IpaGWtS1yBSO7JUbq1qO5wzVEOxA49k1jXoRVIbD&secret=a359917fe5cd684f8a1b9e21443c4710&time=1765891937
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",TV Chosun 2
 http://onair2.cdn.tvchosun.com/origin2/_definst_/tvchosun_s3/playlist.m3u8?checkedby:iptvcat.com
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBC
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=jtbc_540&sid=kbtxyuPVF37QVO3zGKMNyQSQo063cYeik0Vr0GoS&secret=133ec1aaf7cf7cf8f6aa77e714da7059&time=1765892075
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", tvN
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=tvn_540&sid=VuRBsIqWGAvpGSOVLnYEhrB8COiArn1mmj7ckNV5&secret=a72ec41ef89359f0cd94837d75fa20f9&time=1772755122
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSStory
 http://koreatv.dothome.co.kr/kbsstory.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSLife
 http://koreatv.dothome.co.kr/kbslife.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSJoy
 http://koreatv.dothome.co.kr/kbsjoy.php
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", EBS
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=ebs_1_540&sid=vHyUZnRhksnBekpuSNsyewg7y2zjV8qPW9aLSrke&secret=8db7c58ae15873a118931b3c91cead09&time=1765892008
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", EBS2
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=ebs_2_540&sid=jvgMIYZC8L1lM4iQeyaEBEmSmsp4Da1x24JbbVwh&secret=6d24fd40d06020266561930e77cea1f3&time=1765892041
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OCN
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=ocn_540&sid=BSayDAwe3oRk1TIWnlZxSFNn2ij2D50BdXO0q6AS&secret=aa35da20dba3436b85fd34d6b4d8f910&time=1772754670
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,CJ ENM Movie
 https://jmp2.uk/stvp-KRBC32000191N
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv", PLAYY
@@ -184,80 +162,22 @@ https://jmp2.uk/stvp-KR12000017G
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_215_6B2BDBDE.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",M2
 https://jmp2.uk/stvp-KRBC3200023BG
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS N SPORTS
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_n_sports_540&sid=lkQCgUJXxH2vNQDwjbA9vvJLDmUl95x5WGNDg4kC&secret=0742366f04974647047748e2f2c60f53&time=1765891722
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC SPORTS
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbc_sports_540&sid=POxYPQ43PhrNZ8GskNfoG7byfjHxe7z93rrViHoU&secret=e2184c649e9eabbdeda2bb0e75c5abac&time=1765891315
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,ENA SPORTS
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=sky_sports_540&sid=e5wpHcNgMggtHH1tdi4BbnB1UKETMkTzPy38oNNr&secret=83393a0ecf2798cad65cf7963a2f2d12&time=1765891354
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SBS SPORTS
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=sbs_sports_540&sid=ILsETd2qxAIReYV767tJgxtvn5VKOcdUt3X1Bzp7&secret=61a855e91a66a97bcbdb9812f8b10b7c&time=1765891394
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SBS GOLF
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=sbs_golf_540&sid=GL5kkVROZTJ18fuJkn4g33UsnCVEtuUyqSgZLcai&secret=061012f18a638c3b009b3978c09e032c&time=1772754283
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SBS GOLF2
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=jtbc_3_540&sid=axuIWQCoNScP3na4YDca5wkntDjptTjJxCrgZQtS&secret=da7b334a488673d5ee74ee07c1a561df&time=1765892423
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBCGOLF
 https://jmp2.uk/stvp-KRBD5200002XY
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBC GOLF&SPORTS
 http://211.110.63.98/jtbc3sports1/_definst_/92EE8BC280FBC3F170429AC55F0234B0E9A288DD1A54804514EA4B2D1D861D79/chunklist_w2059444615.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Golf&Health
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=ba6bb92c211592d01ed12537b04a19e6&sid=ltn6ql2VEBASSGQmB2Q6UlcDs6BJYAgNf8xQFOmu&secret=0056208f6c8c1f2b1fb4384ef32bc2e3&time=1765891443
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,PGA Tour
 https://jmp2.uk/stvp-KRBD3100007WB
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,스크린골프
 https://jmp2.uk/stvp-KR44000010Y
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_540&sid=NV3u8ksyqK92z938RZFBkv2YbPVJAMLA6kwyTOLJ&secret=e9d4f0a64292fabf306ba48f62275fa0&time=1765891235
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV2
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_2_540&sid=6Os571NBiR8XVEhIx6diM3X01l5UsPRTzvBWMF53&secret=75e5132e9ae7097fd4dcb9ff1a881527&time=1765892545
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime
-https://k227.jk-cdn.com:443/watch/live.m3u8?video=spotv_on_540&sid=EQlmnOkHl5Esy6PNLmk1Sg1dVK1CKw2tkgZBj7nL&secret=dbbfb4a09b4bd1c862748c947b533db6&time=1765892639
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,SPOTV Prime2
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=spotv_on2_540&sid=bQRIUtyfpTIV2IWGvrm9eDXXDpgeD452TYwz27ds&secret=22948804ea0eaae93297a9a5b766ef95&time=1765892812
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OGN starleague
 https://jmp2.uk/stvp-KRBC3200005SH
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,ENA
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_joy_540&sid=Yj9bfkjAif5rjWzAwr3lJwf33HioT5cjQu2sOvOY&secret=3c61e4ad06248b88a09d238ff20d7fa4&time=1765890963
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC Every1
 https://tistory1.daumcdn.net/tistory/2864485/skin/images/CATV_223_D2C739D6.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,E Channel
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=channel_e_540&sid=73MxlHL2gH7316d8Pep1sEorvOjeAEUV4LbFxupT&secret=29e942a9896054ebeb9dcaa0a83dbc74&time=1772754436
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,tvN STORY
 https://jmp2.uk/stvp-KRBC3200014XZ
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,코미디TV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=comedy_540&sid=VwrbOrArABoCGtqRD7p4O5o3TLyqonOhScABtAo7&secret=2fe9f41d49ae8ea23b419e850b69671d&time=1742501996
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC On
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbc_on_540&sid=eTTqEJ0bwgsl4WbHyEWCbu1C6Rs7ntHJaCUcq09S&secret=56c57029ef6aa1e04a3895d8b6c91506&time=1765893385
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,중화TV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=chinesetv_540&sid=1zs8m9CsajpMXxNHeDJLmhn3wq0LUcYJYGwjgXJW&secret=03f7beff894c6917da6b82372a2fc208&time=1765893417
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,바둑TV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=baduk_540&sid=LPrku9OjvDYvHrX7BojWXG1dC7AgHnN2WRxy9UFJ&secret=cb9907778835b1c310350f82deabef9f&time=1765893443
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,브레인TV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=brain_tv_540&sid=z4iXXRtBCd6B8oaMP4T2AvM2WNp5PNrypWn2qbWt&secret=0c04ddc2c268db11984a3241f38e5e25&time=1765893473
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,디스커버리
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=discovery_540&sid=2iObz48WCFCkHcuaQTRez5kpeHPfdHYiOE1icCKS&secret=660b5a2059948553effae93e4def6d04&time=1742555991
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,Nat Geo Wild
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=nat_geo_wild_540&sid=0wJqyjtLKS6wxrUnZ6cnaRHDVz6ztklaA1tOzALv&secret=8a3bcec4a32f89003264607c049a2ce3&time=1742556081
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,육아방송
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=child_care_540&sid=MCMbs5pnRCoyIVAPtv5g0MRDu11MEoQNUSSpZfsk&secret=706abe245cd1b8483e082c3ee34c19b3&time=1742556877
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,뽀요 TV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=disney_channel_540&sid=f6coDFH9FZGv5Tl9FZinkVetugwWFq3RjSfNJIWl&secret=c0c2de490583ac54b9710cc8ac2a8636&time=1742556938
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",KBSKids
 http://koreatv.dothome.co.kr/kbskids.php
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,Toonivers
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=tooniverse_540&sid=fbO9zMMKvUK35ijl9bZvvQFp551em1yMeN1SOcoc&secret=924360c5677f057f590ce2c9ebd64710&time=1765893550
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,Cartoon
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=cartoon_network_540&sid=dj1j7ZwSpiH5c1N1fLleTOkPntdpLhIzv2GOzvpa&secret=17b623f405a674a01727e56b561e36a0&time=1765893515
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,어린이TV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=childrens_tv_540&sid=GG1bfBvi36wnK62vXixEL1VPInMZRWJGrJENstKL&secret=0cb8542f641b3a6d55bebb13a87d4aed&time=1765893151
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,CNN
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=cnn_kr_540&sid=7ySL8aoIyy2NPbS1ENkvzkgj9C3GvJq2bdQ7PneQ&secret=0477f93d5d7e29a87ad3482bd1ecf100&time=1742558366
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,BBC
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=bbc_kr_540&sid=NvDfJvaZ3zU7NbrHR43AaUgWJK2zdoOc8KCQzTll&secret=aa2b347766700a37e0d86da63886687d&time=1742558446
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,채널A
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=channela_540&sid=zLhHxUtd4yz2toiohNMEfx63yhemDSOd2xgsFaBV&secret=ad760dc9b77c911e341d5e114e36feff&time=1742500133
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,한국경제
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=wowtv_540&sid=78aYN4ktf0r1dt55tnyXZwly6i1geE6psoDdZvce&secret=d1de772e9eeb5dcf1636c239f633cdb2&time=1742500679
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",현대홈쇼핑
 https://livejj.hyundaihmall.com:8443/live/ngrp:hmall.stream_pc/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",Groovv
@@ -436,10 +356,6 @@ https://tistory1.daumcdn.net/tistory/2864485/skin/images/Public_58.m3u8
 http://koreatv.dothome.co.kr/mbc.php
 #EXTINF:-1 tvg-id="MBCChuncheon.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC춘천
 https://stream.chmbc.co.kr/TV/myStream/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS1
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs1_540&sid=EZ5881Rv73XGA0AECIYF9UX34lt3YBvq6RLJ1voI&secret=e7d5668457a260527ef38656f6b0082e&time=1765891871
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS2
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs2_540&sid=AyMBt8STQi7J8FnSd0PeQSXX6kQBHrmnVJljjl8w&secret=b232cc97122ea9f507475b72065f7562&time=1765891904
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC2
 http://1.214.67.38/vod/60601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",JTBC4
@@ -452,34 +368,10 @@ http://koreatv.dothome.co.kr/sbsfune.php
 http://koreatv.dothome.co.kr/sbsbiz.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,mbcnet
 http://koreatv.dothome.co.kr/mbcnet.php
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OCN Movies
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=cgv_540&sid=6IfK2042MazcEh2MY6thHqMyXWOOzRh9FaQSIxLw&secret=584c956493c0e0d7a34e81eb52cdd34c&time=1765892161
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,OCN Movies2
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=super_action_540&sid=Aq9QkNY4Pe5i5qqbZ80wYIPOMlJlncdshNl59Ykd&secret=ace12c806a4f2f6a255b1c93813fe49f&time=1765892291
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,BilliardsTV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=billiardstv_540&sid=bxoGY0nBKiAsgx13rEU3crfrjbFtDTDW1LWK3Eoz&secret=827efadef3e0e6ea7ac261cedae42030&time=1765893296
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,Skysports F1
-https://bl.rutube.ru/livestream/e5df6984021365a58b3ba22dab2f670a/index.m3u8?s=Br5URhDulDNVzAtwJhUHgA&e=2072611046&scheme=https
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MNet
-https://k227.jk-cdn.com/watch/live.m3u8?video=mnet_540&sid=SC46Lwd9aCihIv74PE76odBGLTwnTgpH9GyOD6eg&secret=390a59b7f8b450dfb170e5c47590050f&time=1773168944
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,tvN SHOW
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=xtm_540&sid=btei8SrdZCpwjr93FgzI7OGAdeeXCXGw4BXFPzQo&secret=a9025939f2d1e981d2020031a966729e&time=1765893046
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,tvN DRAMA
 http://warlock0.synology.me:9999/klive/api/url.m3u8?m=url&s=tving&i=C01143&q=FHD&apikey=5MY50EII66
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,FTV
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=ftv_540&sid=6RPjuu8hzNESESu6ZqL0GZ6LvgJipWnDyobzV8dY&secret=262db54492c46ab76dce040f93621f46&time=1772754633
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,History
-https://live-th10.myjktv.com:434/watch/live.m3u8?video=history_540&sid=ktDYnxAlcjz7V3RTfpIGFtr5pGjLTXXbuEqQQTjG&secret=fa393d7a7f8b5c570fa9a02d67e5ddb8&time=1742556221
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,iNET
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=inet_540&sid=OPbFOFpoTQ729gz3U05zWdlE920QJze3POZPfHuO&secret=5121ac51f8f56d26f013a0db2cbe06e9&time=1742556350
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JEI 재능TV
-https://live-th10.myjktv.com:43/watch/live.m3u8?video=jei_jenung_540&sid=5x1n6FyzRQMkri2LhZ71Mjao59LSpdVKNNnvDkJW&secret=1fd8004ee3d2c119d064ec88b38d97b3&time=1742556811
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,ANIPLUS
 http://warlock0.synology.me:9999/klive/api/url.m3u8?m=url&s=tving&i=C00901&q=FHD&apikey=5MY50EII66
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,NHK World
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=nhk_wold_540&sid=VQ5jdk6wCPjw6VcPfOv76Syot6CoP9YgzBLFeHjZ&secret=a86dad9133b53ffc834fe98b63c98919&time=1742558568
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,TV조선
-https://live-th10.myjktv.com:443/watch/live.m3u8?video=tvchosun_540&sid=fKZsnPIjdoVZrjIWsqL5dPcQwba75T2ANFPAQIih&secret=18d00e092d1f8fa5a6107f0328ff4972&time=1742500050
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  ,GMTV
 http://1.214.67.38/vod/68801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",더라이프
@@ -502,8 +394,6 @@ http://1.214.67.38/vod/70701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-0000201
 http://1.214.67.38/vod/66801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,한국낚시
 http://1.214.67.38/vod/62501.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",IB SPORTS
-https://live-edge-th136.myjktv.com:443/watch/live.m3u8?video=jtbc_3_540&sid=Apn7LTiUje3L7FmQObTgYnKBNeDUDytdiUSkqYw1&secret=7e6facc78d8f68a85388b1945d966a04&time=1742501522
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"   , EBS-1
 http://1.214.67.38/vod/38901.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",EBS어린이
@@ -528,20 +418,10 @@ http://1.214.67.38/vod/65801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-0000201
 http://1.214.67.38/vod/59601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",OBS W
 http://1.214.67.38/vod/64801.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",국회방송
-https://m.webcast.go.kr/live/_definst_/smil:natv_720p.smil/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",다문화TV
-https://10st.vcast.im/MYASIATV/SC82767452/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",소상공인방송
-https://cdnlive179.smartucc.kr/smartlive/558/91258ac21591769e21f41b96f26d883e/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",CJ OnStyle
 http://1.214.67.38/vod/67201.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",롯데홈쇼핑
 http://1.214.67.38/vod/67401.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",QVC
-http://cdn-live1.qvc.jp/iPhone/800/800.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv"  , 조선방송
-https://tv.intchoson.com/kctv/main_stream.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",OBS경인TV
 https://vod.obs.co.kr:444/live/obsstream1/tv.stream/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",C채널
@@ -556,12 +436,8 @@ http://203.251.91.122:1935/on-air-Backup/tv/playlist.m3u8
 http://211.170.95.22/vod/74601.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",EBS少아동
 http://1.214.67.38/vod/60701.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",벌거벗은 세계사
-https://6c3a25b5ffc14307b39a6a959806e536.mediatailor.ap-northeast-1.amazonaws.com/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-f49y0pr4caw7w-ssai-prd/724240eb-5902-4cc4-8f8c-95ebec24739f/0.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",tvn 삼시세끼
 https://dmnsygceaez9z.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-kugwkm0rtsyfv-ssai-prd/89a2b732_7d4e_4098_9b82_f8e829ab07f0/hls/playlist.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",어린이 만화동산
-https://kbsnvod.gscdn.kbs.co.kr/playlists/nvod10.m3u8?Expires=1757374054&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9rYnNudm9kLmdzY2RuLmticy5jby5rci9wbGF5bGlzdHMvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc1NzM3NDA1NH19fV19&Signature=IIls1h8FQVUVtOIseVYjQaESEBwIpgvGEEcFdZOa5vnlCZPzA3FGw79zUVksUPyqE-OdmKJGtF8KLdX0I7Ww8lELhSXcJ6sdWD54FA7ebj2-oijVXVodjdlF2noBHlTIDJdJJaGDq8imzByqtEmNKs-PoRqcnGaLpwALekxBmR~6TKVBunSbv8LlIdbBksvUPJf04zX0tUw-JynkVJaRZWWqqUkcO2zXQWR4aoD5Yvm0I3cDMCUdSEqkxJ9ZDaacTjnl8wIkCs72UVqeBeqEiUO4VZKn7hNxCHBHsbcZ-gj42kn0nDk2b8JJ1TygU-JZC2xgVce6nHBN2hALIlIuzg__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA
 #EXTINF:-1 tvg-id="KBS1.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS1
 https://1tv.gscdn.kbs.co.kr/1tv_3.m3u8
 #EXTINF:-1 tvg-id="KBS2.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS2
@@ -572,10 +448,6 @@ https://news24.gscdn.kbs.co.kr/news24-02/news24-02_hd.m3u8
 http://koreatv.dothome.co.kr/sbs.php
 #EXTINF:-1 tvg-id="SBSJTV.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",SBS JTV (406p) [Not 24/7]
 http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
-#EXTINF:-1 tvg-id="MBCJeju.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC제주TV
-https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8
-#EXTINF:-1 tvg-id="JTBC.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",JTBC
-https://jtbclive-cdn.jtbc.co.kr/pcweb/newpcweb.stream/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHAqOi8vanRiY2xpdmUtY2RuLmp0YmMuY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2ODYwNjIzMH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=ZdxxAlLyvlBEJHh6YuT2Ne7bNg0EjrA7XdXyxIX9wytnkCl32y7VoD6~YsEYXjbcWMOfiHUz~pBAXk2ZQYukJAP5ueN9PR~Ju5jfD2ZyaQClq9VWxM-d67ydlmzRxBwEcQzi5uG6kGJ7fnUbcXVrNeXQiQ3JnB174mIMRCCpfB8_&Key-Pair-Id=pub_jtbclive-cdn.jtbc.co.kr
 #EXTINF:-1 tvg-id="KBSDRAMA.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS DRAMA
 https://kbsndrama.gscdn.kbs.co.kr/kbsndrama-02/kbsndrama-02_sd.m3u8
 #EXTINF:-1 tvg-id="KBSJOY.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS JOY
