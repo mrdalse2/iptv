@@ -1,0 +1,41 @@
+name: Publish SBS Seamless Test APK
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/publish-sbs-seamless-test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 4fb8d03b6dc8f9c13b99d6f1e09bf3653f50a617
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.5.0'
+
+      - name: Build seamless test APK
+        working-directory: android-sbsplus-proxy
+        run: gradle assembleDebug --stacktrace
+
+      - name: Prepare test APK asset
+        run: cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-3.3-seamless.apk
+
+      - name: Upload separate test asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload localiptvproxy-v2.2 LocalIPTVProxy-3.3-seamless.apk --clobber
