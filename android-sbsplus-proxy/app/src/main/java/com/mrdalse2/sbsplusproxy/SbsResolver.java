@@ -5,19 +5,29 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class SbsResolver {
     private static final String API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03";
     private static final String REFERER = "https://www.sbs.co.kr/live/S03";
     private static final String DESKTOP_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36";
     private static final String MOBILE_UA = "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36";
+
     private static final long GOOD_CACHE_MS = 20_000L;
+    private static final long STALE_GRACE_MS = 55_000L;
+    private static final int MAX_ROUNDS = 4;
+    private static final long[] BACKOFF_MS = new long[]{700L, 1_400L, 2_800L, 4_000L};
+
     private static volatile String lastDebug = "not probed yet";
     private static volatile String cachedMediaUrl;
     private static volatile long cachedAt;
@@ -33,6 +43,14 @@ public final class SbsResolver {
             cachedMediaUrl = set.mediaUrl;
             cachedAt = System.currentTimeMillis();
             return set.mediaUrl;
+        }
+
+        // If SBS is temporarily overloaded, a very recent last-good signed URL is usually
+        // safer than immediately failing. Keep this grace window below one minute.
+        now = System.currentTimeMillis();
+        if (cachedMediaUrl != null && now - cachedAt < STALE_GRACE_MS) {
+            lastDebug = set.summary + ", fallback=recent-last-good ageMs=" + (now - cachedAt);
+            return cachedMediaUrl;
         }
 
         throw new IllegalStateException("S03 API returned no mediaurl; " + set.summary);
@@ -60,27 +78,44 @@ public final class SbsResolver {
 
         List<String> diagnostics = new ArrayList<>();
         Exception lastError = null;
-        for (int round = 0; round < 3; round++) {
+
+        for (int round = 0; round < MAX_ROUNDS; round++) {
+            long serverRetryAfterMs = 0L;
+            boolean sawTransient = false;
+
             for (RequestProfile profile : profiles) {
                 try {
                     Probe p = request(profile);
                     diagnostics.add(profile.name + "{" + p.summary + "}");
                     if (p.mediaUrl != null) {
-                        String summary = "selected=" + profile.name + ", round=" + (round + 1) + ", attempts=" + diagnostics;
+                        String summary = "selected=" + profile.name + ", round=" + (round + 1)
+                                + ", attempts=" + diagnostics;
                         lastDebug = summary;
                         return new ProbeSet(p.mediaUrl, summary);
                     }
+                } catch (TransientHttpException e) {
+                    lastError = e;
+                    sawTransient = true;
+                    serverRetryAfterMs = Math.max(serverRetryAfterMs, e.retryAfterMs);
+                    diagnostics.add(profile.name + "{transient=" + safe(e.getMessage())
+                            + (e.retryAfterMs > 0 ? ",retryAfterMs=" + e.retryAfterMs : "") + "}");
+                } catch (SocketTimeoutException | ConnectException e) {
+                    lastError = e;
+                    sawTransient = true;
+                    diagnostics.add(profile.name + "{transient=" + e.getClass().getSimpleName() + "}");
                 } catch (Exception e) {
                     lastError = e;
                     diagnostics.add(profile.name + "{error=" + safe(e.getMessage()) + "}");
                 }
             }
-            if (round < 2) {
-                try { Thread.sleep(350L * (round + 1)); }
-                catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    throw e;
-                }
+
+            if (round + 1 < MAX_ROUNDS) {
+                long base = BACKOFF_MS[Math.min(round, BACKOFF_MS.length - 1)];
+                long waitMs = sawTransient ? Math.max(base, serverRetryAfterMs) : Math.min(base, 1_000L);
+                // 0-250 ms jitter prevents multiple clients from retrying in lockstep.
+                waitMs += ThreadLocalRandom.current().nextLong(0L, 251L);
+                diagnostics.add("backoff{round=" + (round + 1) + ",waitMs=" + waitMs + "}");
+                sleep(waitMs);
             }
         }
 
@@ -95,8 +130,8 @@ public final class SbsResolver {
                 + "&protocol=hls&ssl=" + profile.ssl
                 + "&rscuse=&jwt-token=&sbsmain=";
         HttpURLConnection c = (HttpURLConnection) new URL(API + "?" + query).openConnection();
-        c.setConnectTimeout(8000);
-        c.setReadTimeout(8000);
+        c.setConnectTimeout(8_000);
+        c.setReadTimeout(10_000);
         c.setUseCaches(false);
         c.setRequestProperty("User-Agent", profile.userAgent);
         c.setRequestProperty("Accept", "application/json,text/plain,*/*");
@@ -106,6 +141,12 @@ public final class SbsResolver {
         c.setRequestProperty("Pragma", "no-cache");
 
         int code = c.getResponseCode();
+        long retryAfterMs = parseRetryAfterMs(c.getHeaderField("Retry-After"));
+        if (isTransientStatus(code)) {
+            c.disconnect();
+            throw new TransientHttpException("HTTP " + code, retryAfterMs);
+        }
+
         String body;
         InputStream stream = code >= 200 && code < 300 ? c.getInputStream() : c.getErrorStream();
         if (stream == null) {
@@ -126,6 +167,37 @@ public final class SbsResolver {
         JSONObject json = new JSONObject(body);
         String media = findMediaUrl(json);
         return new Probe(media, summarize(json, media, code));
+    }
+
+    private static boolean isTransientStatus(int code) {
+        return code == 408 || code == 425 || code == 429 || code == 500
+                || code == 502 || code == 503 || code == 504;
+    }
+
+    private static long parseRetryAfterMs(String value) {
+        if (value == null || value.isBlank()) return 0L;
+        String trimmed = value.trim();
+        try {
+            long seconds = Long.parseLong(trimmed);
+            return Math.max(0L, Math.min(seconds * 1_000L, 10_000L));
+        } catch (NumberFormatException ignored) {}
+        try {
+            long target = ZonedDateTime.parse(trimmed, DateTimeFormatter.RFC_1123_DATE_TIME)
+                    .toInstant().toEpochMilli();
+            long delta = target - System.currentTimeMillis();
+            return Math.max(0L, Math.min(delta, 10_000L));
+        } catch (Exception ignored) {
+            return 0L;
+        }
+    }
+
+    private static void sleep(long millis) throws InterruptedException {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw e;
+        }
     }
 
     private static String findMediaUrl(Object value) {
@@ -179,6 +251,14 @@ public final class SbsResolver {
 
     private static String safe(String s) {
         return s == null ? "unknown" : s.replace('\n', ' ').replace('\r', ' ');
+    }
+
+    private static final class TransientHttpException extends Exception {
+        final long retryAfterMs;
+        TransientHttpException(String message, long retryAfterMs) {
+            super(message);
+            this.retryAfterMs = retryAfterMs;
+        }
     }
 
     private record RequestProfile(String name, String platform, String ssl, String userAgent) {}
