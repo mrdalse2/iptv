@@ -1,4 +1,4 @@
-SOURCE OK mjpark-dev/iptv total=314 added=57 live_added=40 unverified_added=17 replaced=152 kept=105
+SOURCE OK mjpark-dev/iptv total=314 added=59 live_added=37 unverified_added=22 replaced=150 kept=105
 SOURCE OK GoonhoLee/koreaiptv-auto-updater total=20 added=1 live_added=0 unverified_added=1 replaced=11 kept=8
 SBS KEEP merged=True
 SBS Plus DROP no official mediaurl
