@@ -2,43 +2,43 @@ name: Build SBS Plus Android Proxy
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feature/android-sbsplus-proxy
-    paths:
-      - 'android-sbsplus-proxy/**'
-      - 'sbs_plus_local_proxy.py'
-      - '.github/workflows/build-sbsplus-android.yml'
   pull_request:
     paths:
-      - 'android-sbsplus-proxy/**'
-      - 'sbs_plus_local_proxy.py'
       - '.github/workflows/build-sbsplus-android.yml'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: android-sbsplus-proxy
     steps:
-      - uses: actions/checkout@v4
-      - name: Validate PC Python proxy
-        working-directory: .
-        run: python -m py_compile sbs_plus_local_proxy.py
+      - name: Checkout exact legacy 302 commit
+        uses: actions/checkout@v4
+        with:
+          ref: 77840b7fdd9f71c13f3c7f6ddef5ec04e9e9ec87
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.5.0'
-      - name: Build debug APK
+
+      - name: Mark installable legacy test version
+        working-directory: android-sbsplus-proxy
+        run: |
+          sed -i "s/versionCode 1/versionCode 99/" app/build.gradle
+          sed -i "s/versionName '1.0.0'/versionName '1.0.302-test'/" app/build.gradle
+
+      - name: Build exact legacy 302 APK
+        working-directory: android-sbsplus-proxy
         run: gradle assembleDebug --stacktrace
+
       - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/SBSPlusProxy-debug.apk
+        run: cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk Legacy-302-SBSPlusProxy.apk
+
       - uses: actions/upload-artifact@v4
         with:
-          name: SBSPlusProxy-debug-apk
-          path: android-sbsplus-proxy/app/build/outputs/apk/debug/SBSPlusProxy-debug.apk
+          name: Legacy-302-SBSPlusProxy
+          path: Legacy-302-SBSPlusProxy.apk
           if-no-files-found: error
