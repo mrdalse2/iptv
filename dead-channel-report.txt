@@ -1,4 +1,4 @@
-checked=286 kept=227 removed=59 alive=160 uncertain=66 local=1
+checked=286 kept=227 removed=59 alive=162 uncertain=64 local=1
 
 REMOVED DEFINITELY DEAD CHANNELS
 - KBS1 | expired time=1765891871 | https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs1_540&sid=EZ5881Rv73XGA0AECIYF9UX34lt3YBvq6RLJ1voI&secret=e7d5668457a260527ef38656f6b0082e&time=1765891871
