@@ -4,7 +4,7 @@
 http://10.236.126.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4ODk1MzM5Mn0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=fYicxP003k7ONhoyTSfuc7tzsEihCzyOgg~akU9ViX9q0N8JmTV~2RnEps~HPpErtdbSOftei8kKtTPhe~G5GXy9ik6xrPCKEy3UPcmOGOp0wp9PCpaIVFzuDCx5724XZzRm4HUp10woHGY1dF3ZcZ0BUPNaOHZo317NWf1iktM_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4ODk3MjUyN30sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=S1X1ME~xH8HtYmWffcLbYigB4HzsIfUHiw9iFQLa-Vyl4YULGxAGRVsH1-pIYm9VQ3SP3IU8CDSN1VunKe9eokke88-QtmPQASktgtab30LidLoj2j0Ee6EaHXrwHZHnukTOcY5kWzlolPNTAreMU-ILP7SXF~FOd6TTmdg2QEg_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
@@ -458,3 +458,5 @@ https://kbsnlife.gscdn.kbs.co.kr/kbsnlife-02/kbsnlife-02_sd.m3u8
 https://wms2-kortv.akamaized.net/a_live/81992167/smil:20tv121.smil/chunklist_b2500000.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,채널A
 http://1.214.67.38/vod/74901.m3u8?VOD_RequestID=v2M2-0101-1010-7272-5050-000020180717021633;LTE;1280P;WIFI
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBSDrama
+http://koreatv.dothome.co.kr/kbsdrama.php
