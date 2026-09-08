@@ -1,5 +1,5 @@
-SOURCE OK mjpark-dev/iptv total=314 added=59 live_added=34 unverified_added=25 replaced=148 kept=107
-SOURCE OK GoonhoLee/koreaiptv-auto-updater total=20 added=1 live_added=0 unverified_added=1 replaced=11 kept=8
+SOURCE OK mjpark-dev/iptv total=314 added=57 live_added=30 unverified_added=27 replaced=148 kept=109
+SOURCE OK GoonhoLee/koreaiptv-auto-updater total=20 added=1 live_added=0 unverified_added=1 replaced=10 kept=9
 SBS KEEP merged=True
 SBS Plus DROP no official mediaurl
 MBN OK official on-air HLS refreshed
