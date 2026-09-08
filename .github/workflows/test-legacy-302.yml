@@ -1,0 +1,61 @@
+name: Test Legacy 302 Android APK
+
+on:
+  push:
+    branches:
+      - test/build-legacy-302
+    paths:
+      - '.github/workflows/test-legacy-302.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-legacy-302:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact legacy 302 commit
+        uses: actions/checkout@v4
+        with:
+          ref: 77840b7fdd9f71c13f3c7f6ddef5ec04e9e9ec87
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.5.0'
+
+      - name: Mark installable test version
+        working-directory: android-sbsplus-proxy
+        run: |
+          sed -i "s/versionCode 1/versionCode 99/" app/build.gradle
+          sed -i "s/versionName '1.0.0'/versionName '1.0.302-test'/" app/build.gradle
+
+      - name: Build exact legacy 302 APK
+        working-directory: android-sbsplus-proxy
+        run: gradle assembleDebug --stacktrace
+
+      - name: Prepare direct APK
+        run: cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk Legacy-302-SBSPlusProxy.apk
+
+      - name: Publish direct-download test APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG='legacy-302-test'
+          ASSET='Legacy-302-SBSPlusProxy.apk'
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$ASSET" --clobber
+            gh release edit "$TAG" --title 'Legacy 302 SBS Plus Proxy Test' --notes 'Temporary direct-download APK for testing the pre-reverse-proxy 302 redirect implementation.'
+          else
+            gh release create "$TAG" "$ASSET" --title 'Legacy 302 SBS Plus Proxy Test' --notes 'Temporary direct-download APK for testing the pre-reverse-proxy 302 redirect implementation.'
+          fi
+
+      - name: Verify direct release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release view legacy-302-test --json tagName,assets
