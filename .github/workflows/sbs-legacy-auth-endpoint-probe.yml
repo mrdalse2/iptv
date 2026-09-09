@@ -1,0 +1,50 @@
+name: SBS Legacy Auth Endpoint Probe
+
+on:
+  push:
+    branches: [diag/sbs-player-trace]
+    paths: ['.github/workflows/sbs-legacy-auth-endpoint-probe.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe old SBS official media auth endpoint
+        shell: python
+        run: |
+          import urllib.request, urllib.error, urllib.parse, re
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          qs=urllib.parse.urlencode({'channelPath':'sbspluspc','streamName':'sbsplus0.stream','playerType':'mobile'})
+          urls=[
+            'https://api.sbs.co.kr/vod/_v1/Onair_Media_Auth_Security.jsp?'+qs,
+            'http://api.sbs.co.kr/vod/_v1/Onair_Media_Auth_Security.jsp?'+qs,
+          ]
+          def req(url):
+            r=urllib.request.Request(url,headers={'User-Agent':UA,'Referer':'https://www.sbs.co.kr/live/S03','Accept':'*/*'})
+            try:
+              with urllib.request.urlopen(r,timeout=15) as x:
+                return x.status, x.geturl(), dict(x.headers.items()), x.read(65536)
+            except urllib.error.HTTPError as e:
+              return e.code,e.geturl(),dict(e.headers.items()),e.read(65536)
+            except Exception as e:
+              return None,url,{},str(e).encode()
+          def redact(s):
+            try:
+              p=urllib.parse.urlsplit(s)
+              keys=[k for k,v in urllib.parse.parse_qsl(p.query,keep_blank_values=True)]
+              return f'{p.scheme}://{p.netloc}{p.path}' + (f'?keys={keys}' if keys else '')
+            except Exception: return 'unparsed'
+          for u in urls:
+            code,final,h,b=req(u)
+            text=b.decode('utf-8','replace').strip()
+            found=re.findall(r'https?://[^\s"\'<>]+',text)
+            print('AUTH',urllib.parse.urlsplit(u).scheme,'http=',code,'final=',redact(final),'ctype=',h.get('Content-Type',''),'bytes=',len(b))
+            print('BODY_PREFIX=',text[:300].replace('\n',' '))
+            for x in found[:10]:
+              print('FOUND_URL=',redact(x))
+              c2,f2,h2,b2=req(x)
+              print('FOUND_PROBE http=',c2,'final=',redact(f2),'ctype=',h2.get('Content-Type',''),'m3u=',b2[:64].lstrip().startswith(b'#EXTM3U'))
