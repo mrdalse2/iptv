@@ -67,16 +67,14 @@ public final class LocalHttpServer {
                 String header = reader.readLine();
                 if (header == null || header.isEmpty()) break;
                 int colon = header.indexOf(':');
-                if (colon > 0) {
-                    requestHeaders.put(header.substring(0, colon).trim().toLowerCase(), header.substring(colon + 1).trim());
-                }
+                if (colon > 0) requestHeaders.put(header.substring(0, colon).trim().toLowerCase(), header.substring(colon + 1).trim());
             }
 
             try {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 3.9\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 4.0\n");
                     return;
                 }
                 if ("/debug/sbs".equals(path)) {
@@ -85,9 +83,7 @@ public final class LocalHttpServer {
                 }
                 if ("/playlist.m3u".equals(path) || "/playlist.m3u8".equals(path)) {
                     String authority = requestHeaders.get("host");
-                    if (authority == null || authority.isBlank()) {
-                        authority = socket.getLocalAddress().getHostAddress() + ":8787";
-                    }
+                    if (authority == null || authority.isBlank()) authority = socket.getLocalAddress().getHostAddress() + ":8787";
                     byte[] body = PlaylistAggregator.build("http://" + authority + "/sbsplus.m3u8");
                     writeHeaders(out, 200, "application/x-mpegURL; charset=utf-8", body.length,
                             "no-store, no-cache, must-revalidate", null);
@@ -96,8 +92,7 @@ public final class LocalHttpServer {
                     return;
                 }
                 if ("/sbsplus.m3u8".equals(path) || "/sbsplus".equals(path) || "/".equals(path)) {
-                    String target = SbsResolver.resolve();
-                    proxyRemote(out, target, requestHeaders.get("range"), localBase(socket, requestHeaders));
+                    proxyRemote(out, SbsResolver.resolve(), requestHeaders.get("range"), localBase(socket, requestHeaders));
                     return;
                 }
                 if ("/sbsproxy".equals(path)) {
@@ -117,6 +112,47 @@ public final class LocalHttpServer {
     }
 
     private void proxyRemote(OutputStream out, String target, String range, String localBase) throws Exception {
+        Remote remote = fetchSeamlessly(target, range);
+        byte[] body = remote.body;
+        String contentType = remote.contentType;
+        String lowerType = contentType == null ? "" : contentType.toLowerCase();
+        boolean playlist = remote.finalUrl.toLowerCase().contains(".m3u8")
+                || lowerType.contains("mpegurl") || lowerType.contains("vnd.apple.mpegurl");
+
+        if (remote.code >= 200 && remote.code < 300 && playlist) {
+            body = rewritePlaylist(new String(body, StandardCharsets.UTF_8), remote.finalUrl, localBase)
+                    .getBytes(StandardCharsets.UTF_8);
+            contentType = "application/vnd.apple.mpegurl; charset=utf-8";
+        }
+        if (contentType == null || contentType.isBlank()) contentType = "application/octet-stream";
+
+        StringBuilder extra = new StringBuilder();
+        if (remote.contentRange != null) extra.append("Content-Range: ").append(remote.contentRange).append("\r\n");
+        if (remote.acceptRanges != null) extra.append("Accept-Ranges: ").append(remote.acceptRanges).append("\r\n");
+        writeHeaders(out, remote.code, contentType, body.length,
+                playlist ? "no-store, no-cache, must-revalidate" : "private, max-age=2", extra.toString());
+        out.write(body);
+        out.flush();
+    }
+
+    private Remote fetchSeamlessly(String target, String range) throws Exception {
+        try {
+            return fetch(target, range);
+        } catch (SignedUrlExpiredException e) {
+            String freshRoot = SbsResolver.resolveFresh();
+            String refreshed = refreshSignedQuery(target, freshRoot);
+            return fetch(refreshed, range);
+        } catch (TransientUpstreamException e) {
+            try { Thread.sleep(250L); }
+            catch (InterruptedException interrupted) {
+                Thread.currentThread().interrupt();
+                throw interrupted;
+            }
+            return fetch(target, range);
+        }
+    }
+
+    private Remote fetch(String target, String range) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(target).openConnection();
         c.setConnectTimeout(8_000);
         c.setReadTimeout(15_000);
@@ -131,30 +167,40 @@ public final class LocalHttpServer {
         if (range != null && !range.isBlank()) c.setRequestProperty("Range", range);
 
         int code = c.getResponseCode();
+        if (code == 401 || code == 403 || code == 404 || code == 410) {
+            c.disconnect();
+            throw new SignedUrlExpiredException("HTTP " + code);
+        }
+        if (code == 408 || code == 425 || code == 429 || code == 500 || code == 502 || code == 503 || code == 504) {
+            c.disconnect();
+            throw new TransientUpstreamException("HTTP " + code);
+        }
+
         String finalUrl = c.getURL().toString();
         String contentType = c.getContentType();
         InputStream stream = code >= 200 && code < 400 ? c.getInputStream() : c.getErrorStream();
         byte[] body = readAll(stream);
-        String lowerType = contentType == null ? "" : contentType.toLowerCase();
-        boolean playlist = finalUrl.toLowerCase().contains(".m3u8")
-                || lowerType.contains("mpegurl") || lowerType.contains("vnd.apple.mpegurl");
-
-        if (code >= 200 && code < 300 && playlist) {
-            String text = new String(body, StandardCharsets.UTF_8);
-            body = rewritePlaylist(text, finalUrl, localBase).getBytes(StandardCharsets.UTF_8);
-            contentType = "application/vnd.apple.mpegurl; charset=utf-8";
-        }
-        if (contentType == null || contentType.isBlank()) contentType = "application/octet-stream";
-
-        StringBuilder extra = new StringBuilder();
         String contentRange = c.getHeaderField("Content-Range");
-        if (contentRange != null) extra.append("Content-Range: ").append(contentRange).append("\r\n");
         String acceptRanges = c.getHeaderField("Accept-Ranges");
-        if (acceptRanges != null) extra.append("Accept-Ranges: ").append(acceptRanges).append("\r\n");
-        writeHeaders(out, code, contentType, body.length, "no-store, no-cache, must-revalidate", extra.toString());
-        out.write(body);
-        out.flush();
         c.disconnect();
+        return new Remote(code, body, contentType, finalUrl, contentRange, acceptRanges);
+    }
+
+    private String refreshSignedQuery(String target, String freshRoot) throws Exception {
+        URI old = URI.create(target);
+        URI fresh = URI.create(freshRoot);
+        String freshQuery = fresh.getRawQuery();
+        if (freshQuery == null || freshQuery.isBlank()) {
+            if (samePath(old, fresh)) return fresh.toString();
+            return target;
+        }
+        return new URI(old.getScheme(), old.getAuthority(), old.getPath(), freshQuery, old.getFragment()).toString();
+    }
+
+    private boolean samePath(URI a, URI b) {
+        String ap = a.getPath() == null ? "" : a.getPath();
+        String bp = b.getPath() == null ? "" : b.getPath();
+        return ap.equals(bp);
     }
 
     private String rewritePlaylist(String text, String baseUrl, String localBase) {
@@ -187,11 +233,8 @@ public final class LocalHttpServer {
     }
 
     private static String resolveUrl(String base, String ref) {
-        try {
-            return new URL(new URL(base), ref).toString();
-        } catch (Exception e) {
-            return ref;
-        }
+        try { return new URL(new URL(base), ref).toString(); }
+        catch (Exception e) { return ref; }
     }
 
     private static String queryParam(String rawQuery, String name) {
@@ -208,9 +251,7 @@ public final class LocalHttpServer {
 
     private static String localBase(Socket socket, Map<String, String> headers) {
         String authority = headers.get("host");
-        if (authority == null || authority.isBlank()) {
-            authority = socket.getLocalAddress().getHostAddress() + ":8787";
-        }
+        if (authority == null || authority.isBlank()) authority = socket.getLocalAddress().getHostAddress() + ":8787";
         return "http://" + authority;
     }
 
@@ -232,9 +273,8 @@ public final class LocalHttpServer {
     }
 
     private void writeHeaders(OutputStream out, int code, String type, int length, String cache, String extra) throws Exception {
-        String reason = reason(code);
         StringBuilder headers = new StringBuilder();
-        headers.append("HTTP/1.1 ").append(code).append(' ').append(reason).append("\r\n")
+        headers.append("HTTP/1.1 ").append(code).append(' ').append(reason(code)).append("\r\n")
                 .append("Content-Type: ").append(type).append("\r\n")
                 .append("Content-Length: ").append(length).append("\r\n")
                 .append("Cache-Control: ").append(cache).append("\r\n")
@@ -248,8 +288,10 @@ public final class LocalHttpServer {
         if (code == 200) return "OK";
         if (code == 206) return "Partial Content";
         if (code == 400) return "Bad Request";
+        if (code == 401) return "Unauthorized";
         if (code == 403) return "Forbidden";
         if (code == 404) return "Not Found";
+        if (code == 410) return "Gone";
         if (code == 502) return "Bad Gateway";
         return "Error";
     }
@@ -257,5 +299,30 @@ public final class LocalHttpServer {
     private static String safeMessage(Throwable t) {
         String m = t.getMessage();
         return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
+    }
+
+    private static final class Remote {
+        final int code;
+        final byte[] body;
+        final String contentType;
+        final String finalUrl;
+        final String contentRange;
+        final String acceptRanges;
+        Remote(int code, byte[] body, String contentType, String finalUrl, String contentRange, String acceptRanges) {
+            this.code = code;
+            this.body = body;
+            this.contentType = contentType;
+            this.finalUrl = finalUrl;
+            this.contentRange = contentRange;
+            this.acceptRanges = acceptRanges;
+        }
+    }
+
+    private static final class SignedUrlExpiredException extends Exception {
+        SignedUrlExpiredException(String message) { super(message); }
+    }
+
+    private static final class TransientUpstreamException extends Exception {
+        TransientUpstreamException(String message) { super(message); }
     }
 }
