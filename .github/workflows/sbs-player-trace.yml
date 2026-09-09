@@ -1,0 +1,54 @@
+name: SBS Player Trace
+
+on:
+  push:
+    branches:
+      - diag/sbs-player-trace
+    paths:
+      - '.github/workflows/sbs-player-trace.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trace SBS live player scripts
+        shell: python
+        run: |
+          import re, urllib.request, urllib.parse
+
+          PAGE='https://www.sbs.co.kr/live/S03'
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          req=urllib.request.Request(PAGE, headers={'User-Agent':UA,'Accept':'text/html,*/*'})
+          with urllib.request.urlopen(req, timeout=20) as r:
+              html=r.read().decode('utf-8','replace')
+          print('PAGE bytes=', len(html))
+
+          srcs=re.findall(r'<script[^>]+src=["\']([^"\']+)["\']', html, re.I)
+          srcs=[urllib.parse.urljoin(PAGE,s) for s in srcs]
+          print('SCRIPT count=',len(srcs))
+          for i,s in enumerate(srcs): print(f'SCRIPT[{i}]={s}')
+
+          needles=['play-api','livestream','mediaurl','jwt-token','tvlive.sbs.co.kr','drm','license','widevine','S03','player']
+          for i,s in enumerate(srcs):
+              try:
+                  req=urllib.request.Request(s, headers={'User-Agent':UA,'Referer':PAGE,'Accept':'*/*'})
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      data=r.read(8*1024*1024).decode('utf-8','replace')
+              except Exception as e:
+                  print(f'FETCH[{i}] error={type(e).__name__}:{e}')
+                  continue
+              hits=[]
+              low=data.lower()
+              for n in needles:
+                  if n.lower() in low: hits.append(n)
+              if not hits: continue
+              print(f'MATCH[{i}] hits={hits} bytes={len(data)}')
+              for n in hits:
+                  p=low.find(n.lower())
+                  a=max(0,p-350); b=min(len(data),p+900)
+                  snippet=data[a:b].replace('\n',' ').replace('\r',' ')
+                  print(f'  {n}: {snippet}')
