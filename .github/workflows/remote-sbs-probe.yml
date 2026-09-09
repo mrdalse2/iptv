@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Probe SBS API and HLS remotely
+      - name: Probe SBS Plus discovery and HLS remotely
         shell: python
         run: |
           import json, urllib.request, urllib.error, urllib.parse, datetime, builtins
@@ -29,157 +29,145 @@ jobs:
               builtins.print(line)
               report.append(line)
 
-          DESKTOP_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
-          MOBILE_UA = 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36'
-          REFERER = 'https://www.sbs.co.kr/live/S03'
+          UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          REFERERS = ['https://www.sbs.co.kr/live/S03', 'https://www.sbs.co.kr/enter/plus']
           ORIGIN = 'https://www.sbs.co.kr'
 
-          endpoints = []
-          for platform in ('pcweb', 'mobile'):
-              for ssl in ('N', 'Y'):
-                  endpoints.append((f'onair-{platform}-{ssl}', f'https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03?v_type=2&platform={platform}&protocol=hls&ssl={ssl}&rscuse=&jwt-token=&sbsmain='))
-          endpoints += [
-              ('livestream-Y', 'https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03?protocol=hls&ssl=Y'),
-              ('livestream-N', 'https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03?protocol=hls&ssl=N'),
-          ]
-
-          def request(url, headers=None, limit=1024*1024, ua=DESKTOP_UA, range_probe=False):
-              h = {'User-Agent': ua, 'Accept': '*/*'}
-              if headers:
-                  h.update(headers)
-              if range_probe:
-                  h['Range'] = 'bytes=0-4095'
+          def request(url, headers=None, limit=1024*1024, range_probe=False):
+              h = {'User-Agent': UA, 'Accept': '*/*'}
+              if headers: h.update(headers)
+              if range_probe: h['Range'] = 'bytes=0-4095'
               req = urllib.request.Request(url, headers=h)
               try:
                   with urllib.request.urlopen(req, timeout=15) as r:
-                      body = r.read(limit)
-                      return r.status, dict(r.headers.items()), body, r.geturl()
+                      return r.status, dict(r.headers.items()), r.read(limit), r.geturl()
               except urllib.error.HTTPError as e:
-                  body = e.read(65536)
-                  return e.code, dict(e.headers.items()), body, e.geturl()
+                  return e.code, dict(e.headers.items()), e.read(65536), e.geturl()
               except Exception as e:
                   return None, {}, str(e).encode(), url
 
-          def find_media(x):
+          def all_media(x, out=None):
+              out = out if out is not None else []
               if isinstance(x, dict):
-                  for k in ('mediaurl','mediaUrl','media_url'):
-                      v = x.get(k)
-                      if isinstance(v, str) and v.startswith(('http://','https://')):
-                          return v
-                  for v in x.values():
-                      found = find_media(v)
-                      if found:
-                          return found
-              elif isinstance(x, list):
-                  for v in x:
-                      found = find_media(v)
-                      if found:
-                          return found
-              return None
+                  for k,v in x.items():
+                      if k.lower() in ('mediaurl','media_url') and isinstance(v,str) and v.startswith(('http://','https://')):
+                          out.append(v)
+                      all_media(v,out)
+              elif isinstance(x,list):
+                  for v in x: all_media(v,out)
+              return list(dict.fromkeys(out))
 
-          def summarize_url(url):
-              if not url:
-                  return 'none'
-              p = urllib.parse.urlsplit(url)
-              q = urllib.parse.parse_qs(p.query)
-              return f'host={p.hostname}, path={p.path}, queryPresent={bool(p.query)}, tokenPresent={"token" in q}, solsessionidPresent={"solsessionid" in q}'
+          def summary(url):
+              if not url: return 'none'
+              p=urllib.parse.urlsplit(url); q=urllib.parse.parse_qs(p.query)
+              return f'host={p.hostname},path={p.path},token={"token" in q},solsessionid={"solsessionid" in q}'
 
-          def hls_lines(body):
-              return [ln.strip() for ln in body.decode('utf-8','replace').splitlines() if ln.strip()]
+          def lines(body):
+              return [x.strip() for x in body.decode('utf-8','replace').splitlines() if x.strip()]
 
-          def first_uri(base, lines, after_stream_inf=False):
-              if after_stream_inf:
-                  for i, line in enumerate(lines):
-                      if line.startswith('#EXT-X-STREAM-INF') and i + 1 < len(lines):
-                          nxt = lines[i + 1]
-                          if not nxt.startswith('#'):
-                              return urllib.parse.urljoin(base, nxt)
+          def first_uri(base, ls, stream=False):
+              if stream:
+                  for i,x in enumerate(ls):
+                      if x.startswith('#EXT-X-STREAM-INF') and i+1<len(ls) and not ls[i+1].startswith('#'):
+                          return urllib.parse.urljoin(base,ls[i+1])
                   return None
-              for line in lines:
-                  if not line.startswith('#'):
-                      return urllib.parse.urljoin(base, line)
+              for x in ls:
+                  if not x.startswith('#'): return urllib.parse.urljoin(base,x)
               return None
 
-          def validate_hls(label, media, extra, ua):
-              status, headers, body, final = request(media, extra, 256 * 1024, ua=ua)
-              text = body.decode('utf-8','replace')
-              log(f'HLS {label}/playlist: http={status}, final={summarize_url(final)}, type={headers.get("Content-Type","")}, extm3u={text.lstrip().startswith("#EXTM3U")}')
-              if status != 200 or not text.lstrip().startswith('#EXTM3U'):
-                  return False
-
-              lines = hls_lines(body)
-              variant = first_uri(final, lines, after_stream_inf=True)
-              media_playlist_url = final
+          def validate(label,url,headers):
+              st,h,b,final=request(url,headers,256*1024)
+              txt=b.decode('utf-8','replace')
+              log(f'HLS {label}/playlist http={st} {summary(final)} extm3u={txt.lstrip().startswith("#EXTM3U")}')
+              if st!=200 or not txt.lstrip().startswith('#EXTM3U'): return False
+              ls=lines(b); variant=first_uri(final,ls,True); base=final
               if variant:
-                  vstatus, vheaders, vbody, vfinal = request(variant, extra, 256 * 1024, ua=ua)
-                  vtext = vbody.decode('utf-8','replace')
-                  log(f'HLS {label}/variant: http={vstatus}, final={summarize_url(vfinal)}, type={vheaders.get("Content-Type","")}, extm3u={vtext.lstrip().startswith("#EXTM3U")}')
-                  if vstatus != 200 or not vtext.lstrip().startswith('#EXTM3U'):
-                      return False
-                  lines = hls_lines(vbody)
-                  media_playlist_url = vfinal
+                  st,h,b,base=request(variant,headers,256*1024); txt=b.decode('utf-8','replace')
+                  log(f'HLS {label}/variant http={st} {summary(base)} extm3u={txt.lstrip().startswith("#EXTM3U")}')
+                  if st!=200 or not txt.lstrip().startswith('#EXTM3U'): return False
+                  ls=lines(b)
+              seg=first_uri(base,ls)
+              if not seg: return False
+              st,h,b,final=request(seg,headers,4096,True)
+              log(f'HLS {label}/segment http={st} host={urllib.parse.urlsplit(final).hostname} bytes={len(b)}')
+              return st in (200,206) and len(b)>0
 
-              segment = first_uri(media_playlist_url, lines)
-              if not segment:
-                  log(f'HLS {label}/segment: none')
-                  return False
-              sstatus, sheaders, sbody, sfinal = request(segment, extra, 4096, ua=ua, range_probe=True)
-              log(f'HLS {label}/segment: http={sstatus}, finalHost={urllib.parse.urlsplit(sfinal).hostname}, bytes={len(sbody)}, type={sheaders.get("Content-Type","")}')
-              return sstatus in (200, 206) and len(sbody) > 0
-
-          found = {}
-          for name, url in endpoints:
-              ua = MOBILE_UA if 'mobile' in name else DESKTOP_UA
-              status, headers, body, final = request(url, {'Referer': REFERER, 'Origin': ORIGIN, 'Accept': 'application/json,text/plain,*/*'}, ua=ua)
-              text = body.decode('utf-8','replace').strip()
-              media = None
+          # Discover current SBS channel IDs/names instead of assuming S03.
+          discovered=[]
+          for kind,url in [
+              ('regular','https://static.apis.sbs.co.kr/play-api/1.0/onair/channels'),
+              ('virtual','https://static.apis.sbs.co.kr/play-api/1.0/onair/virtual/channels')]:
+              st,h,b,final=request(url,{'Referer':REFERERS[0],'Origin':ORIGIN,'Accept':'application/json'})
+              log(f'CHANNEL_LIST {kind} http={st}')
               try:
-                  if text.startswith('{') or text.startswith('['):
-                      media = find_media(json.loads(text))
-                  elif text.startswith(('http://','https://')):
-                      media = text
-              except Exception:
-                  pass
-              cookie_present = any(k.lower() == 'set-cookie' for k in headers)
-              log(f'API {name}: http={status}, finalHost={urllib.parse.urlsplit(final).hostname}, cookiePresent={cookie_present}, media={summarize_url(media)}')
-              if media:
-                  found[name] = (media, ua)
+                  data=json.loads(b.decode('utf-8','replace'))
+                  for item in data.get('list',[]):
+                      cid=str(item.get('channelid','')); name=str(item.get('channelname',''))
+                      if cid=='S03' or 'PLUS' in name.upper() or '플러스' in name:
+                          discovered.append((kind,cid,name))
+                          log(f'DISCOVER {kind} id={cid} name={name!r} onair={item.get("onair_yn")}')
+              except Exception as e: log(f'CHANNEL_LIST_PARSE {kind} {e}')
 
-          valid = []
-          profiles = [
-              ('referer-origin', {'Referer': REFERER, 'Origin': ORIGIN}),
-              ('referer-only', {'Referer': REFERER}),
-              ('minimal', {}),
-          ]
-          for source, (media, ua) in found.items():
-              candidates = [('api-url', media)]
-              p = urllib.parse.urlsplit(media)
+          # Known aliases seen in SBS CDN/public integrations are probed too.
+          ids=[]
+          for kind,cid,name in discovered:
+              if cid: ids.append((kind,cid))
+          ids += [('regular','S03')]
+          ids=list(dict.fromkeys(ids))
+
+          endpoints=[]
+          for kind,cid in ids:
+              prefixes=['onair/channel'] if kind=='regular' else ['onair/virtual/channel']
+              # Cross-check both endpoint families because SBS has moved IDs between them historically.
+              prefixes += ['onair/virtual/channel'] if kind=='regular' else ['onair/channel']
+              for prefix in prefixes:
+                  for platform in ('pcweb','mobile'):
+                      for ssl in ('N','Y'):
+                          endpoints.append((f'{prefix}/{cid}/{platform}/{ssl}',f'https://apis.sbs.co.kr/play-api/1.0/{prefix}/{cid}?v_type=2&platform={platform}&protocol=hls&ssl={ssl}&rscuse=&jwt-token=&sbsmain='))
+
+          # Livestream path aliases, including the actual CDN naming convention.
+          aliases=[('S03','S03'),('sbspluspc','sbsplus0'),('sbspluspc','sbsplus')]
+          for a,b in aliases:
+              for ssl in ('N','Y'):
+                  endpoints.append((f'livestream/{a}/{b}/{ssl}',f'https://apis.sbs.co.kr/play-api/1.0/livestream/{a}/{b}?protocol=hls&ssl={ssl}'))
+
+          found=[]
+          for label,url in endpoints:
+              st,h,b,final=request(url,{'Referer':REFERERS[0],'Origin':ORIGIN,'Accept':'application/json,text/plain,*/*'})
+              text=b.decode('utf-8','replace').strip(); medias=[]
+              try:
+                  if text.startswith(('{','[')): medias=all_media(json.loads(text))
+                  elif text.startswith(('http://','https://')): medias=[text]
+              except Exception: pass
+              log(f'API {label} http={st} media_count={len(medias)}')
+              for media in medias:
+                  log(f'MEDIA {label} {summary(media)}')
+                  found.append((label,media))
+
+          valid=[]
+          for label,media in found:
+              candidates=[('api',media)]
+              p=urllib.parse.urlsplit(media)
               if p.path.endswith('/playlist.m3u8'):
-                  candidates.append(('chunklist-same-query', urllib.parse.urlunsplit((p.scheme, p.netloc, p.path[:-len('playlist.m3u8')] + 'chunklist.m3u8', p.query, p.fragment))))
-              elif p.path.endswith('/chunklist.m3u8'):
-                  candidates.append(('playlist-same-query', urllib.parse.urlunsplit((p.scheme, p.netloc, p.path[:-len('chunklist.m3u8')] + 'playlist.m3u8', p.query, p.fragment))))
-
-              for cname, candidate in candidates:
-                  for pname, extra in profiles:
-                      label = f'{source}/{cname}/{pname}'
-                      if validate_hls(label, candidate, extra, ua):
-                          valid.append(label)
-                          log(f'VALID {label} media={summarize_url(candidate)}')
+                  candidates.append(('chunklist',urllib.parse.urlunsplit((p.scheme,p.netloc,p.path[:-13]+'chunklist.m3u8',p.query,p.fragment))))
+              for cname,url in candidates:
+                  for r in REFERERS:
+                      headers={'Referer':r,'Origin':ORIGIN}
+                      tag=f'{label}/{cname}/{urllib.parse.urlsplit(r).path}'
+                      if validate(tag,url,headers):
+                          valid.append((tag,url)); log(f'VALID {tag} {summary(url)}')
 
           log(f'VALID_COUNT={len(valid)}')
-          log('VALID_SOURCES=' + (','.join(valid) if valid else 'none'))
-          stamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
-          with open('sbs-probe-report.txt', 'w', encoding='utf-8') as f:
-              f.write('generated_utc=' + stamp + '\n')
-              f.write('\n'.join(report) + '\n')
+          log('VALID_SOURCES=' + (','.join(x[0] for x in valid) if valid else 'none'))
+          with open('sbs-probe-report.txt','w',encoding='utf-8') as f:
+              f.write('generated_utc='+datetime.datetime.now(datetime.timezone.utc).isoformat()+'\n')
+              f.write('\n'.join(report)+'\n')
 
       - name: Persist probe report
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sbs-probe-report.txt
-          if git diff --cached --quiet; then
-            exit 0
-          fi
+          if git diff --cached --quiet; then exit 0; fi
           git commit -m 'diag: update SBS remote probe report'
           git push
