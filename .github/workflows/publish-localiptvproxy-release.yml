@@ -34,7 +34,7 @@ jobs:
       - name: Prepare APK assets
         run: |
           cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-2.2-mdns.apk
-          cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-3.9-sbsplusfix.apk
+          cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-4.0-seamless.apk
 
       - name: Create or update fixed GitHub Release
         env:
@@ -42,12 +42,12 @@ jobs:
         run: |
           TAG='localiptvproxy-v2.2'
           TITLE='Local IPTV Proxy (Latest)'
-          NOTES='3.9 adds validated SBS Plus resolution via livestream/sbspluspc/sbsplus0. HLS candidates are accepted only after playlist/variant/media-segment validation. Stable 2.2 filename is retained for compatibility.'
+          NOTES='4.0 combines the validated SBS Plus local HLS proxy with seamless signed-token refresh and transient upstream retry. Stable 2.2 filename is retained for compatibility; LocalIPTVProxy-4.0-seamless.apk is the explicit 4.0 build.'
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-3.9-sbsplusfix.apk --clobber
+            gh release upload "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-4.0-seamless.apk --clobber
             gh release edit "$TAG" --title "$TITLE" --notes "$NOTES"
           else
-            gh release create "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-3.9-sbsplusfix.apk \
+            gh release create "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-4.0-seamless.apk \
               --title "$TITLE" \
               --notes "$NOTES"
           fi
