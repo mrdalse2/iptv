@@ -1,0 +1,107 @@
+name: Remote SBS Endpoint Sweep
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/remote-sbs-endpoint-sweep.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sweep SBS public endpoints
+        shell: python
+        run: |
+          import json, urllib.request, urllib.error, urllib.parse, datetime, builtins
+          out=[]
+          def log(s):
+              builtins.print(s); out.append(s)
+          UAS={
+            'desktop':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36',
+            'mobile':'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36'
+          }
+          REF='https://www.sbs.co.kr/live/S03'; ORI='https://www.sbs.co.kr'
+          bases=[
+            ('onair','https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03'),
+            ('virtual','https://apis.sbs.co.kr/play-api/1.0/onair/virtual/channel/S03'),
+            ('static-onair','https://static.apis.sbs.co.kr/play-api/1.0/onair/channel/S03'),
+            ('static-virtual','https://static.apis.sbs.co.kr/play-api/1.0/onair/virtual/channel/S03'),
+            ('livestream','https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03'),
+          ]
+          queries=[
+            ('protocol','protocol=hls'),
+            ('pc-N','v_type=2&platform=pcweb&protocol=hls&ssl=N&rscuse=&jwt-token=&sbsmain='),
+            ('pc-Y','v_type=2&platform=pcweb&protocol=hls&ssl=Y&rscuse=&jwt-token=&sbsmain='),
+            ('mobile-N','v_type=2&platform=mobile&protocol=hls&ssl=N&rscuse=&jwt-token=&sbsmain='),
+            ('mobile-Y','v_type=2&platform=mobile&protocol=hls&ssl=Y&rscuse=&jwt-token=&sbsmain='),
+            ('app-N','v_type=2&platform=app&protocol=hls&ssl=N&rscuse=&jwt-token=&sbsmain='),
+            ('v1-pc-N','v_type=1&platform=pcweb&protocol=hls&ssl=N&rscuse=&jwt-token=&sbsmain='),
+          ]
+          def req(url, ua, hdr=None, limit=262144, rng=False):
+              h={'User-Agent':ua,'Accept':'*/*'}
+              if hdr: h.update(hdr)
+              if rng: h['Range']='bytes=0-4095'
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=12) as r:
+                      return r.status,dict(r.headers.items()),r.read(limit),r.geturl()
+              except urllib.error.HTTPError as e:
+                  return e.code,dict(e.headers.items()),e.read(65536),e.geturl()
+              except Exception as e:
+                  return None,{},str(e).encode(),url
+          def medias(x, acc=None):
+              if acc is None: acc=[]
+              if isinstance(x,dict):
+                  for k,v in x.items():
+                      if isinstance(v,str) and v.startswith(('http://','https://')) and ('mediaurl' in k.lower() or '.m3u8' in v): acc.append(v)
+                      else: medias(v,acc)
+              elif isinstance(x,list):
+                  for v in x: medias(v,acc)
+              return list(dict.fromkeys(acc))
+          def summary(u):
+              p=urllib.parse.urlsplit(u); q=urllib.parse.parse_qs(p.query)
+              return f'host={p.hostname},path={p.path},token={"token" in q},solsessionid={"solsessionid" in q}'
+          def validate(label,u,ua):
+              st,hd,bo,fin=req(u,ua,{'Referer':REF,'Origin':ORI})
+              txt=bo.decode('utf-8','replace')
+              log(f'HLS {label} http={st} {summary(fin)} extm3u={txt.lstrip().startswith("#EXTM3U")}')
+              return st==200 and txt.lstrip().startswith('#EXTM3U')
+          valid=[]
+          for bname,base in bases:
+              for qname,q in queries:
+                  for uname,ua in UAS.items():
+                      url=base+'?'+q
+                      st,hd,bo,fin=req(url,ua,{'Referer':REF,'Origin':ORI,'Accept':'application/json,text/plain,*/*'})
+                      txt=bo.decode('utf-8','replace').strip(); mm=[]
+                      try:
+                          if txt.startswith(('{','[')): mm=medias(json.loads(txt))
+                      except Exception: pass
+                      log(f'API {bname}/{qname}/{uname} http={st} mediaCount={len(mm)}')
+                      for i,m in enumerate(mm[:5]):
+                          if validate(f'{bname}/{qname}/{uname}/{i}',m,ua):
+                              valid.append((f'{bname}/{qname}/{uname}/{i}',summary(m)))
+          # Public CDN patterns previously observed; only check, never treat a guessed URL as valid without #EXTM3U 200.
+          guesses=[
+            'https://tvlive.sbs.co.kr/sbspluspc/sbsplus0.stream/playlist.m3u8',
+            'https://tvlive.sbs.co.kr/sbspluspc/sbsplus0.stream/chunklist.m3u8',
+            'https://tvlive.sbs.co.kr/S03/S03.stream/playlist.m3u8',
+            'https://tvlive.sbs.co.kr/S03/S03.stream/chunklist.m3u8',
+          ]
+          for g in guesses:
+              validate('known-pattern',g,UAS['desktop'])
+          log('VALID_COUNT='+str(len(valid)))
+          for label,s in valid: log('VALID '+label+' '+s)
+          with open('sbs-endpoint-sweep-report.txt','w',encoding='utf-8') as f:
+              f.write('generated_utc='+datetime.datetime.now(datetime.timezone.utc).isoformat()+'\n'+'\n'.join(out)+'\n')
+      - name: Persist sweep report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sbs-endpoint-sweep-report.txt
+          git commit -m 'diag: update SBS endpoint sweep report' || exit 0
+          git push
