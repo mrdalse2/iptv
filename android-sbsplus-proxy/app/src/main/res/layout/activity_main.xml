@@ -50,6 +50,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
+            android:text="SBS Plus 인증 폴백"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/authText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="SBS 로그인 상태: 확인 중"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/sbsLoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="SBS 공식 로그인" />
+
+        <Button
+            android:id="@+id/clearSbsAuthButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="SBS 로그인 세션 삭제" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="로그인은 SBS 공식 페이지에서 직접 진행합니다. 비밀번호는 이 앱이 저장하지 않으며, 로그인 세션은 기기 내부에서 인증 onair 요청에만 사용합니다."
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
             android:text="TiviMate에 등록할 통합 플레이리스트"
             android:textStyle="bold" />
 
@@ -88,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="/playlist.m3u를 열 때마다 GitHub의 최신 kr-tivimate.m3u를 가져와 전체 채널을 제공하고, SBS Plus 항목만 이 기기의 무중단 HLS 프록시 주소로 자동 치환합니다. mDNS가 실패해도 IP 직접접속 주소로 사용할 수 있습니다." />
+            android:text="SBS 로그인 세션이 있으면 인증 onair를 최우선으로 검증합니다. 실패하면 기존 공개 onair 변형, LL, mobile, livestream 순으로 자동 폴백하며 실제 HLS 2xx + #EXTM3U를 통과한 소스만 사용합니다. 나머지 IPTV 채널은 GitHub 플레이리스트 원본을 유지합니다." />
 
         <TextView
             android:layout_width="match_parent"
