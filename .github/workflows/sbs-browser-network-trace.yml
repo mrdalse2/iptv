@@ -1,0 +1,73 @@
+name: SBS Browser Network Trace
+
+on:
+  push:
+    branches:
+      - diag/sbs-player-trace
+    paths:
+      - '.github/workflows/sbs-browser-network-trace.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install chromium
+      - name: Run SBS live page and trace network
+        shell: python
+        run: |
+          from playwright.sync_api import sync_playwright
+          from urllib.parse import urlsplit, parse_qsl
+          import time
+
+          def redact(url):
+              try:
+                  p=urlsplit(url)
+                  keys=[k for k,v in parse_qsl(p.query, keep_blank_values=True)]
+                  return f'{p.scheme}://{p.netloc}{p.path}' + (f'?keys={keys}' if keys else '')
+              except Exception:
+                  return url
+
+          interesting=[]
+          with sync_playwright() as pw:
+              browser=pw.chromium.launch(headless=True, args=['--autoplay-policy=no-user-gesture-required'])
+              page=browser.new_page(viewport={'width':1280,'height':720}, user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36')
+
+              def on_response(resp):
+                  u=resp.url
+                  if any(x in u for x in ['apis.sbs.co.kr','tvlive.sbs.co.kr','cloud.sbs.co.kr','playlist.m3u8','.m3u8']):
+                      interesting.append((resp.status, redact(u), resp.request.resource_type))
+              page.on('response', on_response)
+
+              page.goto('https://www.sbs.co.kr/live/S03', wait_until='domcontentloaded', timeout=60000)
+              page.wait_for_timeout(15000)
+              try:
+                  page.locator('video').first.click(timeout=3000)
+              except Exception:
+                  pass
+              page.wait_for_timeout(15000)
+
+              print('TITLE=', page.title())
+              print('VIDEO_COUNT=', page.locator('video').count())
+              try:
+                  if page.locator('video').count():
+                      print('VIDEO_STATE=', page.locator('video').first.evaluate('(v)=>({src:v.currentSrc,paused:v.paused,readyState:v.readyState,error:v.error&&v.error.code})'))
+              except Exception as e:
+                  print('VIDEO_STATE_ERROR=', type(e).__name__, str(e))
+
+              seen=set()
+              for status,url,rtype in interesting:
+                  key=(status,url,rtype)
+                  if key in seen: continue
+                  seen.add(key)
+                  print(f'NET http={status} type={rtype} url={url}')
+              browser.close()
