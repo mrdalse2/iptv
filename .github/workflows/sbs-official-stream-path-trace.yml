@@ -1,0 +1,57 @@
+name: SBS Official Stream Path Trace
+
+on:
+  push:
+    branches: [diag/sbs-player-trace]
+    paths: ['.github/workflows/sbs-official-stream-path-trace.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trace SBS official JS for alternate live stream paths
+        shell: python
+        run: |
+          import re, urllib.request, urllib.parse
+
+          PAGE='https://www.sbs.co.kr/live/S03'
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          req=urllib.request.Request(PAGE,headers={'User-Agent':UA})
+          with urllib.request.urlopen(req,timeout=20) as r:
+              html=r.read().decode('utf-8','replace')
+
+          srcs=[urllib.parse.urljoin(PAGE,s) for s in re.findall(r'<script[^>]+src=["\']([^"\']+)["\']',html,re.I)]
+          needles=['sbspluspc','sbsplus0','solsessionid','sbsplus_500k','SBSPLUS_500K','chunklist.m3u8','playlist.m3u8','tvlive.sbs.co.kr','token=','stream/']
+
+          all_urls=[]
+          for i,s in enumerate(srcs):
+              try:
+                  req=urllib.request.Request(s,headers={'User-Agent':UA,'Referer':PAGE})
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      data=r.read(10*1024*1024).decode('utf-8','replace')
+              except Exception as e:
+                  continue
+              low=data.lower()
+              hits=[]
+              for n in needles:
+                  if n.lower() in low: hits.append(n)
+              if hits:
+                  print(f'MATCH[{i}] {s} hits={hits}')
+                  for n in hits:
+                      pos=low.find(n.lower())
+                      snippet=data[max(0,pos-700):min(len(data),pos+1800)].replace('\n',' ').replace('\r',' ')
+                      print(f'  {n}: {snippet}')
+              for u in re.findall(r'https?://[^"\'\s)]+',data):
+                  if any(k in u.lower() for k in ['tvlive.sbs.co.kr','.m3u8','play-api']):
+                      all_urls.append(u)
+
+          print('=== unique interesting absolute URLs ===')
+          for u in sorted(set(all_urls)):
+              p=urllib.parse.urlsplit(u)
+              # redact all query values
+              keys=[k for k,v in urllib.parse.parse_qsl(p.query,keep_blank_values=True)]
+              print(f'{p.scheme}://{p.netloc}{p.path}' + (f'?keys={keys}' if keys else ''))
