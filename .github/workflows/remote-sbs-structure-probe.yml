@@ -1,0 +1,54 @@
+name: Remote SBS Structure Probe
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/remote-sbs-structure-probe.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect sanitized SBS API structure
+        shell: python
+        run: |
+          import json, urllib.request, urllib.error, urllib.parse
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          REF='https://www.sbs.co.kr/live/S03'; ORI='https://www.sbs.co.kr'
+          urls={
+            'channels':'https://static.apis.sbs.co.kr/play-api/1.0/onair/channels',
+            'onair':'https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03?v_type=2&platform=pcweb&protocol=hls&ssl=N&rscuse=&jwt-token=&sbsmain=',
+            'livestreamY':'https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03?protocol=hls&ssl=Y',
+            'livestreamN':'https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03?protocol=hls&ssl=N',
+          }
+          def get(u):
+            req=urllib.request.Request(u,headers={'User-Agent':UA,'Referer':REF,'Origin':ORI,'Accept':'application/json,text/plain,*/*'})
+            try:
+              with urllib.request.urlopen(req,timeout=15) as r: return r.status,json.loads(r.read().decode())
+            except Exception as e: return None,{'error':str(e)}
+          def safe(v,depth=0):
+            if depth>5: return '<depth>'
+            if isinstance(v,dict):
+              out={}
+              for k,x in v.items():
+                kl=k.lower()
+                if isinstance(x,str) and x.startswith(('http://','https://')):
+                  p=urllib.parse.urlsplit(x); q=urllib.parse.parse_qs(p.query)
+                  out[k]=f'<url host={p.hostname} path={p.path} query={bool(p.query)} token={"token" in q} solsessionid={"solsessionid" in q}>'
+                elif any(s in kl for s in ('token','jwt','cookie','session')) and isinstance(x,str):
+                  out[k]='<redacted-present>' if x else ''
+                else: out[k]=safe(x,depth+1)
+              return out
+            if isinstance(v,list): return [safe(x,depth+1) for x in v[:8]]
+            if isinstance(v,str) and len(v)>240: return v[:240]+'...'
+            return v
+          for name,u in urls.items():
+            st,data=get(u)
+            if name=='channels' and isinstance(data,dict):
+              matches=[x for x in data.get('list',[]) if isinstance(x,dict) and x.get('channelid')=='S03']
+              print('===',name,'http',st,'S03===')
+              print(json.dumps(safe(matches),ensure_ascii=False,indent=2))
+            else:
+              print('===',name,'http',st,'===')
+              print(json.dumps(safe(data),ensure_ascii=False,indent=2))
