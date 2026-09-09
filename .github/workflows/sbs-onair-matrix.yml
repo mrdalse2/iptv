@@ -1,0 +1,98 @@
+name: SBS Onair Matrix
+
+on:
+  push:
+    branches:
+      - diag/sbs-player-trace
+    paths:
+      - '.github/workflows/sbs-onair-matrix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe official SBS onair variants
+        shell: python
+        run: |
+          import json, urllib.request, urllib.error, urllib.parse
+
+          API='https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03'
+          REF='https://www.sbs.co.kr/live/S03'
+          UAS={
+            'desktop':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36',
+            'android':'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36',
+          }
+
+          variants=[
+            ('legacy-N', {'v_type':'2','platform':'pcweb','protocol':'hls','ssl':'N','rscuse':'','jwt-token':'','sbsmain':''}),
+            ('legacy-Y', {'v_type':'2','platform':'pcweb','protocol':'hls','ssl':'Y','rscuse':'','jwt-token':'','sbsmain':''}),
+            ('player-Y-extra-empty', {'v_type':'2','platform':'pcweb','protocol':'hls','ssl':'Y','rscuse':'','extra':'','jwt-token':''}),
+            ('player-Y-LL', {'v_type':'2','platform':'pcweb','protocol':'hls','ssl':'Y','rscuse':'','extra':'LL','jwt-token':''}),
+            ('player-N-extra-empty', {'v_type':'2','platform':'pcweb','protocol':'hls','ssl':'N','rscuse':'','extra':'','jwt-token':''}),
+            ('no-jwt-param', {'v_type':'2','platform':'pcweb','protocol':'hls','ssl':'Y','rscuse':'','extra':''}),
+            ('v1', {'v_type':'1','platform':'pcweb','protocol':'hls','ssl':'Y','rscuse':'','extra':'','jwt-token':''}),
+            ('v3', {'v_type':'3','platform':'pcweb','protocol':'hls','ssl':'Y','rscuse':'','extra':'','jwt-token':''}),
+            ('mobile-platform', {'v_type':'2','platform':'mobileweb','protocol':'hls','ssl':'Y','rscuse':'','extra':'','jwt-token':''}),
+          ]
+
+          def request(url, ua, origin=True, limit=1024*1024):
+            h={'User-Agent':ua,'Accept':'application/json,text/plain,*/*','Referer':REF,'Cache-Control':'no-cache'}
+            if origin: h['Origin']='https://www.sbs.co.kr'
+            req=urllib.request.Request(url,headers=h)
+            try:
+              with urllib.request.urlopen(req,timeout=12) as r:
+                return r.status,dict(r.headers.items()),r.read(limit),r.geturl()
+            except urllib.error.HTTPError as e:
+              return e.code,dict(e.headers.items()),e.read(65536),e.geturl()
+            except Exception as e:
+              return None,{},str(e).encode(),url
+
+          def find_media(x):
+            if isinstance(x,dict):
+              for k in ('mediaurl','mediaUrl','media_url','url','src'):
+                v=x.get(k)
+                if isinstance(v,str) and v.startswith(('http://','https://')) and ('.m3u8' in v or 'tvlive' in v): return v
+              for v in x.values():
+                f=find_media(v)
+                if f:return f
+            elif isinstance(x,list):
+              for v in x:
+                f=find_media(v)
+                if f:return f
+            return None
+
+          def probe_hls(media,ua):
+            h={'User-Agent':ua,'Accept':'*/*','Referer':REF}
+            req=urllib.request.Request(media,headers=h)
+            try:
+              with urllib.request.urlopen(req,timeout=12) as r:
+                b=r.read(64)
+                return r.status,r.headers.get('Content-Type',''),b.startswith(b'#EXTM3U')
+            except urllib.error.HTTPError as e:
+              return e.code,e.headers.get('Content-Type',''),False
+            except Exception:
+              return None,'',False
+
+          for name,q in variants:
+            for ua_name,ua in UAS.items():
+              for origin in (True,False):
+                url=API+'?'+urllib.parse.urlencode(q)
+                code,headers,body,final=request(url,ua,origin)
+                media=None
+                keys=[]
+                try:
+                  obj=json.loads(body.decode('utf-8','replace'))
+                  if isinstance(obj,dict): keys=list(obj.keys())[:8]
+                  media=find_media(obj)
+                except Exception: pass
+                summary='none'
+                if media:
+                  p=urllib.parse.urlsplit(media)
+                  summary=f'host={p.hostname},path={p.path},query={bool(p.query)}'
+                  hcode,ctype,m3u=probe_hls(media,ua)
+                  summary+=f',hlsHttp={hcode},m3u={m3u}'
+                print(f'{name}/{ua_name}/origin={origin}: apiHttp={code}, media={summary}, topKeys={keys}')
