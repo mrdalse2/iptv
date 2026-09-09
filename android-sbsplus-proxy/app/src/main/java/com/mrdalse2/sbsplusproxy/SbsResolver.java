@@ -2,6 +2,7 @@ package com.mrdalse2.sbsplusproxy;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -110,7 +111,8 @@ public final class SbsResolver {
                         diagnostics.add(profile.name + "-hls{" + validation.summary + "}");
                         if (validation.valid) {
                             String summary = "selected=" + profile.name + ", round=" + (round + 1)
-                                    + ", validated=true, attempts=" + diagnostics;
+                                    + ", validated=true, selectedMedia=" + safeLocation(p.mediaUrl)
+                                    + ", attempts=" + diagnostics;
                             lastDebug = summary;
                             return new ProbeSet(p.mediaUrl, summary);
                         }
@@ -165,9 +167,29 @@ public final class SbsResolver {
             throw new IllegalStateException("HTTP " + response.code);
         }
 
-        JSONObject json = new JSONObject(response.bodyText());
-        String media = findMediaUrl(json);
-        return new Probe(media, summarize(json, media, response.code));
+        ParsedMedia parsed = parseMediaResponse(response.bodyText());
+        return new Probe(parsed.mediaUrl,
+                "http=" + response.code + ",responseType=" + parsed.responseType
+                        + ",media=" + mediaSummary(parsed.mediaUrl));
+    }
+
+    private static ParsedMedia parseMediaResponse(String rawBody) throws Exception {
+        String body = rawBody == null ? "" : rawBody.trim();
+        if (body.isEmpty()) return new ParsedMedia(null, "empty");
+
+        // SBS occasionally returns the signed HLS URL directly as text instead of a JSON object.
+        if (isHttpUrl(body)) return new ParsedMedia(body, "plain-url");
+
+        Object parsed = new JSONTokener(body).nextValue();
+        if (parsed instanceof String) {
+            String value = ((String) parsed).trim();
+            return new ParsedMedia(isHttpUrl(value) ? value : null, "json-string");
+        }
+        if (parsed instanceof JSONObject || parsed instanceof JSONArray) {
+            return new ParsedMedia(findMediaUrl(parsed),
+                    parsed instanceof JSONObject ? "json-object" : "json-array");
+        }
+        return new ParsedMedia(null, parsed == null ? "null" : parsed.getClass().getSimpleName());
     }
 
     private static Validation validateHls(String mediaUrl, String userAgent) {
@@ -175,7 +197,8 @@ public final class SbsResolver {
             HttpResponse master = httpGet(mediaUrl, userAgent, "*/*", false, 256 * 1024);
             String masterText = master.bodyText();
             if (master.code != 200 || !masterText.stripLeading().startsWith("#EXTM3U")) {
-                return new Validation(false, "playlist=" + master.code + ",extm3u=false");
+                return new Validation(false, "playlist=" + master.code + ",extm3u=false,master="
+                        + safeLocation(master.finalUrl));
             }
 
             String masterFinal = master.finalUrl;
@@ -187,20 +210,29 @@ public final class SbsResolver {
                 HttpResponse variantResponse = httpGet(variant, userAgent, "*/*", false, 256 * 1024);
                 String variantText = variantResponse.bodyText();
                 if (variantResponse.code != 200 || !variantText.stripLeading().startsWith("#EXTM3U")) {
-                    return new Validation(false, "playlist=200,variant=" + variantResponse.code + ",extm3u=false");
+                    return new Validation(false, "playlist=200,master=" + safeLocation(masterFinal)
+                            + ",variant=" + variantResponse.code + ",variantPath="
+                            + safeLocation(variantResponse.finalUrl) + ",extm3u=false");
                 }
                 lines = playlistLines(variantText);
                 mediaPlaylistUrl = variantResponse.finalUrl;
             }
 
             String segment = firstMediaUri(mediaPlaylistUrl, lines);
-            if (segment == null) return new Validation(false, "playlist=200,variant=200,segment=none");
+            if (segment == null) {
+                return new Validation(false, "playlist=200,master=" + safeLocation(masterFinal)
+                        + ",variantPath=" + safeLocation(mediaPlaylistUrl) + ",segment=none");
+            }
 
             HttpResponse segmentResponse = httpGet(segment, userAgent, "*/*", true, 4096);
             boolean ok = (segmentResponse.code == 200 || segmentResponse.code == 206)
                     && segmentResponse.body.length > 0;
-            return new Validation(ok, "playlist=200,variant=" + (variant == null ? "direct" : "200")
-                    + ",segment=" + segmentResponse.code + ",bytes=" + segmentResponse.body.length);
+            return new Validation(ok, "playlist=200,master=" + safeLocation(masterFinal)
+                    + ",variant=" + (variant == null ? "direct" : "200")
+                    + ",variantPath=" + safeLocation(mediaPlaylistUrl)
+                    + ",segment=" + segmentResponse.code
+                    + ",segmentPath=" + safeLocation(segmentResponse.finalUrl)
+                    + ",bytes=" + segmentResponse.body.length);
         } catch (Exception e) {
             return new Validation(false, "validationError=" + safe(e.getMessage()));
         }
@@ -308,6 +340,10 @@ public final class SbsResolver {
     }
 
     private static String findMediaUrl(Object value) {
+        if (value instanceof String) {
+            String direct = ((String) value).trim();
+            return isHttpUrl(direct) ? direct : null;
+        }
         if (value instanceof JSONObject) {
             JSONObject obj = (JSONObject) value;
             for (String key : new String[]{"mediaurl", "mediaUrl", "media_url"}) {
@@ -331,18 +367,23 @@ public final class SbsResolver {
         return null;
     }
 
-    private static String summarize(JSONObject json, String media, int code) {
-        String mediaSummary = "none";
-        if (media != null) {
-            try {
-                URI u = URI.create(media);
-                mediaSummary = "host=" + u.getHost() + ",path=" + u.getPath()
-                        + ",query=" + (u.getQuery() != null);
-            } catch (Exception ignored) {
-                mediaSummary = "present";
-            }
+    private static String mediaSummary(String media) {
+        if (media == null) return "none";
+        return safeLocation(media);
+    }
+
+    private static String safeLocation(String value) {
+        if (value == null) return "none";
+        try {
+            URI u = URI.create(value);
+            String host = u.getHost();
+            String path = u.getPath();
+            return "host=" + (host == null ? "unknown" : host)
+                    + ",path=" + (path == null ? "" : path)
+                    + ",query=" + (u.getRawQuery() != null);
+        } catch (Exception ignored) {
+            return "present";
         }
-        return "http=" + code + ",media=" + mediaSummary;
     }
 
     private static boolean isHttpUrl(String s) {
@@ -366,6 +407,7 @@ public final class SbsResolver {
     private record Probe(String mediaUrl, String summary) {}
     private record ProbeSet(String mediaUrl, String summary) {}
     private record Validation(boolean valid, String summary) {}
+    private record ParsedMedia(String mediaUrl, String responseType) {}
     private record HttpResponse(int code, byte[] body, String finalUrl, long retryAfterMs) {
         String bodyText() { return new String(body, StandardCharsets.UTF_8); }
     }
