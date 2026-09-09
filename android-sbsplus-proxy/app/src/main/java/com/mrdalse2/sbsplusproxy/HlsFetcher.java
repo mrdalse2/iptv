@@ -3,6 +3,7 @@ package com.mrdalse2.sbsplusproxy;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 
 final class HlsFetcher {
@@ -19,6 +20,24 @@ final class HlsFetcher {
     private HlsFetcher() {}
 
     static Result fetch(String target) throws Exception {
+        String requestTarget = target;
+        String cookie = null;
+        String bootstrapSummary = "bootstrap=skipped";
+
+        if (isSbsTvLive(target)) {
+            try {
+                SbsSessionBootstrap.Session session = SbsSessionBootstrap.open();
+                cookie = session.cookie;
+                boolean queryPresent = hasQuery(session.mediaUrl);
+                requestTarget = transplantFreshQuery(target, session.mediaUrl);
+                bootstrapSummary = "bootstrapHttp=" + session.httpCode
+                        + ",cookiePresent=" + (cookie != null && !cookie.isBlank())
+                        + ",queryPresent=" + queryPresent;
+            } catch (Exception e) {
+                bootstrapSummary = "bootstrapError=" + safe(e.getMessage());
+            }
+        }
+
         Exception last = null;
         StringBuilder attempts = new StringBuilder();
         boolean sawSignedReject = false;
@@ -27,7 +46,7 @@ final class HlsFetcher {
         for (HlsFetchProfile profile : PROFILES) {
             HttpURLConnection c = null;
             try {
-                c = (HttpURLConnection) new URL(target).openConnection();
+                c = (HttpURLConnection) new URL(requestTarget).openConnection();
                 c.setConnectTimeout(8_000);
                 c.setReadTimeout(15_000);
                 c.setInstanceFollowRedirects(true);
@@ -37,6 +56,7 @@ final class HlsFetcher {
                 c.setRequestProperty("Accept-Encoding", "identity");
                 if (profile.referer) c.setRequestProperty("Referer", "https://www.sbs.co.kr/live/S03");
                 if (profile.origin) c.setRequestProperty("Origin", "https://www.sbs.co.kr");
+                if (cookie != null && !cookie.isBlank()) c.setRequestProperty("Cookie", cookie);
 
                 int code = c.getResponseCode();
                 appendAttempt(attempts, profile.name + "{http=" + code + "}");
@@ -67,7 +87,8 @@ final class HlsFetcher {
                     String type = c.getContentType();
                     if (type == null) type = "application/octet-stream";
                     String finalUrl = c.getURL().toString();
-                    lastDebug = "selected=" + profile.name + ", attempts=[" + attempts + "], finalHost=" + new URL(finalUrl).getHost();
+                    lastDebug = "selected=" + profile.name + ", " + bootstrapSummary
+                            + ", attempts=[" + attempts + "], finalHost=" + new URL(finalUrl).getHost();
                     return new Result(bytes.toByteArray(), type, finalUrl);
                 }
             } catch (Exception e) {
@@ -78,7 +99,7 @@ final class HlsFetcher {
             }
         }
 
-        lastDebug = "selected=none, attempts=[" + attempts + "]"
+        lastDebug = "selected=none, " + bootstrapSummary + ", attempts=[" + attempts + "]"
                 + (sawSignedReject ? ", outcome=signed-reject" : sawTransient ? ", outcome=transient" : ", outcome=other");
         if (sawSignedReject) throw new SignedUrlExpiredException(last == null ? "signed URL rejected" : safe(last.getMessage()));
         if (sawTransient) throw new TransientUpstreamException(last == null ? "transient upstream failure" : safe(last.getMessage()));
@@ -88,6 +109,38 @@ final class HlsFetcher {
 
     static String debugSnapshot() {
         return lastDebug;
+    }
+
+    private static boolean isSbsTvLive(String target) {
+        try {
+            String host = new URL(target).getHost();
+            return host != null && host.endsWith("sbs.co.kr") && host.contains("tvlive");
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private static boolean hasQuery(String url) {
+        if (url == null) return false;
+        try {
+            String q = URI.create(url).getRawQuery();
+            return q != null && !q.isBlank();
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private static String transplantFreshQuery(String target, String freshRoot) {
+        if (freshRoot == null || freshRoot.isBlank()) return target;
+        try {
+            URI old = URI.create(target);
+            URI fresh = URI.create(freshRoot);
+            String freshQuery = fresh.getRawQuery();
+            if (freshQuery == null || freshQuery.isBlank()) return target;
+            return new URI(old.getScheme(), old.getAuthority(), old.getPath(), freshQuery, old.getFragment()).toString();
+        } catch (Exception ignored) {
+            return target;
+        }
     }
 
     private static void appendAttempt(StringBuilder attempts, String value) {
