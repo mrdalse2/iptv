@@ -1,0 +1,21 @@
+generated_utc=2026-09-09T15:40:20.910002+00:00
+API onair-pcweb-N: http=200, finalHost=apis.sbs.co.kr, cookiePresent=False, media=none
+API onair-pcweb-Y: http=200, finalHost=apis.sbs.co.kr, cookiePresent=False, media=none
+API onair-mobile-N: http=200, finalHost=apis.sbs.co.kr, cookiePresent=False, media=none
+API onair-mobile-Y: http=200, finalHost=apis.sbs.co.kr, cookiePresent=False, media=none
+API livestream-Y: http=200, finalHost=apis.sbs.co.kr, cookiePresent=False, media=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False
+API livestream-N: http=200, finalHost=apis.sbs.co.kr, cookiePresent=False, media=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False
+HLS livestream-Y/api-url/referer-origin/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-Y/api-url/referer-only/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-Y/api-url/minimal/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-Y/chunklist-same-query/referer-origin/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/chunklist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-Y/chunklist-same-query/referer-only/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/chunklist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-Y/chunklist-same-query/minimal/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/chunklist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-N/api-url/referer-origin/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-N/api-url/referer-only/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-N/api-url/minimal/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/playlist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-N/chunklist-same-query/referer-origin/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/chunklist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-N/chunklist-same-query/referer-only/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/chunklist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+HLS livestream-N/chunklist-same-query/minimal/playlist: http=403, final=host=tvlive.sbs.co.kr, path=/S03/S03.stream/chunklist.m3u8, queryPresent=True, tokenPresent=True, solsessionidPresent=False, type=text/html, extm3u=False
+VALID_COUNT=0
+VALID_SOURCES=none
