@@ -61,7 +61,7 @@ public final class LocalHttpServer {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 3.8 multifallback\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 3.9 authenticated-fallback\n");
                     return;
                 }
                 if ("/debug/sbs".equals(path)) {
