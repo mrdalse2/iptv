@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - diag/remote-sbs-probe
     paths:
       - '.github/workflows/remote-sbs-probe.yml'
   workflow_dispatch:
@@ -18,7 +19,7 @@ jobs:
       - name: Probe SBS API and HLS remotely
         shell: python
         run: |
-          import json, urllib.request, urllib.error, urllib.parse, re
+          import json, urllib.request, urllib.error, urllib.parse
 
           UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
           REFERER = 'https://www.sbs.co.kr/live/S03'
