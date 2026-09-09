@@ -31,8 +31,10 @@ jobs:
         working-directory: android-sbsplus-proxy
         run: gradle assembleDebug --stacktrace
 
-      - name: Prepare stable APK asset
-        run: cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-2.2-mdns.apk
+      - name: Prepare APK assets
+        run: |
+          cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-2.2-mdns.apk
+          cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-3.9-sbsplusfix.apk
 
       - name: Create or update fixed GitHub Release
         env:
@@ -40,11 +42,12 @@ jobs:
         run: |
           TAG='localiptvproxy-v2.2'
           TITLE='Local IPTV Proxy (Latest)'
+          NOTES='3.9 adds validated SBS Plus resolution via livestream/sbspluspc/sbsplus0. HLS candidates are accepted only after playlist/variant/media-segment validation. Stable 2.2 filename is retained for compatibility.'
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" LocalIPTVProxy-2.2-mdns.apk --clobber
-            gh release edit "$TAG" --title "$TITLE" --notes 'Stable download path. File name stays fixed; APK contents track the latest main build.'
+            gh release upload "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-3.9-sbsplusfix.apk --clobber
+            gh release edit "$TAG" --title "$TITLE" --notes "$NOTES"
           else
-            gh release create "$TAG" LocalIPTVProxy-2.2-mdns.apk \
+            gh release create "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-3.9-sbsplusfix.apk \
               --title "$TITLE" \
-              --notes 'Stable download path. File name stays fixed; APK contents track the latest main build.'
+              --notes "$NOTES"
           fi
