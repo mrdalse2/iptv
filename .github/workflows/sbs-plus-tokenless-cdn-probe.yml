@@ -1,0 +1,41 @@
+name: SBS Plus Tokenless CDN Probe
+
+on:
+  push:
+    branches: [diag/sbs-player-trace]
+    paths: ['.github/workflows/sbs-plus-tokenless-cdn-probe.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe known SBS Plus CDN paths without auth tokens
+        shell: python
+        run: |
+          import urllib.request, urllib.error
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          bases=['sbsplus0.stream','sbsplus1.stream','sbsplus2.stream']
+          files=['playlist.m3u8','chunklist.m3u8']
+          schemes=['https','http']
+          for sch in schemes:
+            for stream in bases:
+              for fn in files:
+                url=f'{sch}://tvlive.sbs.co.kr/sbspluspc/{stream}/{fn}'
+                for profile,headers in [
+                  ('minimal',{'User-Agent':UA,'Accept':'*/*'}),
+                  ('referer',{'User-Agent':UA,'Accept':'*/*','Referer':'https://www.sbs.co.kr/live/S03'}),
+                ]:
+                  req=urllib.request.Request(url,headers=headers)
+                  try:
+                    with urllib.request.urlopen(req,timeout=10) as r:
+                      b=r.read(128); code=r.status; ct=r.headers.get('Content-Type','')
+                  except urllib.error.HTTPError as e:
+                    b=e.read(128); code=e.code; ct=e.headers.get('Content-Type','')
+                  except Exception as e:
+                    print(f'{sch}/{stream}/{fn}/{profile}: error={type(e).__name__}:{e}')
+                    continue
+                  print(f'{sch}/{stream}/{fn}/{profile}: http={code}, ctype={ct}, m3u={b.lstrip().startswith(b"#EXTM3U")}, prefix={b[:32]!r}')
