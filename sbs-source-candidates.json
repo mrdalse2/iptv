@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "candidates": [
+    {
+      "name": "sbspluspc-playlist",
+      "url": "https://tvlive.sbs.co.kr/sbspluspc/sbsplus0.stream/playlist.m3u8"
+    },
+    {
+      "name": "sbspluspc-chunklist",
+      "url": "https://tvlive.sbs.co.kr/sbspluspc/sbsplus0.stream/chunklist.m3u8"
+    }
+  ]
+}
