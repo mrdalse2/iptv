@@ -42,6 +42,7 @@ public class ProxyService extends Service {
 
     @Override public void onCreate() {
         super.onCreate();
+        SbsAuthSession.init(this);
         NotificationManager nm = getSystemService(NotificationManager.class);
         nm.createNotificationChannel(new NotificationChannel(CHANNEL, "Local IPTV Proxy", NotificationManager.IMPORTANCE_LOW));
         mdns = new MdnsAdvertiser(this);
