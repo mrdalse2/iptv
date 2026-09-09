@@ -1,11 +1,8 @@
 package com.mrdalse2.sbsplusproxy;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -72,11 +69,15 @@ public final class LocalHttpServer {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 3.4\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 3.5\n");
                     return;
                 }
                 if ("/debug/sbs".equals(path)) {
                     sendText(out, 200, SbsResolver.debugSnapshot() + "\n");
+                    return;
+                }
+                if ("/debug/hls".equals(path)) {
+                    sendText(out, 200, HlsFetcher.debugSnapshot() + "\n");
                     return;
                 }
                 if ("/playlist.m3u".equals(path) || "/playlist.m3u8".equals(path)) {
@@ -116,7 +117,7 @@ public final class LocalHttpServer {
     private void proxy(OutputStream out, String target, boolean root) throws Exception {
         Remote remote = fetchSeamlessly(target);
         byte[] body = remote.body;
-        String contentType = remote.contentType;
+        String contentType = remote.contentType == null ? "application/octet-stream" : remote.contentType;
         if (looksLikePlaylist(remote.finalUrl, contentType, body)) {
             body = rewritePlaylist(new String(body, StandardCharsets.UTF_8), remote.finalUrl)
                     .getBytes(StandardCharsets.UTF_8);
@@ -132,12 +133,12 @@ public final class LocalHttpServer {
     private Remote fetchSeamlessly(String target) throws Exception {
         try {
             return fetch(target);
-        } catch (SignedUrlExpiredException e) {
+        } catch (HlsFetcher.SignedUrlExpiredException e) {
             String freshRoot = SbsResolver.resolveFresh();
             String refreshed = refreshSignedQuery(target, freshRoot);
             allowed.add(refreshed);
             return fetch(refreshed);
-        } catch (TransientUpstreamException e) {
+        } catch (HlsFetcher.TransientUpstreamException e) {
             try { Thread.sleep(250L); }
             catch (InterruptedException interrupted) {
                 Thread.currentThread().interrupt();
@@ -148,41 +149,8 @@ public final class LocalHttpServer {
     }
 
     private Remote fetch(String target) throws Exception {
-        HttpURLConnection c = (HttpURLConnection) new URL(target).openConnection();
-        c.setConnectTimeout(8_000);
-        c.setReadTimeout(15_000);
-        c.setInstanceFollowRedirects(true);
-        c.setUseCaches(false);
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/3.4");
-        c.setRequestProperty("Accept", "*/*");
-        c.setRequestProperty("Referer", "https://www.sbs.co.kr/live/S03");
-        c.setRequestProperty("Origin", "https://www.sbs.co.kr");
-
-        int code = c.getResponseCode();
-        if (code == 401 || code == 403 || code == 404 || code == 410) {
-            c.disconnect();
-            throw new SignedUrlExpiredException("HTTP " + code);
-        }
-        if (code == 408 || code == 425 || code == 429 || code == 500 || code == 502 || code == 503 || code == 504) {
-            c.disconnect();
-            throw new TransientUpstreamException("HTTP " + code);
-        }
-        if (code < 200 || code >= 300) {
-            String host = new URL(target).getHost();
-            c.disconnect();
-            throw new IllegalStateException("upstream HTTP " + code + " for " + host);
-        }
-
-        try (InputStream in = c.getInputStream(); ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
-            byte[] buf = new byte[64 * 1024];
-            int n;
-            while ((n = in.read(buf)) >= 0) bytes.write(buf, 0, n);
-            String type = c.getContentType();
-            if (type == null) type = "application/octet-stream";
-            return new Remote(bytes.toByteArray(), type, c.getURL().toString());
-        } finally {
-            c.disconnect();
-        }
+        HlsFetcher.Result r = HlsFetcher.fetch(target);
+        return new Remote(r.body, r.contentType, r.finalUrl);
     }
 
     private String refreshSignedQuery(String target, String freshRoot) throws Exception {
@@ -287,13 +255,5 @@ public final class LocalHttpServer {
             this.contentType = contentType;
             this.finalUrl = finalUrl;
         }
-    }
-
-    private static final class SignedUrlExpiredException extends Exception {
-        SignedUrlExpiredException(String message) { super(message); }
-    }
-
-    private static final class TransientUpstreamException extends Exception {
-        TransientUpstreamException(String message) { super(message); }
     }
 }
