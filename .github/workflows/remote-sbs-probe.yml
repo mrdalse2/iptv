@@ -1,0 +1,94 @@
+name: Remote SBS Probe
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/remote-sbs-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe SBS API and HLS remotely
+        shell: python
+        run: |
+          import json, urllib.request, urllib.error, urllib.parse, re
+
+          UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          REFERER = 'https://www.sbs.co.kr/live/S03'
+          endpoints = [
+              ('onair', 'https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03?v_type=2&platform=pcweb&protocol=hls&ssl=N&rscuse=&jwt-token=&sbsmain='),
+              ('livestream', 'https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03?protocol=hls&ssl=Y'),
+          ]
+
+          def request(url, headers=None, limit=1024*1024):
+              h = {'User-Agent': UA, 'Accept': '*/*'}
+              if headers:
+                  h.update(headers)
+              req = urllib.request.Request(url, headers=h)
+              try:
+                  with urllib.request.urlopen(req, timeout=15) as r:
+                      body = r.read(limit)
+                      return r.status, dict(r.headers.items()), body, r.geturl()
+              except urllib.error.HTTPError as e:
+                  body = e.read(65536)
+                  return e.code, dict(e.headers.items()), body, e.geturl()
+              except Exception as e:
+                  return None, {}, str(e).encode(), url
+
+          def find_media(x):
+              if isinstance(x, dict):
+                  for k in ('mediaurl','mediaUrl','media_url'):
+                      v = x.get(k)
+                      if isinstance(v,str) and v.startswith(('http://','https://')):
+                          return v
+                  for v in x.values():
+                      found = find_media(v)
+                      if found: return found
+              if isinstance(x, list):
+                  for v in x:
+                      found = find_media(v)
+                      if found: return found
+              return None
+
+          def summarize_url(url):
+              if not url: return 'none'
+              p = urllib.parse.urlsplit(url)
+              q = urllib.parse.parse_qs(p.query)
+              return f'host={p.hostname}, path={p.path}, queryPresent={bool(p.query)}, tokenPresent={"token" in q}'
+
+          found = {}
+          for name,url in endpoints:
+              status, headers, body, final = request(url, {'Referer': REFERER, 'Origin': 'https://www.sbs.co.kr', 'Accept': 'application/json,text/plain,*/*'})
+              text = body.decode('utf-8','replace').strip()
+              media = None
+              try:
+                  if text.startswith('{') or text.startswith('['):
+                      media = find_media(json.loads(text))
+                  elif text.startswith(('http://','https://')):
+                      media = text
+              except Exception:
+                  pass
+              cookie_present = any(k.lower() == 'set-cookie' for k in headers)
+              print(f'API {name}: http={status}, finalHost={urllib.parse.urlsplit(final).hostname}, cookiePresent={cookie_present}, media={summarize_url(media)}')
+              found[name] = media
+
+          for source,media in found.items():
+              if not media:
+                  continue
+              profiles = [
+                  ('desktop-referer', {'Referer': REFERER}),
+                  ('desktop-minimal', {}),
+                  ('desktop-origin', {'Referer': REFERER, 'Origin': 'https://www.sbs.co.kr'}),
+              ]
+              for pname,extra in profiles:
+                  status, headers, body, final = request(media, extra, 4096)
+                  ctype = headers.get('Content-Type','')
+                  prefix = body[:32].decode('ascii','replace').replace('\n','\\n').replace('\r','')
+                  print(f'HLS {source}/{pname}: http={status}, finalHost={urllib.parse.urlsplit(final).hostname}, contentType={ctype}, prefix={prefix!r}')
