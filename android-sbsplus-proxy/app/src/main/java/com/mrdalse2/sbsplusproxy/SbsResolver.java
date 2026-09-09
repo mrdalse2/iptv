@@ -57,6 +57,19 @@ public final class SbsResolver {
         throw new IllegalStateException("SBS Plus returned no validated HLS; " + set.summary);
     }
 
+    /** Force a newly issued validated SBS HLS URL, bypassing the short last-good cache. */
+    public static synchronized String resolveFresh() throws Exception {
+        cachedMediaUrl = null;
+        cachedAt = 0L;
+        ProbeSet set = probeAll();
+        if (set.mediaUrl == null) {
+            throw new IllegalStateException("SBS Plus fresh resolve failed; " + set.summary);
+        }
+        cachedMediaUrl = set.mediaUrl;
+        cachedAt = System.currentTimeMillis();
+        return set.mediaUrl;
+    }
+
     public static synchronized String debugSnapshot() {
         try {
             ProbeSet set = probeAll();
@@ -72,19 +85,11 @@ public final class SbsResolver {
 
     private static ProbeSet probeAll() throws Exception {
         RequestProfile[] profiles = new RequestProfile[] {
-                // Remote GitHub probe on 2026-09-10 confirmed this path through
-                // playlist 200 -> variant 200 -> media segment 206.
                 new RequestProfile("plus-live-N", PLUS_LIVESTREAM_API, "livestream", "pcweb", "N", DESKTOP_UA),
                 new RequestProfile("plus-live-Y", PLUS_LIVESTREAM_API, "livestream", "pcweb", "Y", DESKTOP_UA),
-
-                // Keep the historical official onair API as fallback in case SBS starts
-                // returning mediasource for S03 again.
                 new RequestProfile("onair-pc-N", ONAIR_API, "onair", "pcweb", "N", DESKTOP_UA),
                 new RequestProfile("onair-pc-Y", ONAIR_API, "onair", "pcweb", "Y", DESKTOP_UA),
                 new RequestProfile("onair-mobile-N", ONAIR_API, "onair", "mobile", "N", MOBILE_UA),
-
-                // This currently returns a signed URL that 403s, but retain it as a
-                // lower-priority official fallback because SBS may change entitlement.
                 new RequestProfile("s03-live-N", S03_LIVESTREAM_API, "livestream", "pcweb", "N", DESKTOP_UA),
                 new RequestProfile("s03-live-Y", S03_LIVESTREAM_API, "livestream", "pcweb", "Y", DESKTOP_UA)
         };
@@ -362,8 +367,6 @@ public final class SbsResolver {
     private record ProbeSet(String mediaUrl, String summary) {}
     private record Validation(boolean valid, String summary) {}
     private record HttpResponse(int code, byte[] body, String finalUrl, long retryAfterMs) {
-        String bodyText() {
-            return new String(body, StandardCharsets.UTF_8);
-        }
+        String bodyText() { return new String(body, StandardCharsets.UTF_8); }
     }
 }
