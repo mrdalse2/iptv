@@ -10,16 +10,24 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Probe SBS API and HLS remotely
         shell: python
         run: |
-          import json, urllib.request, urllib.error, urllib.parse
+          import json, urllib.request, urllib.error, urllib.parse, datetime, builtins
+
+          report = []
+          def log(*args):
+              line = ' '.join(str(x) for x in args)
+              builtins.print(line)
+              report.append(line)
 
           DESKTOP_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
           MOBILE_UA = 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36'
@@ -86,6 +94,7 @@ jobs:
                           nxt = lines[i + 1]
                           if not nxt.startswith('#'):
                               return urllib.parse.urljoin(base, nxt)
+                  return None
               for line in lines:
                   if not line.startswith('#'):
                       return urllib.parse.urljoin(base, line)
@@ -94,7 +103,7 @@ jobs:
           def validate_hls(label, media, extra, ua):
               status, headers, body, final = request(media, extra, 256 * 1024, ua=ua)
               text = body.decode('utf-8','replace')
-              print(f'HLS {label}/playlist: http={status}, final={summarize_url(final)}, type={headers.get("Content-Type","")}, extm3u={text.lstrip().startswith("#EXTM3U")}')
+              log(f'HLS {label}/playlist: http={status}, final={summarize_url(final)}, type={headers.get("Content-Type","")}, extm3u={text.lstrip().startswith("#EXTM3U")}')
               if status != 200 or not text.lstrip().startswith('#EXTM3U'):
                   return False
 
@@ -104,18 +113,18 @@ jobs:
               if variant:
                   vstatus, vheaders, vbody, vfinal = request(variant, extra, 256 * 1024, ua=ua)
                   vtext = vbody.decode('utf-8','replace')
-                  print(f'HLS {label}/variant: http={vstatus}, final={summarize_url(vfinal)}, type={vheaders.get("Content-Type","")}, extm3u={vtext.lstrip().startswith("#EXTM3U")}')
+                  log(f'HLS {label}/variant: http={vstatus}, final={summarize_url(vfinal)}, type={vheaders.get("Content-Type","")}, extm3u={vtext.lstrip().startswith("#EXTM3U")}')
                   if vstatus != 200 or not vtext.lstrip().startswith('#EXTM3U'):
                       return False
                   lines = hls_lines(vbody)
                   media_playlist_url = vfinal
 
-              segment = first_uri(media_playlist_url, lines, after_stream_inf=False)
+              segment = first_uri(media_playlist_url, lines)
               if not segment:
-                  print(f'HLS {label}/segment: none')
+                  log(f'HLS {label}/segment: none')
                   return False
               sstatus, sheaders, sbody, sfinal = request(segment, extra, 4096, ua=ua, range_probe=True)
-              print(f'HLS {label}/segment: http={sstatus}, finalHost={urllib.parse.urlsplit(sfinal).hostname}, bytes={len(sbody)}, type={sheaders.get("Content-Type","")}')
+              log(f'HLS {label}/segment: http={sstatus}, finalHost={urllib.parse.urlsplit(sfinal).hostname}, bytes={len(sbody)}, type={sheaders.get("Content-Type","")}')
               return sstatus in (200, 206) and len(sbody) > 0
 
           found = {}
@@ -132,7 +141,7 @@ jobs:
               except Exception:
                   pass
               cookie_present = any(k.lower() == 'set-cookie' for k in headers)
-              print(f'API {name}: http={status}, finalHost={urllib.parse.urlsplit(final).hostname}, cookiePresent={cookie_present}, media={summarize_url(media)}')
+              log(f'API {name}: http={status}, finalHost={urllib.parse.urlsplit(final).hostname}, cookiePresent={cookie_present}, media={summarize_url(media)}')
               if media:
                   found[name] = (media, ua)
 
@@ -155,10 +164,22 @@ jobs:
                       label = f'{source}/{cname}/{pname}'
                       if validate_hls(label, candidate, extra, ua):
                           valid.append(label)
-                          print(f'VALID {label} media={summarize_url(candidate)}')
+                          log(f'VALID {label} media={summarize_url(candidate)}')
 
-          print(f'VALID_COUNT={len(valid)}')
-          if valid:
-              print('VALID_SOURCES=' + ','.join(valid))
-          else:
-              print('VALID_SOURCES=none')
+          log(f'VALID_COUNT={len(valid)}')
+          log('VALID_SOURCES=' + (','.join(valid) if valid else 'none'))
+          stamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+          with open('sbs-probe-report.txt', 'w', encoding='utf-8') as f:
+              f.write('generated_utc=' + stamp + '\n')
+              f.write('\n'.join(report) + '\n')
+
+      - name: Persist probe report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sbs-probe-report.txt
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'diag: update SBS remote probe report'
+          git push
