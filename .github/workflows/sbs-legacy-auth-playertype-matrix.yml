@@ -1,0 +1,41 @@
+name: SBS Legacy Auth PlayerType Matrix
+
+on:
+  push:
+    branches: [diag/sbs-player-trace]
+    paths: ['.github/workflows/sbs-legacy-auth-playertype-matrix.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe playerType variants without decrypting
+        shell: python
+        run: |
+          import urllib.request, urllib.error, urllib.parse, re, json
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36'
+          BASE='http://api.sbs.co.kr/vod/_v1/Onair_Media_Auth_Security.jsp'
+          types=['mobile','flash','pc','html5','android','ios','web','smarttv','']
+          for pt in types:
+            q={'channelPath':'sbspluspc','streamName':'sbsplus0.stream'}
+            if pt: q['playerType']=pt
+            url=BASE+'?'+urllib.parse.urlencode(q)
+            req=urllib.request.Request(url,headers={'User-Agent':UA,'Referer':'https://www.sbs.co.kr/live/S03','Accept':'*/*'})
+            try:
+              with urllib.request.urlopen(req,timeout=12) as r:
+                code=r.status; h=dict(r.headers.items()); b=r.read(65536)
+            except urllib.error.HTTPError as e:
+              code=e.code; h=dict(e.headers.items()); b=e.read(65536)
+            except Exception as e:
+              print(f'{pt or "none"}: error={type(e).__name__}:{e}')
+              continue
+            text=b.decode('utf-8','replace').strip()
+            urlish=bool(re.search(r'https?://',text))
+            jsonish=text.startswith('{') or text.startswith('[')
+            xmlish=text.startswith('<')
+            base64ish=bool(re.fullmatch(r'[A-Za-z0-9+/=\r\n]+',text)) and len(text)>32
+            print(f'{pt or "none"}: http={code}, ctype={h.get("Content-Type","")}, bytes={len(b)}, urlish={urlish}, jsonish={jsonish}, xmlish={xmlish}, base64ish={base64ish}, prefix={text[:80]!r}')
