@@ -72,7 +72,7 @@ public final class LocalHttpServer {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 3.3\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 3.4\n");
                     return;
                 }
                 if ("/debug/sbs".equals(path)) {
@@ -138,7 +138,6 @@ public final class LocalHttpServer {
             allowed.add(refreshed);
             return fetch(refreshed);
         } catch (TransientUpstreamException e) {
-            // One short internal retry is preferable to surfacing a player rebuffer for a momentary CDN hiccup.
             try { Thread.sleep(250L); }
             catch (InterruptedException interrupted) {
                 Thread.currentThread().interrupt();
@@ -154,7 +153,7 @@ public final class LocalHttpServer {
         c.setReadTimeout(15_000);
         c.setInstanceFollowRedirects(true);
         c.setUseCaches(false);
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/3.3");
+        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Android) LocalIPTVProxy/3.4");
         c.setRequestProperty("Accept", "*/*");
         c.setRequestProperty("Referer", "https://www.sbs.co.kr/live/S03");
         c.setRequestProperty("Origin", "https://www.sbs.co.kr");
@@ -186,13 +185,11 @@ public final class LocalHttpServer {
         }
     }
 
-    /** Keep the child path stable but replace the whole signed query with a newly issued one. */
     private String refreshSignedQuery(String target, String freshRoot) throws Exception {
         URI old = URI.create(target);
         URI fresh = URI.create(freshRoot);
         String freshQuery = fresh.getRawQuery();
         if (freshQuery == null || freshQuery.isBlank()) {
-            // Root itself can still be replaced directly if SBS stops using query signing.
             if (samePath(old, fresh)) return fresh.toString();
             return target;
         }
