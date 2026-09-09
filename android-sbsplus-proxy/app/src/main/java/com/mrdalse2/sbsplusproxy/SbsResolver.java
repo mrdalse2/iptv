@@ -18,15 +18,18 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class SbsResolver {
-    private static final String API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03";
+    private static final String ONAIR_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03";
+    private static final String PLUS_LIVESTREAM_API = "https://apis.sbs.co.kr/play-api/1.0/livestream/sbspluspc/sbsplus0";
+    private static final String S03_LIVESTREAM_API = "https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03";
     private static final String REFERER = "https://www.sbs.co.kr/live/S03";
+    private static final String ORIGIN = "https://www.sbs.co.kr";
     private static final String DESKTOP_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36";
     private static final String MOBILE_UA = "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36";
 
     private static final long GOOD_CACHE_MS = 20_000L;
     private static final long STALE_GRACE_MS = 55_000L;
-    private static final int MAX_ROUNDS = 4;
-    private static final long[] BACKOFF_MS = new long[]{700L, 1_400L, 2_800L, 4_000L};
+    private static final int MAX_ROUNDS = 3;
+    private static final long[] BACKOFF_MS = new long[]{700L, 1_400L, 2_800L};
 
     private static volatile String lastDebug = "not probed yet";
     private static volatile String cachedMediaUrl;
@@ -45,15 +48,13 @@ public final class SbsResolver {
             return set.mediaUrl;
         }
 
-        // If SBS is temporarily overloaded, a very recent last-good signed URL is usually
-        // safer than immediately failing. Keep this grace window below one minute.
         now = System.currentTimeMillis();
         if (cachedMediaUrl != null && now - cachedAt < STALE_GRACE_MS) {
-            lastDebug = set.summary + ", fallback=recent-last-good ageMs=" + (now - cachedAt);
+            lastDebug = set.summary + ", fallback=recent-validated-last-good ageMs=" + (now - cachedAt);
             return cachedMediaUrl;
         }
 
-        throw new IllegalStateException("S03 API returned no mediaurl; " + set.summary);
+        throw new IllegalStateException("SBS Plus returned no validated HLS; " + set.summary);
     }
 
     public static synchronized String debugSnapshot() {
@@ -71,9 +72,21 @@ public final class SbsResolver {
 
     private static ProbeSet probeAll() throws Exception {
         RequestProfile[] profiles = new RequestProfile[] {
-                new RequestProfile("pc-N-desktop", "pcweb", "N", DESKTOP_UA),
-                new RequestProfile("pc-Y-desktop", "pcweb", "Y", DESKTOP_UA),
-                new RequestProfile("pc-N-mobileUA", "pcweb", "N", MOBILE_UA)
+                // Remote GitHub probe on 2026-09-10 confirmed this path through
+                // playlist 200 -> variant 200 -> media segment 206.
+                new RequestProfile("plus-live-N", PLUS_LIVESTREAM_API, "livestream", "pcweb", "N", DESKTOP_UA),
+                new RequestProfile("plus-live-Y", PLUS_LIVESTREAM_API, "livestream", "pcweb", "Y", DESKTOP_UA),
+
+                // Keep the historical official onair API as fallback in case SBS starts
+                // returning mediasource for S03 again.
+                new RequestProfile("onair-pc-N", ONAIR_API, "onair", "pcweb", "N", DESKTOP_UA),
+                new RequestProfile("onair-pc-Y", ONAIR_API, "onair", "pcweb", "Y", DESKTOP_UA),
+                new RequestProfile("onair-mobile-N", ONAIR_API, "onair", "mobile", "N", MOBILE_UA),
+
+                // This currently returns a signed URL that 403s, but retain it as a
+                // lower-priority official fallback because SBS may change entitlement.
+                new RequestProfile("s03-live-N", S03_LIVESTREAM_API, "livestream", "pcweb", "N", DESKTOP_UA),
+                new RequestProfile("s03-live-Y", S03_LIVESTREAM_API, "livestream", "pcweb", "Y", DESKTOP_UA)
         };
 
         List<String> diagnostics = new ArrayList<>();
@@ -88,10 +101,14 @@ public final class SbsResolver {
                     Probe p = request(profile);
                     diagnostics.add(profile.name + "{" + p.summary + "}");
                     if (p.mediaUrl != null) {
-                        String summary = "selected=" + profile.name + ", round=" + (round + 1)
-                                + ", attempts=" + diagnostics;
-                        lastDebug = summary;
-                        return new ProbeSet(p.mediaUrl, summary);
+                        Validation validation = validateHls(p.mediaUrl, profile.userAgent);
+                        diagnostics.add(profile.name + "-hls{" + validation.summary + "}");
+                        if (validation.valid) {
+                            String summary = "selected=" + profile.name + ", round=" + (round + 1)
+                                    + ", validated=true, attempts=" + diagnostics;
+                            lastDebug = summary;
+                            return new ProbeSet(p.mediaUrl, summary);
+                        }
                     }
                 } catch (TransientHttpException e) {
                     lastError = e;
@@ -112,61 +129,146 @@ public final class SbsResolver {
             if (round + 1 < MAX_ROUNDS) {
                 long base = BACKOFF_MS[Math.min(round, BACKOFF_MS.length - 1)];
                 long waitMs = sawTransient ? Math.max(base, serverRetryAfterMs) : Math.min(base, 1_000L);
-                // 0-250 ms jitter prevents multiple clients from retrying in lockstep.
                 waitMs += ThreadLocalRandom.current().nextLong(0L, 251L);
                 diagnostics.add("backoff{round=" + (round + 1) + ",waitMs=" + waitMs + "}");
                 sleep(waitMs);
             }
         }
 
-        String summary = "selected=none, attempts=" + diagnostics;
+        String summary = "selected=none, validated=false, attempts=" + diagnostics;
         if (lastError != null) summary += ", lastError=" + safe(lastError.getMessage());
         lastDebug = summary;
         return new ProbeSet(null, summary);
     }
 
     private static Probe request(RequestProfile profile) throws Exception {
-        String query = "v_type=2&platform=" + profile.platform
-                + "&protocol=hls&ssl=" + profile.ssl
-                + "&rscuse=&jwt-token=&sbsmain=";
-        HttpURLConnection c = (HttpURLConnection) new URL(API + "?" + query).openConnection();
+        String query;
+        if ("livestream".equals(profile.apiType)) {
+            query = "protocol=hls&ssl=" + profile.ssl;
+        } else {
+            query = "v_type=2&platform=" + profile.platform
+                    + "&protocol=hls&ssl=" + profile.ssl
+                    + "&rscuse=&jwt-token=&sbsmain=";
+        }
+
+        HttpResponse response = httpGet(profile.api + "?" + query,
+                profile.userAgent, "application/json,text/plain,*/*", false, 1024 * 1024);
+        if (isTransientStatus(response.code)) {
+            throw new TransientHttpException("HTTP " + response.code, response.retryAfterMs);
+        }
+        if (response.code < 200 || response.code >= 300) {
+            throw new IllegalStateException("HTTP " + response.code);
+        }
+
+        JSONObject json = new JSONObject(response.bodyText());
+        String media = findMediaUrl(json);
+        return new Probe(media, summarize(json, media, response.code));
+    }
+
+    private static Validation validateHls(String mediaUrl, String userAgent) {
+        try {
+            HttpResponse master = httpGet(mediaUrl, userAgent, "*/*", false, 256 * 1024);
+            String masterText = master.bodyText();
+            if (master.code != 200 || !masterText.stripLeading().startsWith("#EXTM3U")) {
+                return new Validation(false, "playlist=" + master.code + ",extm3u=false");
+            }
+
+            String masterFinal = master.finalUrl;
+            List<String> lines = playlistLines(masterText);
+            String variant = firstVariantUri(masterFinal, lines);
+            String mediaPlaylistUrl = masterFinal;
+
+            if (variant != null) {
+                HttpResponse variantResponse = httpGet(variant, userAgent, "*/*", false, 256 * 1024);
+                String variantText = variantResponse.bodyText();
+                if (variantResponse.code != 200 || !variantText.stripLeading().startsWith("#EXTM3U")) {
+                    return new Validation(false, "playlist=200,variant=" + variantResponse.code + ",extm3u=false");
+                }
+                lines = playlistLines(variantText);
+                mediaPlaylistUrl = variantResponse.finalUrl;
+            }
+
+            String segment = firstMediaUri(mediaPlaylistUrl, lines);
+            if (segment == null) return new Validation(false, "playlist=200,variant=200,segment=none");
+
+            HttpResponse segmentResponse = httpGet(segment, userAgent, "*/*", true, 4096);
+            boolean ok = (segmentResponse.code == 200 || segmentResponse.code == 206)
+                    && segmentResponse.body.length > 0;
+            return new Validation(ok, "playlist=200,variant=" + (variant == null ? "direct" : "200")
+                    + ",segment=" + segmentResponse.code + ",bytes=" + segmentResponse.body.length);
+        } catch (Exception e) {
+            return new Validation(false, "validationError=" + safe(e.getMessage()));
+        }
+    }
+
+    private static HttpResponse httpGet(String url, String userAgent, String accept,
+                                        boolean rangeProbe, int limit) throws Exception {
+        HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
         c.setConnectTimeout(8_000);
         c.setReadTimeout(10_000);
         c.setUseCaches(false);
-        c.setRequestProperty("User-Agent", profile.userAgent);
-        c.setRequestProperty("Accept", "application/json,text/plain,*/*");
+        c.setInstanceFollowRedirects(true);
+        c.setRequestProperty("User-Agent", userAgent);
+        c.setRequestProperty("Accept", accept);
         c.setRequestProperty("Referer", REFERER);
-        c.setRequestProperty("Origin", "https://www.sbs.co.kr");
+        c.setRequestProperty("Origin", ORIGIN);
         c.setRequestProperty("Cache-Control", "no-cache");
         c.setRequestProperty("Pragma", "no-cache");
+        if (rangeProbe) c.setRequestProperty("Range", "bytes=0-4095");
 
         int code = c.getResponseCode();
         long retryAfterMs = parseRetryAfterMs(c.getHeaderField("Retry-After"));
-        if (isTransientStatus(code)) {
-            c.disconnect();
-            throw new TransientHttpException("HTTP " + code, retryAfterMs);
+        String finalUrl = c.getURL().toString();
+        InputStream stream = code >= 200 && code < 400 ? c.getInputStream() : c.getErrorStream();
+        byte[] body = new byte[0];
+        if (stream != null) {
+            try (InputStream in = stream; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                byte[] buf = new byte[8192];
+                int n;
+                while ((n = in.read(buf)) != -1 && out.size() < limit) {
+                    int remaining = limit - out.size();
+                    out.write(buf, 0, Math.min(n, remaining));
+                    if (out.size() >= limit) break;
+                }
+                body = out.toByteArray();
+            }
         }
+        c.disconnect();
+        return new HttpResponse(code, body, finalUrl, retryAfterMs);
+    }
 
-        String body;
-        InputStream stream = code >= 200 && code < 300 ? c.getInputStream() : c.getErrorStream();
-        if (stream == null) {
-            c.disconnect();
-            throw new IllegalStateException("HTTP " + code + " empty body");
+    private static List<String> playlistLines(String text) {
+        List<String> lines = new ArrayList<>();
+        for (String raw : text.split("\\r?\\n")) {
+            String line = raw.trim();
+            if (!line.isEmpty()) lines.add(line);
         }
-        try (InputStream in = stream; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            byte[] buf = new byte[8192];
-            int n;
-            while ((n = in.read(buf)) != -1) out.write(buf, 0, n);
-            body = out.toString(StandardCharsets.UTF_8.name());
-        } finally {
-            c.disconnect();
+        return lines;
+    }
+
+    private static String firstVariantUri(String base, List<String> lines) {
+        for (int i = 0; i + 1 < lines.size(); i++) {
+            if (lines.get(i).startsWith("#EXT-X-STREAM-INF")) {
+                String next = lines.get(i + 1);
+                if (!next.startsWith("#")) return resolveUrl(base, next);
+            }
         }
+        return null;
+    }
 
-        if (code < 200 || code >= 300) throw new IllegalStateException("HTTP " + code);
+    private static String firstMediaUri(String base, List<String> lines) {
+        for (String line : lines) {
+            if (!line.startsWith("#")) return resolveUrl(base, line);
+        }
+        return null;
+    }
 
-        JSONObject json = new JSONObject(body);
-        String media = findMediaUrl(json);
-        return new Probe(media, summarize(json, media, code));
+    private static String resolveUrl(String base, String ref) {
+        try {
+            return new URL(new URL(base), ref).toString();
+        } catch (Exception e) {
+            return ref;
+        }
     }
 
     private static boolean isTransientStatus(int code) {
@@ -225,24 +327,17 @@ public final class SbsResolver {
     }
 
     private static String summarize(JSONObject json, String media, int code) {
-        JSONObject onair = json.optJSONObject("onair");
-        JSONObject source = onair == null ? null : onair.optJSONObject("source");
-        JSONObject ms = source == null ? null : source.optJSONObject("mediasource");
-        JSONArray msl = source == null ? null : source.optJSONArray("mediasourcelist");
         String mediaSummary = "none";
         if (media != null) {
             try {
                 URI u = URI.create(media);
-                mediaSummary = "host=" + u.getHost() + ",path=" + u.getPath();
+                mediaSummary = "host=" + u.getHost() + ",path=" + u.getPath()
+                        + ",query=" + (u.getQuery() != null);
             } catch (Exception ignored) {
                 mediaSummary = "present";
             }
         }
-        return "http=" + code + ",onair=" + (onair != null)
-                + ",source=" + (source != null)
-                + ",mediasource=" + (ms != null)
-                + ",mediasourcelist=" + (msl == null ? 0 : msl.length())
-                + ",media=" + mediaSummary;
+        return "http=" + code + ",media=" + mediaSummary;
     }
 
     private static boolean isHttpUrl(String s) {
@@ -261,7 +356,14 @@ public final class SbsResolver {
         }
     }
 
-    private record RequestProfile(String name, String platform, String ssl, String userAgent) {}
+    private record RequestProfile(String name, String api, String apiType,
+                                  String platform, String ssl, String userAgent) {}
     private record Probe(String mediaUrl, String summary) {}
     private record ProbeSet(String mediaUrl, String summary) {}
+    private record Validation(boolean valid, String summary) {}
+    private record HttpResponse(int code, byte[] body, String finalUrl, long retryAfterMs) {
+        String bodyText() {
+            return new String(body, StandardCharsets.UTF_8);
+        }
+    }
 }
