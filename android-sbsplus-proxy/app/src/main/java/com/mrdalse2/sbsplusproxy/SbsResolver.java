@@ -6,8 +6,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,17 @@ public final class SbsResolver {
 
     private SbsResolver() {}
 
+    public static synchronized void invalidateCache() {
+        cachedMediaUrl = null;
+        cachedAt = 0L;
+        lastFailedScanAt = 0L;
+        lastDebug = "cache invalidated; authPresent=" + SbsAuthSession.hasToken();
+    }
+
     public static synchronized String resolve() throws Exception {
         long now = System.currentTimeMillis();
         if (cachedMediaUrl != null && now - cachedAt < GOOD_CACHE_MS) return cachedMediaUrl;
 
-        // Avoid hammering every official endpoint when multiple local player requests arrive together.
         if (now - lastFailedScanAt < FAILED_SCAN_COOLDOWN_MS && cachedMediaUrl != null
                 && now - cachedAt < LAST_GOOD_GRACE_MS) {
             return cachedMediaUrl;
@@ -67,28 +73,48 @@ public final class SbsResolver {
             }
             return result.summary;
         } catch (Exception e) {
-            return "probe error=" + safe(e.getMessage()) + "; previous=" + lastDebug;
+            return "probe error=" + safe(e.getMessage()) + "; authPresent=" + SbsAuthSession.hasToken()
+                    + "; previous=" + lastDebug;
         }
     }
 
     private static ScanResult scanAll() {
         List<String> attempts = new ArrayList<>();
+        String authToken = SbsAuthSession.getToken();
+
+        if (authToken != null) {
+            try {
+                String url = onairAuthenticatedQuery(authToken);
+                ApiResult api = fetchApi(url, DESKTOP_UA, authToken);
+                if (api.mediaUrl == null) {
+                    attempts.add("onair-auth{api=" + api.httpCode + ",media=none}");
+                } else {
+                    Validation v = validateDirect(api.mediaUrl);
+                    attempts.add("onair-auth{api=" + api.httpCode + ",media=present,direct=" + v.summary + "}");
+                    if (v.playable) {
+                        String summary = "selected=onair-auth, source=authenticated-onair, authPresent=true, attempts=" + attempts;
+                        lastDebug = summary;
+                        return new ScanResult(api.mediaUrl, summary);
+                    }
+                }
+            } catch (Exception e) {
+                attempts.add("onair-auth{error=" + safe(e.getMessage()) + "}");
+            }
+        } else {
+            attempts.add("onair-auth{skipped=no-login-session}");
+        }
 
         Candidate[] candidates = new Candidate[] {
-                // Current SBS web-player shape discovered from onair-player.min.js.
                 new Candidate("onair-player-Y", onairQuery("Y", "", false), DESKTOP_UA),
-                // Existing stable shapes kept intact as fallbacks.
                 new Candidate("onair-legacy-N", onairQuery("N", null, true), DESKTOP_UA),
                 new Candidate("onair-legacy-Y", onairQuery("Y", null, true), DESKTOP_UA),
-                // SBS low-latency flag used by the official player when enabled.
                 new Candidate("onair-player-LL", onairQuery("Y", "LL", false), DESKTOP_UA),
-                // Same official endpoint with mobile browser identity.
                 new Candidate("onair-mobile-Y", onairQuery("Y", "", false), MOBILE_UA),
         };
 
         for (Candidate candidate : candidates) {
             try {
-                ApiResult api = fetchApi(candidate.url, candidate.userAgent);
+                ApiResult api = fetchApi(candidate.url, candidate.userAgent, null);
                 if (api.mediaUrl == null) {
                     attempts.add(candidate.name + "{api=" + api.httpCode + ",media=none}");
                     continue;
@@ -96,7 +122,8 @@ public final class SbsResolver {
                 Validation v = validateDirect(api.mediaUrl);
                 attempts.add(candidate.name + "{api=" + api.httpCode + ",media=present,direct=" + v.summary + "}");
                 if (v.playable) {
-                    String summary = "selected=" + candidate.name + ", source=onair, attempts=" + attempts;
+                    String summary = "selected=" + candidate.name + ", source=onair, authPresent="
+                            + (authToken != null) + ", attempts=" + attempts;
                     lastDebug = summary;
                     return new ScanResult(api.mediaUrl, summary);
                 }
@@ -105,17 +132,16 @@ public final class SbsResolver {
             }
         }
 
-        // Secondary official API. It is only selected when the returned HLS is genuinely
-        // reachable without browser cookies/origin; a 403 URL is deliberately rejected.
         try {
-            ApiResult api = fetchApi(LIVESTREAM, DESKTOP_UA);
+            ApiResult api = fetchApi(LIVESTREAM, DESKTOP_UA, null);
             if (api.mediaUrl == null) {
                 attempts.add("livestream-s03{api=" + api.httpCode + ",media=none}");
             } else {
                 Validation v = validateDirect(api.mediaUrl);
                 attempts.add("livestream-s03{api=" + api.httpCode + ",media=present,direct=" + v.summary + "}");
                 if (v.playable) {
-                    String summary = "selected=livestream-s03, source=livestream, attempts=" + attempts;
+                    String summary = "selected=livestream-s03, source=livestream, authPresent="
+                            + (authToken != null) + ", attempts=" + attempts;
                     lastDebug = summary;
                     return new ScanResult(api.mediaUrl, summary);
                 }
@@ -124,9 +150,14 @@ public final class SbsResolver {
             attempts.add("livestream-s03{error=" + safe(e.getMessage()) + "}");
         }
 
-        String summary = "selected=none, attempts=" + attempts;
+        String summary = "selected=none, authPresent=" + (authToken != null) + ", attempts=" + attempts;
         lastDebug = summary;
         return new ScanResult(null, summary);
+    }
+
+    private static String onairAuthenticatedQuery(String token) {
+        return ONAIR + "?v_type=2&platform=pcweb&protocol=hls&ssl=Y&rscuse=&extra=&jwt-token="
+                + URLEncoder.encode(token, StandardCharsets.UTF_8);
     }
 
     private static String onairQuery(String ssl, String extra, boolean sbsmain) {
@@ -139,7 +170,7 @@ public final class SbsResolver {
         return q.toString();
     }
 
-    private static ApiResult fetchApi(String url, String userAgent) throws Exception {
+    private static ApiResult fetchApi(String url, String userAgent, String authToken) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
         c.setConnectTimeout(7_000);
         c.setReadTimeout(9_000);
@@ -150,6 +181,7 @@ public final class SbsResolver {
         c.setRequestProperty("Referer", REFERER);
         c.setRequestProperty("Origin", "https://www.sbs.co.kr");
         c.setRequestProperty("Cache-Control", "no-cache");
+        if (authToken != null) c.setRequestProperty("Cookie", "LOGIN_JWT=" + authToken);
 
         try {
             int code = c.getResponseCode();
@@ -169,8 +201,6 @@ public final class SbsResolver {
     }
 
     private static Validation validateDirect(String mediaUrl) {
-        // First profile is intentionally player-like/minimal because LocalHttpServer 3.2
-        // returns a 302 and TiviMate then connects to SBS directly.
         String[] names = {"player-minimal", "desktop-minimal", "desktop-referer"};
         String[] uas = {PLAYER_UA, DESKTOP_UA, DESKTOP_UA};
         boolean[] referers = {false, false, true};
@@ -195,7 +225,6 @@ public final class SbsResolver {
                     boolean m3u = new String(prefix, StandardCharsets.US_ASCII).trim().startsWith("#EXTM3U");
                     results.add(names[i] + "=" + code + "/m3u=" + m3u);
                     if (m3u && !referers[i]) return new Validation(true, String.join("|", results));
-                    // Referer-only success is diagnostic, not safe for direct 302 playback.
                 } else {
                     results.add(names[i] + "=" + code);
                 }
@@ -227,10 +256,9 @@ public final class SbsResolver {
             byte[] buf = new byte[8192];
             int total = 0;
             int n;
-            while ((n = in.read(buf, 0, Math.min(buf.length, limit - total))) != -1) {
+            while (total < limit && (n = in.read(buf, 0, Math.min(buf.length, limit - total))) != -1) {
                 out.write(buf, 0, n);
                 total += n;
-                if (total >= limit) break;
             }
             return out.toString(StandardCharsets.UTF_8.name());
         }
