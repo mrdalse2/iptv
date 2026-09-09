@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 final class HlsFetcher {
     private static final String DESKTOP_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36";
@@ -22,6 +21,9 @@ final class HlsFetcher {
     static Result fetch(String target) throws Exception {
         Exception last = null;
         StringBuilder attempts = new StringBuilder();
+        boolean sawSignedReject = false;
+        boolean sawTransient = false;
+
         for (HlsFetchProfile profile : PROFILES) {
             HttpURLConnection c = null;
             try {
@@ -37,20 +39,21 @@ final class HlsFetcher {
                 if (profile.origin) c.setRequestProperty("Origin", "https://www.sbs.co.kr");
 
                 int code = c.getResponseCode();
-                if (attempts.length() > 0) attempts.append(',');
-                attempts.append(profile.name).append("{http=").append(code).append('}');
+                appendAttempt(attempts, profile.name + "{http=" + code + "}");
 
                 if (code == 400) {
-                    last = new BadRequestException("HTTP 400 profile=" + profile.name);
+                    last = new IllegalStateException("HTTP 400 profile=" + profile.name);
                     continue;
                 }
                 if (code == 401 || code == 403 || code == 404 || code == 410) {
-                    lastDebug = "selected=" + profile.name + ", attempts=[" + attempts + "]";
-                    throw new SignedUrlExpiredException("HTTP " + code);
+                    sawSignedReject = true;
+                    last = new SignedUrlExpiredException("HTTP " + code + " profile=" + profile.name);
+                    continue;
                 }
                 if (code == 408 || code == 425 || code == 429 || code == 500 || code == 502 || code == 503 || code == 504) {
-                    lastDebug = "selected=" + profile.name + ", attempts=[" + attempts + "]";
-                    throw new TransientUpstreamException("HTTP " + code);
+                    sawTransient = true;
+                    last = new TransientUpstreamException("HTTP " + code + " profile=" + profile.name);
+                    continue;
                 }
                 if (code < 200 || code >= 300) {
                     last = new IllegalStateException("upstream HTTP " + code + " profile=" + profile.name);
@@ -67,23 +70,29 @@ final class HlsFetcher {
                     lastDebug = "selected=" + profile.name + ", attempts=[" + attempts + "], finalHost=" + new URL(finalUrl).getHost();
                     return new Result(bytes.toByteArray(), type, finalUrl);
                 }
-            } catch (SignedUrlExpiredException | TransientUpstreamException e) {
-                throw e;
             } catch (Exception e) {
                 last = e;
-                if (attempts.length() > 0) attempts.append(',');
-                attempts.append(profile.name).append("{error=").append(safe(e.getMessage())).append('}');
+                appendAttempt(attempts, profile.name + "{error=" + safe(e.getMessage()) + "}");
             } finally {
                 if (c != null) c.disconnect();
             }
         }
-        lastDebug = "selected=none, attempts=[" + attempts + "]";
+
+        lastDebug = "selected=none, attempts=[" + attempts + "]"
+                + (sawSignedReject ? ", outcome=signed-reject" : sawTransient ? ", outcome=transient" : ", outcome=other");
+        if (sawSignedReject) throw new SignedUrlExpiredException(last == null ? "signed URL rejected" : safe(last.getMessage()));
+        if (sawTransient) throw new TransientUpstreamException(last == null ? "transient upstream failure" : safe(last.getMessage()));
         if (last != null) throw last;
         throw new IllegalStateException("HLS fetch failed");
     }
 
     static String debugSnapshot() {
         return lastDebug;
+    }
+
+    private static void appendAttempt(StringBuilder attempts, String value) {
+        if (attempts.length() > 0) attempts.append(',');
+        attempts.append(value);
     }
 
     private static String safe(String s) {
@@ -107,9 +116,5 @@ final class HlsFetcher {
 
     static final class TransientUpstreamException extends Exception {
         TransientUpstreamException(String message) { super(message); }
-    }
-
-    private static final class BadRequestException extends Exception {
-        BadRequestException(String message) { super(message); }
     }
 }
