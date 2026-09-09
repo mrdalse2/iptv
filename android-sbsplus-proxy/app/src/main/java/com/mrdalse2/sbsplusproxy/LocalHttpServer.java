@@ -61,11 +61,11 @@ public final class LocalHttpServer {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 3.8 multifallback\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 3.9 remote-fallback\n");
                     return;
                 }
                 if ("/debug/sbs".equals(path)) {
-                    sendText(out, 200, SbsResolver.debugSnapshot() + "\n");
+                    sendText(out, 200, SbsResolver.debugSnapshot() + "\nremote=" + RemoteFallbackResolver.debugSnapshot() + "\n");
                     return;
                 }
                 if ("/playlist.m3u".equals(path) || "/playlist.m3u8".equals(path)) {
@@ -81,7 +81,16 @@ public final class LocalHttpServer {
                     return;
                 }
                 if ("/sbsplus.m3u8".equals(path) || "/sbsplus".equals(path) || "/".equals(path)) {
-                    String target = SbsResolver.resolve();
+                    String target;
+                    try {
+                        target = SbsResolver.resolve();
+                    } catch (Exception primary) {
+                        try {
+                            target = RemoteFallbackResolver.resolve();
+                        } catch (Exception remote) {
+                            throw new IllegalStateException("primary=" + safeMessage(primary) + "; remote=" + safeMessage(remote));
+                        }
+                    }
                     sendRedirect(out, target);
                     return;
                 }
@@ -125,6 +134,6 @@ public final class LocalHttpServer {
 
     private static String safeMessage(Throwable t) {
         String m = t.getMessage();
-        return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
+        return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m.replace('\n', ' ').replace('\r', ' ');
     }
 }
