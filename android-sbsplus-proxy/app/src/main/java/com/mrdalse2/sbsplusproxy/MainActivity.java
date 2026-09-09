@@ -2,12 +2,14 @@ package com.mrdalse2.sbsplusproxy;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,6 +53,7 @@ public class MainActivity extends Activity {
         healthText = findViewById(R.id.healthText);
         toggleButton = findViewById(R.id.serverToggleButton);
         Button copy = findViewById(R.id.copyButton);
+        Button officialSbs = findViewById(R.id.officialSbsButton);
         CheckBox auto = findViewById(R.id.autoStartCheck);
 
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
@@ -65,6 +68,7 @@ public class MainActivity extends Activity {
             if (ProxyService.running) stopProxy(); else startProxy();
         });
         copy.setOnClickListener(v -> copyPlaylist());
+        officialSbs.setOnClickListener(v -> openOfficialSbsPlus());
 
         if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
@@ -164,6 +168,29 @@ public class MainActivity extends Activity {
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         cm.setPrimaryClip(ClipData.newPlainText("Local IPTV Playlist", NetworkUtils.STABLE_PLAYLIST_URL));
         Toast.makeText(this, "고정 통합 플레이리스트 주소를 복사했습니다.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void openOfficialSbsPlus() {
+        final String deepLink = "intent://onair?Channel=SBSPLUS_500K&channel=S03&type=FR&sbs_id=&sbs_val=&sbs_un=&flag=a4&flag2=&plink=AMN&mode=#Intent;scheme=sbsplayer;package=kr.co.sbs.videoplayer;end";
+        try {
+            Intent i = Intent.parseUri(deepLink, Intent.URI_INTENT_SCHEME);
+            startActivity(i);
+            return;
+        } catch (Exception ignored) {
+        }
+
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=kr.co.sbs.videoplayer")));
+            Toast.makeText(this, "SBS Player 설치 화면을 엽니다.", Toast.LENGTH_SHORT).show();
+            return;
+        } catch (ActivityNotFoundException ignored) {
+        }
+
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.sbs.co.kr/live/S03")));
+        } catch (Exception e) {
+            Toast.makeText(this, "SBS 공식 화면을 열 수 없습니다: " + safeMessage(e), Toast.LENGTH_LONG).show();
+        }
     }
 
     private static String safeMessage(Throwable t) {
