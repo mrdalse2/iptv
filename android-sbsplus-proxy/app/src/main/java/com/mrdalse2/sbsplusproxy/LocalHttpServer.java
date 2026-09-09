@@ -140,7 +140,7 @@ public final class LocalHttpServer {
             return fetch(target, range);
         } catch (SignedUrlExpiredException e) {
             String freshRoot = SbsResolver.resolveFresh();
-            String refreshed = refreshSignedQuery(target, freshRoot);
+            String refreshed = refreshSignedResource(target, freshRoot);
             return fetch(refreshed, range);
         } catch (TransientUpstreamException e) {
             try { Thread.sleep(250L); }
@@ -186,15 +186,36 @@ public final class LocalHttpServer {
         return new Remote(code, body, contentType, finalUrl, contentRange, acceptRanges);
     }
 
-    private String refreshSignedQuery(String target, String freshRoot) throws Exception {
+    /**
+     * Refresh both the signed query and, when SBS switches stream roots, the stream path/host.
+     * Child playlist/segment suffixes below .stream/ are preserved across the switch.
+     */
+    private String refreshSignedResource(String target, String freshRoot) throws Exception {
         URI old = URI.create(target);
         URI fresh = URI.create(freshRoot);
+        String oldPath = old.getPath() == null ? "" : old.getPath();
+        String freshPath = fresh.getPath() == null ? "" : fresh.getPath();
         String freshQuery = fresh.getRawQuery();
-        if (freshQuery == null || freshQuery.isBlank()) {
-            if (samePath(old, fresh)) return fresh.toString();
-            return target;
+
+        int oldStream = oldPath.indexOf(".stream/");
+        int freshStream = freshPath.indexOf(".stream/");
+        if (oldStream >= 0 && freshStream >= 0) {
+            int oldSuffixStart = oldStream + ".stream/".length();
+            int freshPrefixEnd = freshStream + ".stream/".length();
+            String suffix = oldPath.substring(oldSuffixStart);
+            String newPath = freshPath.substring(0, freshPrefixEnd) + suffix;
+            return new URI(fresh.getScheme(), fresh.getAuthority(), newPath,
+                    freshQuery, old.getFragment()).toString();
         }
-        return new URI(old.getScheme(), old.getAuthority(), old.getPath(), freshQuery, old.getFragment()).toString();
+
+        if (samePath(old, fresh)) return fresh.toString();
+
+        // Conservative fallback: keep the requested child path but move to the freshly issued host/query.
+        if (freshQuery != null && !freshQuery.isBlank()) {
+            return new URI(fresh.getScheme(), fresh.getAuthority(), oldPath,
+                    freshQuery, old.getFragment()).toString();
+        }
+        return fresh.toString();
     }
 
     private boolean samePath(URI a, URI b) {
