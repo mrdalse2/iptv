@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ public class MainActivity extends Activity {
     private TextView urlText;
     private TextView sbsUrlText;
     private TextView healthText;
+    private TextView authText;
     private Button toggleButton;
     private final Handler ui = new Handler(Looper.getMainLooper());
     private final ExecutorService io = Executors.newSingleThreadExecutor();
@@ -43,14 +45,18 @@ public class MainActivity extends Activity {
 
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
+        SbsAuthSession.init(this);
         setContentView(R.layout.activity_main);
         statusText = findViewById(R.id.statusText);
         errorText = findViewById(R.id.errorText);
         urlText = findViewById(R.id.urlText);
         sbsUrlText = findViewById(R.id.sbsUrlText);
         healthText = findViewById(R.id.healthText);
+        authText = findViewById(R.id.authText);
         toggleButton = findViewById(R.id.serverToggleButton);
         Button copy = findViewById(R.id.copyButton);
+        Button login = findViewById(R.id.sbsLoginButton);
+        Button clearAuth = findViewById(R.id.clearSbsAuthButton);
         CheckBox auto = findViewById(R.id.autoStartCheck);
 
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
@@ -65,6 +71,8 @@ public class MainActivity extends Activity {
             if (ProxyService.running) stopProxy(); else startProxy();
         });
         copy.setOnClickListener(v -> copyPlaylist());
+        login.setOnClickListener(v -> startActivity(new Intent(this, SbsLoginActivity.class)));
+        clearAuth.setOnClickListener(v -> clearSbsAuth());
 
         if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
@@ -76,6 +84,8 @@ public class MainActivity extends Activity {
 
     @Override protected void onResume() {
         super.onResume();
+        SbsAuthSession.init(this);
+        SbsResolver.invalidateCache();
         ui.removeCallbacks(ticker);
         ui.post(ticker);
     }
@@ -117,6 +127,9 @@ public class MainActivity extends Activity {
         statusText.setText(running ? "서버 실행 중 · HTTP 포트 8787" : "서버 중지됨");
         toggleButton.setText(running ? "서버 중지" : "서버 시작");
         errorText.setText(ProxyService.lastError == null ? "" : ProxyService.lastError);
+        authText.setText(SbsAuthSession.hasToken()
+                ? "SBS 로그인 상태: 세션 있음 · 인증 onair 우선 사용"
+                : "SBS 로그인 상태: 세션 없음 · 공개 폴백만 사용");
 
         List<String> fallbacks = NetworkUtils.localPlaylistUrls();
         StringBuilder playlist = new StringBuilder(NetworkUtils.STABLE_PLAYLIST_URL);
@@ -131,11 +144,11 @@ public class MainActivity extends Activity {
         if (!sbsUrls.isEmpty()) sbs.append("\n").append(String.join("\n", sbsUrls));
         sbsUrlText.setText(sbs.toString());
 
-        if (running) checkHealth(fallbacks);
+        if (running) checkHealth();
         else healthText.setText("HTTP 상태: 서버 중지");
     }
 
-    private void checkHealth(List<String> fallbacks) {
+    private void checkHealth() {
         String healthUrl = "http://127.0.0.1:8787/health";
         io.execute(() -> {
             String result;
@@ -158,6 +171,17 @@ public class MainActivity extends Activity {
             String finalResult = result;
             ui.post(() -> healthText.setText(finalResult));
         });
+    }
+
+    private void clearSbsAuth() {
+        SbsAuthSession.clear();
+        SbsResolver.invalidateCache();
+        try {
+            CookieManager.getInstance().removeAllCookies(null);
+            CookieManager.getInstance().flush();
+        } catch (Exception ignored) {}
+        Toast.makeText(this, "저장된 SBS 로그인 세션을 삭제했습니다.", Toast.LENGTH_SHORT).show();
+        refresh();
     }
 
     private void copyPlaylist() {
