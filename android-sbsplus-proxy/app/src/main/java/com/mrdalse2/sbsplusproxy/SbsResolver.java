@@ -26,7 +26,15 @@ public final class SbsResolver {
     private static final long GOOD_CACHE_MS = 20_000L;
     private static final long STALE_GRACE_MS = 55_000L;
     private static final int MAX_ROUNDS = 4;
+    private static final int EMPTY_ROUNDS_BEFORE_FALLBACK = 2;
     private static final long[] BACKOFF_MS = new long[]{700L, 1_400L, 2_800L, 4_000L};
+
+    private static final FallbackProfile[] FALLBACKS = new FallbackProfile[] {
+            new FallbackProfile("livestream-s03", "https://apis.sbs.co.kr/play-api/1.0/livestream/S03/S03?protocol=hls&ssl=Y"),
+            new FallbackProfile("livestream-sbsplus", "https://apis.sbs.co.kr/play-api/1.0/livestream/sbspluspc/sbsplus?protocol=hls&ssl=Y"),
+            new FallbackProfile("livestream-sbsplus3", "https://apis.sbs.co.kr/play-api/1.0/livestream/sbspluspc/sbsplus3?protocol=hls&ssl=Y"),
+            new FallbackProfile("livestream-sbsplus3-stream", "https://apis.sbs.co.kr/play-api/1.0/livestream/sbspluspc/sbsplus3.stream?protocol=hls&ssl=Y")
+    };
 
     private static volatile String lastDebug = "not probed yet";
     private static volatile String cachedMediaUrl;
@@ -84,10 +92,13 @@ public final class SbsResolver {
 
         List<String> diagnostics = new ArrayList<>();
         Exception lastError = null;
+        int emptyRounds = 0;
 
         for (int round = 0; round < MAX_ROUNDS; round++) {
             long serverRetryAfterMs = 0L;
             boolean sawTransient = false;
+            boolean sawHardError = false;
+            int successfulEmpty = 0;
 
             for (RequestProfile profile : profiles) {
                 try {
@@ -99,6 +110,7 @@ public final class SbsResolver {
                         lastDebug = summary;
                         return new ProbeSet(p.mediaUrl, summary);
                     }
+                    successfulEmpty++;
                 } catch (TransientHttpException e) {
                     lastError = e;
                     sawTransient = true;
@@ -111,23 +123,89 @@ public final class SbsResolver {
                     diagnostics.add(profile.name + "{transient=" + e.getClass().getSimpleName() + "}");
                 } catch (Exception e) {
                     lastError = e;
+                    sawHardError = true;
                     diagnostics.add(profile.name + "{error=" + safe(e.getMessage()) + "}");
                 }
             }
 
+            boolean pureEmptyRound = successfulEmpty == profiles.length && !sawTransient && !sawHardError;
+            if (pureEmptyRound) {
+                emptyRounds++;
+                diagnostics.add("emptyRound{count=" + emptyRounds + "}");
+                if (emptyRounds >= EMPTY_ROUNDS_BEFORE_FALLBACK) {
+                    ProbeSet fallback = probeFallbacks(diagnostics);
+                    if (fallback.mediaUrl != null) {
+                        lastDebug = fallback.summary;
+                        return fallback;
+                    }
+                    String summary = "selected=none, reason=repeated-empty-mediaurl, attempts=" + diagnostics;
+                    lastDebug = summary;
+                    return new ProbeSet(null, summary);
+                }
+            } else {
+                emptyRounds = 0;
+            }
+
             if (round + 1 < MAX_ROUNDS) {
                 long base = BACKOFF_MS[Math.min(round, BACKOFF_MS.length - 1)];
-                long waitMs = sawTransient ? Math.max(base, serverRetryAfterMs) : Math.min(base, 1_000L);
+                long waitMs;
+                if (pureEmptyRound) {
+                    // One short retry is enough to distinguish a fleeting empty payload from a policy/route change.
+                    waitMs = 500L;
+                } else {
+                    waitMs = sawTransient ? Math.max(base, serverRetryAfterMs) : Math.min(base, 1_000L);
+                }
                 waitMs += ThreadLocalRandom.current().nextLong(0L, 251L);
                 diagnostics.add("backoff{round=" + (round + 1) + ",waitMs=" + waitMs + "}");
                 sleep(waitMs);
             }
         }
 
+        ProbeSet fallback = probeFallbacks(diagnostics);
+        if (fallback.mediaUrl != null) {
+            lastDebug = fallback.summary;
+            return fallback;
+        }
+
         String summary = "selected=none, attempts=" + diagnostics;
         if (lastError != null) summary += ", lastError=" + safe(lastError.getMessage());
         lastDebug = summary;
         return new ProbeSet(null, summary);
+    }
+
+    private static ProbeSet probeFallbacks(List<String> diagnostics) {
+        diagnostics.add("fallback{start=official-livestream-candidates}");
+        for (FallbackProfile fallback : FALLBACKS) {
+            HttpURLConnection c = null;
+            try {
+                c = (HttpURLConnection) new URL(fallback.url).openConnection();
+                c.setConnectTimeout(6_000);
+                c.setReadTimeout(8_000);
+                c.setUseCaches(false);
+                c.setInstanceFollowRedirects(true);
+                c.setRequestProperty("User-Agent", DESKTOP_UA);
+                c.setRequestProperty("Accept", "text/plain,application/json,*/*");
+                c.setRequestProperty("Referer", REFERER);
+                c.setRequestProperty("Origin", "https://www.sbs.co.kr");
+                c.setRequestProperty("Cache-Control", "no-cache");
+
+                int code = c.getResponseCode();
+                InputStream stream = code >= 200 && code < 300 ? c.getInputStream() : c.getErrorStream();
+                String body = stream == null ? "" : readAll(stream);
+                String media = extractFallbackMedia(body);
+                diagnostics.add(fallback.name + "{http=" + code + ",media=" + summarizeUrl(media) + "}");
+                if (code >= 200 && code < 300 && media != null) {
+                    String summary = "selected=" + fallback.name + ", source=livestream-fallback, attempts=" + diagnostics;
+                    return new ProbeSet(media, summary);
+                }
+            } catch (Exception e) {
+                diagnostics.add(fallback.name + "{error=" + safe(e.getMessage()) + "}");
+            } finally {
+                if (c != null) c.disconnect();
+            }
+        }
+        diagnostics.add("fallback{result=none}");
+        return new ProbeSet(null, "selected=none, attempts=" + diagnostics);
     }
 
     private static Probe request(RequestProfile profile) throws Exception {
@@ -158,11 +236,8 @@ public final class SbsResolver {
             c.disconnect();
             throw new IllegalStateException("HTTP " + code + " empty body");
         }
-        try (InputStream in = stream; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            byte[] buf = new byte[8192];
-            int n;
-            while ((n = in.read(buf)) != -1) out.write(buf, 0, n);
-            body = out.toString(StandardCharsets.UTF_8.name());
+        try {
+            body = readAll(stream);
         } finally {
             c.disconnect();
         }
@@ -172,6 +247,28 @@ public final class SbsResolver {
         JSONObject json = new JSONObject(body);
         String media = findMediaUrl(json);
         return new Probe(media, summarize(json, media, code));
+    }
+
+    private static String readAll(InputStream stream) throws Exception {
+        try (InputStream in = stream; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            byte[] buf = new byte[8192];
+            int n;
+            while ((n = in.read(buf)) != -1) out.write(buf, 0, n);
+            return out.toString(StandardCharsets.UTF_8.name());
+        }
+    }
+
+    private static String extractFallbackMedia(String body) {
+        if (body == null) return null;
+        String trimmed = body.trim();
+        if (isHttpUrl(trimmed)) return trimmed;
+        if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
+            try {
+                Object json = trimmed.startsWith("{") ? new JSONObject(trimmed) : new JSONArray(trimmed);
+                return findMediaUrl(json);
+            } catch (Exception ignored) {}
+        }
+        return null;
     }
 
     private static boolean isTransientStatus(int code) {
@@ -234,20 +331,21 @@ public final class SbsResolver {
         JSONObject source = onair == null ? null : onair.optJSONObject("source");
         JSONObject ms = source == null ? null : source.optJSONObject("mediasource");
         JSONArray msl = source == null ? null : source.optJSONArray("mediasourcelist");
-        String mediaSummary = "none";
-        if (media != null) {
-            try {
-                URI u = URI.create(media);
-                mediaSummary = "host=" + u.getHost() + ",path=" + u.getPath();
-            } catch (Exception ignored) {
-                mediaSummary = "present";
-            }
-        }
         return "http=" + code + ",onair=" + (onair != null)
                 + ",source=" + (source != null)
                 + ",mediasource=" + (ms != null)
                 + ",mediasourcelist=" + (msl == null ? 0 : msl.length())
-                + ",media=" + mediaSummary;
+                + ",media=" + summarizeUrl(media);
+    }
+
+    private static String summarizeUrl(String media) {
+        if (media == null) return "none";
+        try {
+            URI u = URI.create(media);
+            return "host=" + u.getHost() + ",path=" + u.getPath();
+        } catch (Exception ignored) {
+            return "present";
+        }
     }
 
     private static boolean isHttpUrl(String s) {
@@ -267,6 +365,7 @@ public final class SbsResolver {
     }
 
     private record RequestProfile(String name, String platform, String ssl, String userAgent) {}
+    private record FallbackProfile(String name, String url) {}
     private record Probe(String mediaUrl, String summary) {}
     private record ProbeSet(String mediaUrl, String summary) {}
 }
