@@ -168,18 +168,9 @@
   <channel id="KBSLIFE.kr">
     <display-name>KBS LIFE</display-name>
   </channel>
-  <programme start="20260910100600 +0000" stop="20260910115900 +0000" channel="SBSPlus.kr@SD">
-    <title lang="ko">나는 SOLO</title>
-    <desc lang="ko">나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램. 나가자! 커플로!! 눈물없이 볼 수 없는 솔로탈출 대서사시! 결혼을 간절히 원하는 솔로 남녀들이 모여 사랑을 찾기 위해 고군분투하는 &amp;apos;극사실주의&amp;apos; 데이팅 프로그램.</desc>
-  </programme>
-  <programme start="20260910115900 +0000" stop="20260910133000 +0000" channel="SBSPlus.kr@SD">
-    <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
-    <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910144800 +0000" channel="SBSPlus.kr@SD">
-    <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
-    <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
-  </programme>
+  <channel id="MBCJeju.kr">
+    <display-name>MBC</display-name>
+  </channel>
   <programme start="20260910144800 +0000" stop="20260910161100 +0000" channel="SBSPlus.kr@SD">
     <title lang="ko">나는 SOLO, 그 후 사랑은 계속된다</title>
     <desc lang="ko">나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램. 나는 SOLO 출연진들의 일상을 담은 &amp;apos;나는 SOLO&amp;apos; 스핀오프 프로그램.</desc>
@@ -291,21 +282,6 @@
   </programme>
   <programme start="20260912221000 +0000" stop="20260913000000 +0000" channel="SBSPlus.kr@SD">
     <title lang="ko">무엇이든 해줄 지니 비서진</title>
-  </programme>
-  <programme start="20260910100000 +0000" stop="20260910111000 +0000" channel="MBN.kr@SD">
-    <title lang="ko">MBN 뉴스 7</title>
-  </programme>
-  <programme start="20260910111000 +0000" stop="20260910121000 +0000" channel="MBN.kr@SD">
-    <title lang="ko">건강히어로</title>
-    <desc lang="ko">수많은 건강정보 속, 정확한 근거를 바탕으로 &amp;apos;진실&amp;apos;을 가려내는 프로그램. 수많은 건강정보 속, 정확한 근거를 바탕으로 &amp;apos;진실&amp;apos;을 가려내는 프로그램.</desc>
-  </programme>
-  <programme start="20260910121000 +0000" stop="20260910132000 +0000" channel="MBN.kr@SD">
-    <title lang="ko">특종세상</title>
-    <desc lang="ko">세상곳곳의 놀라운 이야기, 소문 속의 진실, 휴먼 스토리 등 살아 숨쉬는 특종 현장을 보여준다. 세상곳곳의 놀라운 이야기, 소문 속의 진실, 휴먼 스토리 등 살아 숨쉬는 특종 현장을 보여준다.</desc>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910142000 +0000" channel="MBN.kr@SD">
-    <title lang="ko">판도라</title>
-    <desc lang="ko">어떠한 상황 속에서도 포기하지 않고 앞으로 나아갈 수 있도록 인간에게 남겨진 유일한 힘은 희망일 것이다. 정계 원로와 각 분야의 정치 고수들이 한 데 모여 한국 정치의 민낯을 해부하고 정치판의 숨겨진 비밀, 판도라의 상자를 연다! 그리하여 우리는 상자 안에 남겨진 새로운 희망을 이야기 하는 토론 쇼. 어떠한 상황 속에서도 포기하지 않고 앞으로 나아갈 수 있도록 인간에게 남겨진 유일한 힘은 희망일 것이다. 정계 원로와 각 분야의 정치 고수들이 한 데 모여 한국 정치의 민낯을 해부하고 정치판의 숨겨진 비밀, 판도라의 상자를 연다! 그리하여 우리는 상자 안에 남겨진 새로운 희망을 이야기 하는 토론 쇼.</desc>
   </programme>
   <programme start="20260910142000 +0000" stop="20260910151000 +0000" channel="MBN.kr@SD">
     <title lang="ko">휴먼다큐 사노라면</title>
@@ -1392,31 +1368,6 @@
     <category lang="en">Entertainment</category>
     <image>https://img.arirang.com/v1/AUTH_d52449c16d3b4bbca17d4fffd9fc44af/public/images/202302/1834579356375056901.png</image>
   </programme>
-  <programme start="20260910103000 +0000" stop="20260910113000 +0000" channel="BBSTV.kr@SD">
-    <title lang="ko">BBS 초청법회</title>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910120000 +0000" channel="BBSTV.kr@SD">
-    <title lang="ko">무비스님의 대방광불화엄경</title>
-    <desc lang="ko">위로는 깨달음을 구하고 아래로는 중생을 제도하는 보살행을 통해 수행자가 부처의 불가사의한 깨달음의 세계에 이르는 하는 화엄경을 불자들의 눈높이에 맞춘 무비스님의 법문으로 만나본다. 위로는 깨달음을 구하고 아래로는 중생을 제도하는 보살행을 통해 수행자가 부처의 불가사의한 깨달음의 세계에 이르는 하는 화엄경을 불자들의 눈높이에 맞춘 무비스님의 법문으로 만나본다.</desc>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="BBSTV.kr@SD">
-    <title lang="ko">서진스님의 무량수경 번뇌의 숲에서 휴식을 취하다</title>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910133000 +0000" channel="BBSTV.kr@SD">
-    <title lang="ko">BBS 뉴스</title>
-    <desc lang="ko">매일 불교계의 중요뉴스를 생생하게 전달하는 시간. 매일 불교계의 중요뉴스를 생생하게 전달하는 시간.</desc>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910143000 +0000" channel="BBSTV.kr@SD">
-    <title lang="ko">(특집)BBS만공회 가족축원기도법회(26년9월)</title>
-  </programme>
-  <programme start="20260910143000 +0000" stop="20260910144000 +0000" channel="BBSTV.kr@SD">
-    <title lang="ko">작가 월명의 자투리타임</title>
-    <desc lang="ko">서울 남산 월명사(주지 월명스님)의 불교서적 자료와 저서를 통한 국민들의 마음을 치유하는 &amp;apos;힐링&amp;apos;를 전달 하는 영상에세이. 서울 남산 월명사(주지 월명스님)의 불교서적 자료와 저서를 통한 국민들의 마음을 치유하는 &amp;apos;힐링&amp;apos;를 전달 하는 영상에세이.</desc>
-  </programme>
-  <programme start="20260910144000 +0000" stop="20260910150000 +0000" channel="BBSTV.kr@SD">
-    <title lang="ko">영상으로 만나는 빠알리대장경 담마빠다</title>
-    <desc lang="ko">언제 어디서나 내 손 안에서 생생하게 만나는 부처님 말씀으로 카툰 종합구성을 통하여 부처님의 생생한 모습이 담겨져 있고 부처님의 인간적인 면모 또한 만날 수 있다. 언제 어디서나 내 손 안에서 생생하게 만나는 부처님 말씀으로 카툰 종합구성을 통하여 부처님의 생생한 모습이 담겨져 있고 부처님의 인간적인 면모 또한 만날 수 있다.</desc>
-  </programme>
   <programme start="20260910150000 +0000" stop="20260910155000 +0000" channel="BBSTV.kr@SD">
     <title lang="ko">금강경독송</title>
     <desc lang="ko">자신의 참 모습을 깨우치기 위한 금경경독송을 상진스님께서 독송을 봉행합니다. 자신의 참 모습을 깨우치기 위한 금경경독송을 상진스님께서 독송을 봉행합니다.</desc>
@@ -1739,25 +1690,6 @@
     <title lang="ko">작가 월명의 자투리타임</title>
     <desc lang="ko">서울 남산 월명사(주지 월명스님)의 불교서적 자료와 저서를 통한 국민들의 마음을 치유하는 &amp;apos;힐링&amp;apos;를 전달 하는 영상에세이. 서울 남산 월명사(주지 월명스님)의 불교서적 자료와 저서를 통한 국민들의 마음을 치유하는 &amp;apos;힐링&amp;apos;를 전달 하는 영상에세이.</desc>
   </programme>
-  <programme start="20260910103000 +0000" stop="20260910113000 +0000" channel="BTNTV.kr@SD">
-    <title lang="ko">광우스님의 소나무 시즌3</title>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910123000 +0000" channel="BTNTV.kr@SD">
-    <title lang="ko">드라마 붓다</title>
-    <desc lang="ko">세계 최초로 부처님의 일대기를 다룬 55부작 장편 드라마. 세계 최초로 부처님의 일대기를 다룬 55부작 장편 드라마.</desc>
-  </programme>
-  <programme start="20260910123000 +0000" stop="20260910130000 +0000" channel="BTNTV.kr@SD">
-    <title lang="ko">부산 선암사 불교인문대학 깨달음의 길을 묻는다면</title>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910133000 +0000" channel="BTNTV.kr@SD">
-    <title lang="ko">BTN뉴스</title>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910141500 +0000" channel="BTNTV.kr@SD">
-    <title lang="ko">진흙에서 피어난 연꽃 처염상정</title>
-  </programme>
-  <programme start="20260910141500 +0000" stop="20260910150000 +0000" channel="BTNTV.kr@SD">
-    <title lang="ko">불교TV 무상사 일요초청법회</title>
-  </programme>
   <programme start="20260910150000 +0000" stop="20260910154000 +0000" channel="BTNTV.kr@SD">
     <title lang="ko">금강경독송</title>
   </programme>
@@ -2006,15 +1938,6 @@
   <programme start="20260912230000 +0000" stop="20260913000000 +0000" channel="BTNTV.kr@SD">
     <title lang="ko">가족신행공동체를 위한 BTN 가족기도</title>
   </programme>
-  <programme start="20260910103500 +0000" stop="20260910114500 +0000" channel="CJOnStyle.kr@SD">
-    <title lang="ko">베르도르팜 하스카프베리</title>
-  </programme>
-  <programme start="20260910114500 +0000" stop="20260910135500 +0000" channel="CJOnStyle.kr@SD">
-    <title lang="ko">[동가게]애드아보아/프라이/네바</title>
-  </programme>
-  <programme start="20260910135500 +0000" stop="20260910145500 +0000" channel="CJOnStyle.kr@SD">
-    <title lang="ko">라피타 기미의료기기</title>
-  </programme>
   <programme start="20260910145500 +0000" stop="20260910160000 +0000" channel="CJOnStyle.kr@SD">
     <title lang="ko">유피토스 염색제</title>
   </programme>
@@ -2159,21 +2082,6 @@
   <programme start="20260912235000 +0000" stop="20260913010000 +0000" channel="CJOnStyle.kr@SD">
     <title lang="ko">건강 슈퍼히어로</title>
   </programme>
-  <programme start="20260910093900 +0000" stop="20260910103900 +0000" channel="CJOnStylePlus.kr@SD">
-    <title lang="ko">테팔 와이드 그릴</title>
-  </programme>
-  <programme start="20260910103900 +0000" stop="20260910113900 +0000" channel="CJOnStylePlus.kr@SD">
-    <title lang="ko">비버리힐즈폴로클럽 팬츠/셔츠</title>
-  </programme>
-  <programme start="20260910113900 +0000" stop="20260910124000 +0000" channel="CJOnStylePlus.kr@SD">
-    <title lang="ko">에스까다스포츠 스니커즈</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910134000 +0000" channel="CJOnStylePlus.kr@SD">
-    <title lang="ko">DB손해보험 운전자보험</title>
-  </programme>
-  <programme start="20260910134000 +0000" stop="20260910144000 +0000" channel="CJOnStylePlus.kr@SD">
-    <title lang="ko">이지듀 기미앰플 쿠션</title>
-  </programme>
   <programme start="20260910144000 +0000" stop="20260910154000 +0000" channel="CJOnStylePlus.kr@SD">
     <title lang="ko">핏테라 더블 무릎보호대</title>
   </programme>
@@ -2263,27 +2171,6 @@
   </programme>
   <programme start="20260912230000 +0000" stop="20260913010000 +0000" channel="CJOnStylePlus.kr@SD">
     <title lang="ko">kt알파 쇼핑 추천상품</title>
-  </programme>
-  <programme start="20260910095000 +0000" stop="20260910104500 +0000" channel="EBS1TV.kr@SD">
-    <title lang="ko">귀하신 몸</title>
-  </programme>
-  <programme start="20260910104500 +0000" stop="20260910114000 +0000" channel="EBS1TV.kr@SD">
-    <title lang="ko">시대목격</title>
-  </programme>
-  <programme start="20260910114000 +0000" stop="20260910123500 +0000" channel="EBS1TV.kr@SD">
-    <title lang="ko">세계테마기행</title>
-    <desc lang="ko">세계테마기행은 단순한 여행 정보 프로그램에서 벗어나, 자유로운 배낭여행자만이 느낄 수 있는 살아있는 체험기를 전해드리고자 기획된 프로그램. 스페인에서 칠레, 남아공에서 알래스카에 이르기까지 전 세계를 직접 발로 뛰며 제작되는 세계테마기행은 찬란한 문명 유적지와 자연유산은 물론 다양한 방식으로 삶을 영위해 가는 세계인들의 숨은 일상까지 생생히 보여준다. 세계테마기행은 단순한 여행 정보 프로그램에서 벗어나, 자유로운 배낭여행자만이 느낄 수 있는 살아있는 체험기를 전해드리고자 기획된 프로그램. 스페인에서 칠레, 남아공에서 알래스카에 이르기까지 전 세계를 직접 발로 뛰며 제작되는 세계테마기행은 찬란한 문명 유적지와 자연유산은 물론 다양한 방식으로 삶을 영위해 가는 세계인들의 숨은 일상까지 생생히 보여준다.</desc>
-  </programme>
-  <programme start="20260910123500 +0000" stop="20260910125500 +0000" channel="EBS1TV.kr@SD">
-    <title lang="ko">한국기행</title>
-  </programme>
-  <programme start="20260910125500 +0000" stop="20260910135000 +0000" channel="EBS1TV.kr@SD">
-    <title lang="ko">왔다! 내 손주</title>
-    <desc lang="ko">해외에 거주하고 있어 자주 보지 못하는 손자, 손녀들과 할머니, 할아버지가 만나 보내는 며칠의 시간. 뭉클한 감동이 깃든 만남부터 그들에게 주어진 짧은 기간 일어나는 일들 속에 따듯한 가족애를 담아내는 프로그램. 해외에 거주하고 있어 자주 보지 못하는 손자, 손녀들과 할머니, 할아버지가 만나 보내는 며칠의 시간. 뭉클한 감동이 깃든 만남부터 그들에게 주어진 짧은 기간 일어나는 일들 속에 따듯한 가족애를 담아내는 프로그램.</desc>
-  </programme>
-  <programme start="20260910135000 +0000" stop="20260910144500 +0000" channel="EBS1TV.kr@SD">
-    <title lang="ko">EBS 다큐프라임</title>
-    <desc lang="ko">아이의 사생활, 한반도의 공룡 등 많은 화제작과 동물, 음식, 여행 등 다양한 주제와 형식으로 남녀노소의 많은 사랑을 받고 있는 프로그램으로 시청자들의 지적욕구를 만족시켜 준다. 아이의 사생활, 한반도의 공룡 등 많은 화제작과 동물, 음식, 여행 등 다양한 주제와 형식으로 남녀노소의 많은 사랑을 받고 있는 프로그램으로 시청자들의 지적욕구를 만족시켜 준다.</desc>
   </programme>
   <programme start="20260910144500 +0000" stop="20260910150500 +0000" channel="EBS1TV.kr@SD">
     <title lang="ko">위대한 수업, 그레이트 마인즈</title>
@@ -2603,48 +2490,6 @@
   <programme start="20260912233000 +0000" stop="20260913000000 +0000" channel="EBS1TV.kr@SD">
     <title lang="ko">모여라 딩동댕</title>
     <desc lang="ko">유아들이 일상생활 속에서 갖게 되는 흥미로운 궁금증과 호기심을 중심으로 다양하게 탐구해나가는 사고력 증진 프로그램입니다. 유아들의 눈높이에서 제기된 참신한 호기심 아이템을 선정하고, 선정된 아이템은 유아 스스로 추론하고 탐구할 수 있는 직접 체험과 다양한 활동 및 시청각 매체를 총동원하여 전개해나갑니다. 이러한 다양한 경험과 활동을 통해 유아들은 새로운 자극을 받게 되고 또 다른 도전감과 새로운 호기심으로 발전해나가면서, 창의적인 아이로 자라날 수 있을 것입니다. 사랑스러운 모야멍, 재미있는 웅이형, 친절한 동이언니, 그리고 우리의 친구 뚝딱딱 삼총사와 함께 호기심의 나라로 날아가볼까요? 유아들이 일상생활 속에서 갖게 되는 흥미로운 궁금증과 호기심을 중심으로 다양하게 탐구해나가는 사고력 증진 프로그램입니다. 유아들의 눈높이에서 제기된 참신한 호기심 아이템을 선정하고, 선정된 아이템은 유아 스스로 추론하고 탐구할 수 있는 직접 체험과 다양한 활동 및 시청각 매체를 총동원하여 전개해나갑니다. 이러한 다양한 경험과 활동을 통해 유아들은 새로운 자극을 받게 되고 또 다른 도전감과 새로운 호기심으로 발전해나가면서, 창의적인 아이로 자라날 수 있을 것입니다. 사랑스러운 모야멍, 재미있는 웅이형, 친절한 동이언니, 그리고 우리의 친구 뚝딱딱 삼총사와 함께 호기심의 나라로 날아가볼까요?</desc>
-  </programme>
-  <programme start="20260910102000 +0000" stop="20260910104000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">따라만 오세요 펀리딩 Step Up!(시즌2)</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910110000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">김성백의 영어뉴스 핵심패턴</title>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910114000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">MY GRAMMAR COACH 표준편</title>
-  </programme>
-  <programme start="20260910114000 +0000" stop="20260910124000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">[2027 수능 기출의 미래] 영어 어법 어휘</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910131000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">왕초보 영어</title>
-  </programme>
-  <programme start="20260910131000 +0000" stop="20260910134000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">EBSe 생활영어</title>
-  </programme>
-  <programme start="20260910134000 +0000" stop="20260910135000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 김승규의 Grammar Inside</title>
-  </programme>
-  <programme start="20260910135000 +0000" stop="20260910140000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 박예니의 핏 투비 핏</title>
-  </programme>
-  <programme start="20260910140000 +0000" stop="20260910141000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 지나킴의 고고 리스닝</title>
-  </programme>
-  <programme start="20260910141000 +0000" stop="20260910142000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 크리스틴 조의 슬기로운 출근영어</title>
-  </programme>
-  <programme start="20260910142000 +0000" stop="20260910143000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 세리나의 누구나 톡톡</title>
-  </programme>
-  <programme start="20260910143000 +0000" stop="20260910144000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 이현석의 정면돌파 스피킹</title>
-  </programme>
-  <programme start="20260910144000 +0000" stop="20260910145000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 메이슨의 패턴 잉글리시</title>
-  </programme>
-  <programme start="20260910145000 +0000" stop="20260910150000 +0000" channel="EBSEnglish.kr@SD">
-    <title lang="ko">매일 10분 영어 - 이근철의 하루 딱! 한문장 try again</title>
   </programme>
   <programme start="20260910150000 +0000" stop="20260910180000 +0000" channel="EBSEnglish.kr@SD">
     <title lang="ko">방송 시간이 아닙니다(6시부터 방송예정)</title>
@@ -3103,29 +2948,6 @@
   <programme start="20260912234000 +0000" stop="20260913000000 +0000" channel="EBSEnglish.kr@SD">
     <title lang="ko">따라만 오세요 펀리딩 Step Up!(시즌2)</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910110000 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">[2027 수능특강] 정유니의 화학I - 전 문항</title>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910115000 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">[2027 수능특강] 김재호의 한문I</title>
-  </programme>
-  <programme start="20260910115000 +0000" stop="20260910124000 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">[2027 수능특강] 정해영의 독일어I</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910133000 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">[2027 수능완성] 이강우의 베트남어I</title>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910142000 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">[2027 수능특강] 한성진의 프랑스어I</title>
-  </programme>
-  <programme start="20260910142000 +0000" stop="20260910142500 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">지식채널e(1)</title>
-    <desc lang="ko">과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다. 과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다.</desc>
-  </programme>
-  <programme start="20260910142500 +0000" stop="20260910143000 +0000" channel="EBSPlus1.kr@SD">
-    <title lang="ko">지식채널e(2)</title>
-    <desc lang="ko">과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다. 과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다.</desc>
-  </programme>
   <programme start="20260910143000 +0000" stop="20260910152000 +0000" channel="EBSPlus1.kr@SD">
     <title lang="ko">[2027 내신만점 수능특강] 박용의 지구과학l - 전 문항</title>
   </programme>
@@ -3346,44 +3168,6 @@
   </programme>
   <programme start="20260912232000 +0000" stop="20260913001000 +0000" channel="EBSPlus1.kr@SD">
     <title lang="ko">[올림포스 유형편] 대수 (2022 개정)</title>
-  </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">왕초보 영어</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910105000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">[중2] 포텐 과학(2022개정)</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910112000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">만점왕 영어 따라 쓰는 영문법 3</title>
-  </programme>
-  <programme start="20260910112000 +0000" stop="20260910113000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">포텐 역사 1</title>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910120000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">[20일 완성] 정태형의 EBS 중학 뉴런 역사1 단기특강</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910125000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">건축탐구-집</title>
-  </programme>
-  <programme start="20260910125000 +0000" stop="20260910125500 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">지식채널e(1)</title>
-    <desc lang="ko">과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다. 과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다.</desc>
-  </programme>
-  <programme start="20260910125500 +0000" stop="20260910130000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">지식채널e(2)</title>
-    <desc lang="ko">과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다. 과학, 생명, 문화유산, 가족, 교육, 직업, 한글등의 가치있는 수준높은 영상을 선사합니다. 지식채널e는 단순한 지식을 전달하는 프로그램이 아니라 지식을 바라보는 시각입니다. 시청자 여러분이 세상을 보는 많은 창들 중에 아주 작은 하나가 되기를 바랍니다.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910133000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">[시험대비] 최은진의 EBS 중학 뉴런 수학3(상) - 실전책(2022개정)</title>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910140000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">만점왕 국어 4-1</title>
-  </programme>
-  <programme start="20260910140000 +0000" stop="20260910142000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">기획강연 청년에게(2)</title>
-  </programme>
-  <programme start="20260910142000 +0000" stop="20260910144000 +0000" channel="EBSPlus2.kr@SD">
-    <title lang="ko">따라만 오세요 펀리딩 Step Up!</title>
   </programme>
   <programme start="20260910144000 +0000" stop="20260910151000 +0000" channel="EBSPlus2.kr@SD">
     <title lang="ko">만점왕 사회 4-2</title>
@@ -3681,27 +3465,6 @@
   <programme start="20260912233000 +0000" stop="20260913000000 +0000" channel="EBSPlus2.kr@SD">
     <title lang="ko">내:일을 여는 인문학 (8)</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910110000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">이영훈 목사의 성령님과 함께</title>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910111000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">김윤희 박사의 성경 에센스</title>
-  </programme>
-  <programme start="20260910111000 +0000" stop="20260910114000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">여주봉 목사의 회복과 부흥으로 가는 길</title>
-  </programme>
-  <programme start="20260910114000 +0000" stop="20260910124000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">노크토크</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910130000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">GOODTV NEWS</title>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910140000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">다니엘 기도회</title>
-  </programme>
-  <programme start="20260910140000 +0000" stop="20260910141000 +0000" channel="GoodTV.kr@SD">
-    <title lang="ko">하루를 깨우는 365 통독</title>
-  </programme>
   <programme start="20260910141000 +0000" stop="20260910151000 +0000" channel="GoodTV.kr@SD">
     <title lang="ko">내 마음의 문을 열고</title>
   </programme>
@@ -3989,21 +3752,6 @@
   </programme>
   <programme start="20260912230000 +0000" stop="20260913000000 +0000" channel="GoodTV.kr@SD">
     <title lang="ko">예배실황</title>
-  </programme>
-  <programme start="20260910093800 +0000" stop="20260910103800 +0000" channel="GSMyShop.kr@SD">
-    <title lang="ko">(패션)지프 재킷</title>
-  </programme>
-  <programme start="20260910103800 +0000" stop="20260910113800 +0000" channel="GSMyShop.kr@SD">
-    <title lang="ko">neakasa 스팀다리미</title>
-  </programme>
-  <programme start="20260910113800 +0000" stop="20260910123800 +0000" channel="GSMyShop.kr@SD">
-    <title lang="ko">대상웰라이프 뉴케어</title>
-  </programme>
-  <programme start="20260910123800 +0000" stop="20260910133800 +0000" channel="GSMyShop.kr@SD">
-    <title lang="ko">(패션)라삐아프 남방</title>
-  </programme>
-  <programme start="20260910133800 +0000" stop="20260910143800 +0000" channel="GSMyShop.kr@SD">
-    <title lang="ko">(패션)모르간 블라우스</title>
   </programme>
   <programme start="20260910143800 +0000" stop="20260910153800 +0000" channel="GSMyShop.kr@SD">
     <title lang="ko">블랑로더 립 타투</title>
@@ -4326,15 +4074,6 @@
   <programme start="20260912233600 +0000" stop="20260913003600 +0000" channel="GSMyShop.kr@SD">
     <title lang="ko">생활용품</title>
   </programme>
-  <programme start="20260910103500 +0000" stop="20260910114500 +0000" channel="GSShop.kr@SD">
-    <title lang="ko">제주 마농포갈비</title>
-  </programme>
-  <programme start="20260910114500 +0000" stop="20260910135500 +0000" channel="GSShop.kr@SD">
-    <title lang="ko">클럽노블레스</title>
-  </programme>
-  <programme start="20260910135500 +0000" stop="20260910145500 +0000" channel="GSShop.kr@SD">
-    <title lang="ko">로보락 F25</title>
-  </programme>
   <programme start="20260910145500 +0000" stop="20260910160000 +0000" channel="GSShop.kr@SD">
     <title lang="ko">흥국화재 3N5간편종합보험(치료비+생활비플랜)</title>
   </programme>
@@ -4463,40 +4202,6 @@
   </programme>
   <programme start="20260912235000 +0000" stop="20260913010000 +0000" channel="GSShop.kr@SD">
     <title lang="ko">주방</title>
-  </programme>
-  <programme start="20260910103000 +0000" stop="20260910104000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">정책 바로보기</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910113000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">나는 농부다</title>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910114500 +0000" channel="KTV.kr@SD">
-    <title lang="ko">한국기행</title>
-  </programme>
-  <programme start="20260910114500 +0000" stop="20260910120500 +0000" channel="KTV.kr@SD">
-    <title lang="ko">한국기행</title>
-  </programme>
-  <programme start="20260910120500 +0000" stop="20260910122000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">한국기행</title>
-  </programme>
-  <programme start="20260910122000 +0000" stop="20260910124000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">한국기행</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910130000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">한국기행</title>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910133000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">나는 국대다</title>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910140000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">취향 저격 여행</title>
-  </programme>
-  <programme start="20260910140000 +0000" stop="20260910141000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">그때 그리고 지금, 신문화영화</title>
-  </programme>
-  <programme start="20260910141000 +0000" stop="20260910150000 +0000" channel="KTV.kr@SD">
-    <title lang="ko">공간다큐 만남</title>
-    <desc lang="ko">인천 경인 지역의 가볼만한 곳과 그곳의 인물들을 취재하는 다큐멘터리. 인천 경인 지역의 가볼만한 곳과 그곳의 인물들을 취재하는 다큐멘터리.</desc>
   </programme>
   <programme start="20260910150000 +0000" stop="20260910151500 +0000" channel="KTV.kr@SD">
     <title lang="ko">한국기행</title>
@@ -4839,18 +4544,6 @@
     <title lang="ko">세계테마기행</title>
     <desc lang="ko">세계테마기행은 단순한 여행 정보 프로그램에서 벗어나, 자유로운 배낭여행자만이 느낄 수 있는 살아있는 체험기를 전해드리고자 기획된 프로그램. 스페인에서 칠레, 남아공에서 알래스카에 이르기까지 전 세계를 직접 발로 뛰며 제작되는 세계테마기행은 찬란한 문명 유적지와 자연유산은 물론 다양한 방식으로 삶을 영위해 가는 세계인들의 숨은 일상까지 생생히 보여준다. 세계테마기행은 단순한 여행 정보 프로그램에서 벗어나, 자유로운 배낭여행자만이 느낄 수 있는 살아있는 체험기를 전해드리고자 기획된 프로그램. 스페인에서 칠레, 남아공에서 알래스카에 이르기까지 전 세계를 직접 발로 뛰며 제작되는 세계테마기행은 찬란한 문명 유적지와 자연유산은 물론 다양한 방식으로 삶을 영위해 가는 세계인들의 숨은 일상까지 생생히 보여준다.</desc>
   </programme>
-  <programme start="20260910103200 +0000" stop="20260910113300 +0000" channel="KShopping.kr@SD">
-    <title lang="ko">블라우풍트 블루클립스 PRO 이어폰+무선 사운드바</title>
-  </programme>
-  <programme start="20260910113300 +0000" stop="20260910123300 +0000" channel="KShopping.kr@SD">
-    <title lang="ko">조리기능장 임성근의 국내산 특 키로갈비탕</title>
-  </programme>
-  <programme start="20260910123300 +0000" stop="20260910133300 +0000" channel="KShopping.kr@SD">
-    <title lang="ko">바른투어 망산/천저우/광저우 5일</title>
-  </programme>
-  <programme start="20260910133300 +0000" stop="20260910143200 +0000" channel="KShopping.kr@SD">
-    <title lang="ko">노랑풍선 프리미엄 대만 4일</title>
-  </programme>
   <programme start="20260910143200 +0000" stop="20260910153000 +0000" channel="KShopping.kr@SD">
     <title lang="ko">라이나생명 (무)새로담는간편건강보험</title>
   </programme>
@@ -4940,21 +4633,6 @@
   </programme>
   <programme start="20260912233000 +0000" stop="20260913013000 +0000" channel="KShopping.kr@SD">
     <title lang="ko">추천상품 입니다</title>
-  </programme>
-  <programme start="20260910094500 +0000" stop="20260910104500 +0000" channel="LotteOneTV.kr@SD">
-    <title lang="ko">무엘올리바 올리브오일</title>
-  </programme>
-  <programme start="20260910104500 +0000" stop="20260910114500 +0000" channel="LotteOneTV.kr@SD">
-    <title lang="ko">블랙앵거스 LA갈비</title>
-  </programme>
-  <programme start="20260910114500 +0000" stop="20260910124500 +0000" channel="LotteOneTV.kr@SD">
-    <title lang="ko">비비안 언더웨어</title>
-  </programme>
-  <programme start="20260910124500 +0000" stop="20260910134500 +0000" channel="LotteOneTV.kr@SD">
-    <title lang="ko">돈시몬 올리브오일</title>
-  </programme>
-  <programme start="20260910134500 +0000" stop="20260910144500 +0000" channel="LotteOneTV.kr@SD">
-    <title lang="ko">셀렙샵 의류</title>
   </programme>
   <programme start="20260910144500 +0000" stop="20260910154500 +0000" channel="LotteOneTV.kr@SD">
     <title lang="ko">글램팜 만능고데기</title>
@@ -5111,20 +4789,6 @@
   </programme>
   <programme start="20260912234500 +0000" stop="20260913004500 +0000" channel="LotteOneTV.kr@SD">
     <title lang="ko">T이미용품 1부</title>
-  </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLAWDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLAWDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLAWDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLAWDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLAWDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
@@ -5302,20 +4966,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLAWDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLKUDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLKUDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLKUDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLKUDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLKUDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -5491,20 +5141,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLKUDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
-  </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLANDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLANDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLANDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLANDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLANDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
@@ -5682,20 +5318,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLANDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLAODTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLAODTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLAODTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLAODTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLAODTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -5871,20 +5493,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLAODTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
-  </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLCTDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLCTDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLCTDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLCTDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLCTDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
@@ -6062,20 +5670,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLCTDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLCQDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLCQDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLCQDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLCQDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLCQDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -6251,20 +5845,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLCQDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
-  </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLAQDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLAQDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLAQDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLAQDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLAQDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
@@ -6442,20 +6022,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLAQDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLCNDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLCNDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLCNDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLCNDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLCNDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -6631,20 +6197,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLCNDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
-  </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="MBCGyeongnamTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="MBCGyeongnamTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="MBCGyeongnamTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="MBCGyeongnamTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="MBCGyeongnamTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
@@ -6822,20 +6374,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="MBCGyeongnamTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLCXDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLCXDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLCXDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLCXDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLCXDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -7011,20 +6549,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLCXDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
-  </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLAMDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLAMDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLAMDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLAMDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLAMDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
@@ -7202,20 +6726,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLAMDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="HLATDTV.kr@SD">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="HLATDTV.kr@SD">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLATDTV.kr@SD">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="HLATDTV.kr@SD">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="HLATDTV.kr@SD">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -7392,21 +6902,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLATDTV.kr@SD">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910110000 +0000" channel="MTN.kr@SD">
-    <title lang="ko">고래 사냥</title>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910120000 +0000" channel="MTN.kr@SD">
-    <title lang="ko">여의도 클라쓰</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="MTN.kr@SD">
-    <title lang="ko">시선강탈</title>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910140000 +0000" channel="MTN.kr@SD">
-    <title lang="ko">적중! 대박 예감</title>
-  </programme>
-  <programme start="20260910140000 +0000" stop="20260910150000 +0000" channel="MTN.kr@SD">
-    <title lang="ko">고래 사냥</title>
-  </programme>
   <programme start="20260910150000 +0000" stop="20260910160000 +0000" channel="MTN.kr@SD">
     <title lang="ko">여의도 클라쓰</title>
   </programme>
@@ -7577,18 +7072,6 @@
   <programme start="20260912233000 +0000" stop="20260913010000 +0000" channel="MTN.kr@SD">
     <title lang="ko">머니왕 2부</title>
   </programme>
-  <programme start="20260910103000 +0000" stop="20260910113500 +0000" channel="NSHomeShopping.kr@SD">
-    <title lang="ko">위건강엔매스틱</title>
-  </programme>
-  <programme start="20260910113500 +0000" stop="20260910124000 +0000" channel="NSHomeShopping.kr@SD">
-    <title lang="ko">두뇌엔닥터PS</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910135000 +0000" channel="NSHomeShopping.kr@SD">
-    <title lang="ko">드모아베개</title>
-  </programme>
-  <programme start="20260910135000 +0000" stop="20260910145500 +0000" channel="NSHomeShopping.kr@SD">
-    <title lang="ko">국내산촉촉오징어</title>
-  </programme>
   <programme start="20260910145500 +0000" stop="20260910151500 +0000" channel="NSHomeShopping.kr@SD">
     <title lang="ko">보험 3부</title>
   </programme>
@@ -7751,21 +7234,6 @@
   <programme start="20260912225000 +0000" stop="20260913000000 +0000" channel="NSHomeShopping.kr@SD">
     <title lang="ko">그레인온캡슐레이션효소</title>
   </programme>
-  <programme start="20260910094000 +0000" stop="20260910104000 +0000" channel="NSShopPlus.kr@SD">
-    <title lang="ko">정호영낙지</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910114000 +0000" channel="NSShopPlus.kr@SD">
-    <title lang="ko">정호영갈비찜</title>
-  </programme>
-  <programme start="20260910114000 +0000" stop="20260910124000 +0000" channel="NSShopPlus.kr@SD">
-    <title lang="ko">한국금자산</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910134000 +0000" channel="NSShopPlus.kr@SD">
-    <title lang="ko">임성근LA갈비</title>
-  </programme>
-  <programme start="20260910134000 +0000" stop="20260910144000 +0000" channel="NSShopPlus.kr@SD">
-    <title lang="ko">안동간고등어</title>
-  </programme>
   <programme start="20260910144000 +0000" stop="20260910154000 +0000" channel="NSShopPlus.kr@SD">
     <title lang="ko">매트리스</title>
   </programme>
@@ -7858,28 +7326,6 @@
   </programme>
   <programme start="20260912230000 +0000" stop="20260913010000 +0000" channel="NSShopPlus.kr@SD">
     <title lang="ko">NSshop+추천상품</title>
-  </programme>
-  <programme start="20260910103000 +0000" stop="20260910111000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">OBS뉴스 730</title>
-  </programme>
-  <programme start="20260910111000 +0000" stop="20260910114000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">오늘의 월드 뉴스</title>
-  </programme>
-  <programme start="20260910114000 +0000" stop="20260910120000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">독특한 연예 뉴스</title>
-    <desc lang="ko">quot;독특한 연예뉴스는~ OBS만의 독특한, 그리고 독한 연예정보 프로그램을 지향합니다quot;. quot;독특한 연예뉴스는~ OBS만의 독특한, 그리고 독한 연예정보 프로그램을 지향합니다quot;.</desc>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">다문화 히어로 &amp;lt;한국9단&amp;gt;</title>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910133000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">OBS 뉴스10 인천경기</title>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910145000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">다시 갈 지도</title>
-  </programme>
-  <programme start="20260910145000 +0000" stop="20260910150000 +0000" channel="HLQSDTV.kr@SD">
-    <title lang="ko">인천섬 완전정복</title>
   </programme>
   <programme start="20260910150000 +0000" stop="20260910160000 +0000" channel="HLQSDTV.kr@SD">
     <title lang="ko">오 마이 주식</title>
@@ -8066,25 +7512,6 @@
   </programme>
   <programme start="20260912230000 +0000" stop="20260913000000 +0000" channel="HLQSDTV.kr@SD">
     <title lang="ko">이준영의 WE (World Economy)</title>
-  </programme>
-  <programme start="20260910103000 +0000" stop="20260910104500 +0000" channel="OUN.kr@SD">
-    <title lang="ko">미인공감 7</title>
-  </programme>
-  <programme start="20260910104500 +0000" stop="20260910110000 +0000" channel="OUN.kr@SD">
-    <title lang="ko">유노우?</title>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910120000 +0000" channel="OUN.kr@SD">
-    <title lang="ko">고급일본어활용</title>
-    <desc lang="ko">일본어와 함께 일본을 알기 위해서는 살아있는 고급일본어 활용을 통한 올바른 이해가 필요하다. 일본의 문화, 사회, 경제, 정치 등을 바로 알 수 있는 일본어를 체득한다. 일본어와 함께 일본을 알기 위해서는 살아있는 고급일본어 활용을 통한 올바른 이해가 필요하다. 일본의 문화, 사회, 경제, 정치 등을 바로 알 수 있는 일본어를 체득한다.</desc>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="OUN.kr@SD">
-    <title lang="ko">중국어 8</title>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910140000 +0000" channel="OUN.kr@SD">
-    <title lang="ko">베타니 휴즈의 세계문명탐험</title>
-  </programme>
-  <programme start="20260910140000 +0000" stop="20260910150000 +0000" channel="OUN.kr@SD">
-    <title lang="ko">혜화책방 3</title>
   </programme>
   <programme start="20260910150000 +0000" stop="20260910160000 +0000" channel="OUN.kr@SD">
     <title lang="ko">미디어와 사회</title>
@@ -8306,19 +7733,6 @@
   <programme start="20260912233000 +0000" stop="20260913000000 +0000" channel="OUN.kr@SD">
     <title lang="ko">죽기 전에 꼭 가봐야 할 대한민국 절경</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLDRDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLDRDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLDRDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLDRDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLDRDTV.kr@SD">
     <title lang="ko">나이트라인</title>
   </programme>
@@ -8512,19 +7926,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLDRDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
-  </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLCGDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLCGDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLCGDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLCGDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLCGDTV.kr@SD">
     <title lang="ko">나이트라인</title>
@@ -8720,19 +8121,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLCGDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLKJDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLKJDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLKJDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLKJDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLKJDTV.kr@SD">
     <title lang="ko">나이트라인</title>
   </programme>
@@ -8926,19 +8314,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLKJDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
-  </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLDQDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLDQDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLDQDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLDQDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLDQDTV.kr@SD">
     <title lang="ko">나이트라인</title>
@@ -9134,19 +8509,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLDQDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLDHDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLDHDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLDHDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLDHDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLDHDTV.kr@SD">
     <title lang="ko">나이트라인</title>
   </programme>
@@ -9340,19 +8702,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLDHDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
-  </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLDGDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLDGDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLDGDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLDGDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLDGDTV.kr@SD">
     <title lang="ko">나이트라인</title>
@@ -9548,19 +8897,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLDGDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLDEDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLDEDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLDEDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLDEDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLDEDTV.kr@SD">
     <title lang="ko">나이트라인</title>
   </programme>
@@ -9754,19 +9090,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLDEDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
-  </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="HLDPDTV.kr@SD">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="HLDPDTV.kr@SD">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="HLDPDTV.kr@SD">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="HLDPDTV.kr@SD">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="HLDPDTV.kr@SD">
     <title lang="ko">나이트라인</title>
@@ -9962,12 +9285,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="HLDPDTV.kr@SD">
     <title lang="ko">세 개의 시선</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910113000 +0000" channel="TVChosun2.kr">
-    <title lang="ko">K-트롯 진선미 환상의 무대</title>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910133000 +0000" channel="TVChosun2.kr">
-    <title lang="ko">천만기인쇼</title>
-  </programme>
   <programme start="20260910133000 +0000" stop="20260910153000 +0000" channel="TVChosun2.kr">
     <title lang="ko">금타는 금요일</title>
   </programme>
@@ -10100,18 +9417,6 @@
   <programme start="20260912230000 +0000" stop="20260913000000 +0000" channel="TVChosun2.kr">
     <title lang="ko">식객 허영만의 백반기행</title>
     <desc lang="ko">식객 허영만이 소박한 동네밥상에서 진정한 맛의 의미와 가치를 찾는 프로그램. 식객 허영만이 소박한 동네밥상에서 진정한 맛의 의미와 가치를 찾는 프로그램.</desc>
-  </programme>
-  <programme start="20260910102100 +0000" stop="20260910112200 +0000" channel="WShopping.kr@SD">
-    <title lang="ko">솥밥대통령 가정용 골드 세트</title>
-  </programme>
-  <programme start="20260910112200 +0000" stop="20260910122300 +0000" channel="WShopping.kr@SD">
-    <title lang="ko">넥센타이어 타이어 렌탈</title>
-  </programme>
-  <programme start="20260910122300 +0000" stop="20260910132300 +0000" channel="WShopping.kr@SD">
-    <title lang="ko">흥국생명 암보험</title>
-  </programme>
-  <programme start="20260910132300 +0000" stop="20260910142400 +0000" channel="WShopping.kr@SD">
-    <title lang="ko">임성근의 LA갈비</title>
   </programme>
   <programme start="20260910142400 +0000" stop="20260910152500 +0000" channel="WShopping.kr@SD">
     <title lang="ko">중국 장가계 5일/6일 VIP 프리미엄 여행</title>
@@ -10286,15 +9591,6 @@
   </programme>
   <programme start="20260912232500 +0000" stop="20260913002500 +0000" channel="WShopping.kr@SD">
     <title lang="ko">W쇼핑 추천상품</title>
-  </programme>
-  <programme start="20260910085000 +0000" stop="20260910105000 +0000" channel="YTN.kr">
-    <title lang="ko">뉴스PLUS</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910124000 +0000" channel="YTN.kr">
-    <title lang="ko">뉴스퀘어 8PM</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910145000 +0000" channel="YTN.kr">
-    <title lang="ko">뉴스NIGHT</title>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910155000 +0000" channel="YTN.kr">
     <title lang="ko">YTN 24</title>
@@ -10479,15 +9775,6 @@
     <title lang="ko">YTN 뉴스 와이드</title>
     <desc lang="ko">방송 시점까지 들어온 소식을 총정리해 시청자들의 전반적인 이해를 돕는 뉴스프로그램. 방송 시점까지 들어온 소식을 총정리해 시청자들의 전반적인 이해를 돕는 뉴스프로그램.</desc>
   </programme>
-  <programme start="20260910095000 +0000" stop="20260910112500 +0000" channel="YonhapNews.kr">
-    <title lang="ko">뉴스프라임</title>
-  </programme>
-  <programme start="20260910112500 +0000" stop="20260910124000 +0000" channel="YonhapNews.kr">
-    <title lang="ko">뉴스리뷰</title>
-  </programme>
-  <programme start="20260910124000 +0000" stop="20260910144500 +0000" channel="YonhapNews.kr">
-    <title lang="ko">뉴스 투나잇</title>
-  </programme>
   <programme start="20260910144500 +0000" stop="20260910155500 +0000" channel="YonhapNews.kr">
     <title lang="ko">뉴스 24</title>
   </programme>
@@ -10668,20 +9955,6 @@
   <programme start="20260912225000 +0000" stop="20260913004000 +0000" channel="YonhapNews.kr">
     <title lang="ko">와이드 08</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="MBC.kr">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="MBC.kr">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="MBC.kr">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="MBC.kr">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="MBC.kr">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -10858,20 +10131,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="MBC.kr">
     <title lang="ko">엄마를 부탁해</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910104000 +0000" channel="MBCChuncheon.kr">
-    <title lang="ko">가족관계증명서</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910120000 +0000" channel="MBCChuncheon.kr">
-    <title lang="ko">MBC 뉴스데스크</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="MBCChuncheon.kr">
-    <title lang="ko">실화탐사대</title>
-    <desc lang="ko">&amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램. &amp;apos;동시대를 사는 사람들의 &amp;apos;나도 겪을 수 있었던&amp;apos; 극적인 실화를 찾아 깊이 있는 취재와 영화적인 스토리텔링을 통해 느낌을 전달하는 프로그램.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910145000 +0000" channel="MBCChuncheon.kr">
-    <title lang="ko">구해줘! 홈즈</title>
-    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="MBCChuncheon.kr">
     <title lang="ko">MBC 뉴스 25</title>
   </programme>
@@ -11047,29 +10306,6 @@
   </programme>
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="MBCChuncheon.kr">
     <title lang="ko">엄마를 부탁해</title>
-  </programme>
-  <programme start="20260910100000 +0000" stop="20260910104000 +0000" channel="KBS1.kr">
-    <title lang="ko">KBS 뉴스 7</title>
-  </programme>
-  <programme start="20260910104000 +0000" stop="20260910113000 +0000" channel="KBS1.kr">
-    <title lang="ko">15주년 특별기획 한국인의 밥상 2부</title>
-    <desc lang="ko">매일 우리는 밥상을 마주한다. 우리의 밥상 속 이야기를 통해 한국인들의 다양한 음식 문화를 보여주고, 식품과 식재료에 대한 영양학적 고찰을 통하여 올바른 정보를 제공하는 프로그램이다. 매일 우리는 밥상을 마주한다. 우리의 밥상 속 이야기를 통해 한국인들의 다양한 음식 문화를 보여주고, 식품과 식재료에 대한 영양학적 고찰을 통하여 올바른 정보를 제공하는 프로그램이다.</desc>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910120000 +0000" channel="KBS1.kr">
-    <title lang="ko">일일드라마 기쁜 우리 좋은 날</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="KBS1.kr">
-    <title lang="ko">KBS 뉴스 9</title>
-    <desc lang="ko">당일발생 사안을 시청자들에게 신속히 전달하고 관련 현안을 종합 정리해 분석보도. 당일발생 사안을 시청자들에게 신속히 전달하고 관련 현안을 종합 정리해 분석보도.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910135000 +0000" channel="KBS1.kr">
-    <title lang="ko">다큐 인사이트</title>
-  </programme>
-  <programme start="20260910135000 +0000" stop="20260910143000 +0000" channel="KBS1.kr">
-    <title lang="ko">KBS 뉴스라인W</title>
-  </programme>
-  <programme start="20260910143000 +0000" stop="20260910150000 +0000" channel="KBS1.kr">
-    <title lang="ko">이슈 픽 쌤과 함께 스페셜</title>
   </programme>
   <programme start="20260910150000 +0000" stop="20260910161500 +0000" channel="KBS1.kr">
     <title lang="ko">KBS 중계석</title>
@@ -11359,24 +10595,6 @@
   <programme start="20260912230000 +0000" stop="20260913000000 +0000" channel="KBS1.kr">
     <title lang="ko">일요진단 라이브</title>
   </programme>
-  <programme start="20260910093500 +0000" stop="20260910105000 +0000" channel="KBS2.kr">
-    <title lang="ko">2TV 생생정보</title>
-    <desc lang="ko">대한민국 방방곡곡의 유익한 정보와 따뜻한 이야기를 생생하게 전달한다. 대한민국 방방곡곡의 유익한 정보와 따뜻한 이야기를 생생하게 전달한다.</desc>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910113000 +0000" channel="KBS2.kr">
-    <title lang="ko">일일드라마 욕망의 덫</title>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910130000 +0000" channel="KBS2.kr">
-    <title lang="ko">신상출시 편스토랑</title>
-    <desc lang="ko">미식가 스타들이 혼자만 먹기에는 아까운 필살의 메뉴를 공개, 이 중 승리한 메뉴가 방송 다음 날 전국 편의점에 출시되는 신개념 신상 메뉴 서바이벌. 미식가 스타들이 혼자만 먹기에는 아까운 필살의 메뉴를 공개, 이 중 승리한 메뉴가 방송 다음 날 전국 편의점에 출시되는 신개념 신상 메뉴 서바이벌.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910131000 +0000" channel="KBS2.kr">
-    <title lang="ko">너 말고 다른 연애 미리보기</title>
-    <desc lang="ko">연애 10년 차, 익숙했던 연인이 낯선 감정과 마주하게 되는 현실 공감 리얼 멜로드라마. 연애 10년 차, 익숙했던 연인이 낯선 감정과 마주하게 되는 현실 공감 리얼 멜로드라마.</desc>
-  </programme>
-  <programme start="20260910131000 +0000" stop="20260910145000 +0000" channel="KBS2.kr">
-    <title lang="ko">해피투게더 - 혼자가 아니어서 좋아</title>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="KBS2.kr">
     <title lang="ko">놓친예능 따라잡기</title>
   </programme>
@@ -11562,19 +10780,6 @@
   <programme start="20260912233000 +0000" stop="20260913005000 +0000" channel="KBS2.kr">
     <title lang="ko">살림하는 남자들</title>
     <desc lang="ko">직접 살림을 하는 남자 스타들의 리얼한 살림살이 모습과 이들의 살림 수다가 어우러진 관찰 토크쇼. 직접 살림을 하는 남자 스타들의 리얼한 살림살이 모습과 이들의 살림 수다가 어우러진 관찰 토크쇼.</desc>
-  </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="SBS.kr">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="SBS.kr">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="SBS.kr">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="SBS.kr">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
   </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="SBS.kr">
     <title lang="ko">나이트라인</title>
@@ -11770,19 +10975,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="SBS.kr">
     <title lang="ko">세 개의 시선</title>
   </programme>
-  <programme start="20260910100000 +0000" stop="20260910105000 +0000" channel="SBSJTV.kr">
-    <title lang="ko">뉴스헌터스</title>
-  </programme>
-  <programme start="20260910105000 +0000" stop="20260910120000 +0000" channel="SBSJTV.kr">
-    <title lang="ko">SBS 8 뉴스</title>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910132000 +0000" channel="SBSJTV.kr">
-    <title lang="ko">기이안 연애</title>
-  </programme>
-  <programme start="20260910132000 +0000" stop="20260910145000 +0000" channel="SBSJTV.kr">
-    <title lang="ko">꼬리에 꼬리를 무는 그날 이야기</title>
-    <desc lang="ko">눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다. 눈길을 사로잡는 그 날, 그 사건으로부터 한 사람의 소시민으로서 &amp;apos;내&amp;apos;가 느낀 바를, 온전히 &amp;apos;나&amp;apos;의 시점에서 주관적으로 전달한다. &amp;apos;너&amp;apos; 에게 꼭 들려주고 싶어! 친구, 배우자, 동료... 세 명의 &amp;apos;이야기꾼&amp;apos;이 스스로 공부하며 느낀 바를 각자의 &amp;apos;이야기 친구&amp;apos;(가장 가까운 지인)에게, 가장 일상적인 공간에서 1:1 로 전달한다.</desc>
-  </programme>
   <programme start="20260910145000 +0000" stop="20260910152000 +0000" channel="SBSJTV.kr">
     <title lang="ko">나이트라인</title>
   </programme>
@@ -11977,17 +11169,6 @@
   <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="SBSJTV.kr">
     <title lang="ko">세 개의 시선</title>
   </programme>
-  <programme start="20260910101000 +0000" stop="20260910113000 +0000" channel="KBSDRAMA.kr">
-    <title lang="ko">끼리끼리</title>
-  </programme>
-  <programme start="20260910113000 +0000" stop="20260910124500 +0000" channel="KBSDRAMA.kr">
-    <title lang="ko">영화가 좋다</title>
-    <desc lang="ko">틀에 박힌 영화 홍보를 거부하면서, 시청자들이 직접 참여하여 영화 속 숨은 재미를 를 보다 즐겁게 소개하고 유익한 정보를 제공하는 영화 가이드 프로그램이다. 극장가를 뜨겁게 달구는 개봉 예정작, 리뷰, 영화 음악들 감독과 배우들의 진솔한 영화 이야기까지 함께 한다. 틀에 박힌 영화 홍보를 거부하면서, 시청자들이 직접 참여하여 영화 속 숨은 재미를 를 보다 즐겁게 소개하고 유익한 정보를 제공하는 영화 가이드 프로그램이다. 극장가를 뜨겁게 달구는 개봉 예정작, 리뷰, 영화 음악들 감독과 배우들의 진솔한 영화 이야기까지 함께 한다.</desc>
-  </programme>
-  <programme start="20260910124500 +0000" stop="20260910140000 +0000" channel="KBSDRAMA.kr">
-    <title lang="ko">무엇이든 물어보살</title>
-    <desc lang="ko">답답했던 마음 속 고민이 있다면 망설이지 말고 드루와~! 서장훈, 이수근이 꽉 막힌 속을 확~ 뚫릴 신통방통 해결책을 제시해드립니다! 답답했던 마음 속 고민이 있다면 망설이지 말고 드루와~! 서장훈, 이수근이 꽉 막힌 속을 확~ 뚫릴 신통방통 해결책을 제시해드립니다!</desc>
-  </programme>
   <programme start="20260910140000 +0000" stop="20260910151500 +0000" channel="KBSDRAMA.kr">
     <title lang="ko">그래, 이혼하자</title>
   </programme>
@@ -12178,18 +11359,6 @@
   <programme start="20260912235000 +0000" stop="20260913002000 +0000" channel="KBSDRAMA.kr">
     <title lang="ko">기쁜 우리 좋은 날</title>
   </programme>
-  <programme start="20260910094000 +0000" stop="20260910110000 +0000" channel="KBSJOY.kr">
-    <title lang="ko">무엇이든 물어보살</title>
-    <desc lang="ko">답답했던 마음 속 고민이 있다면 망설이지 말고 드루와~! 서장훈, 이수근이 꽉 막힌 속을 확~ 뚫릴 신통방통 해결책을 제시해드립니다! 답답했던 마음 속 고민이 있다면 망설이지 말고 드루와~! 서장훈, 이수근이 꽉 막힌 속을 확~ 뚫릴 신통방통 해결책을 제시해드립니다!</desc>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910122000 +0000" channel="KBSJOY.kr">
-    <title lang="ko">이십세기 힛-트쏭</title>
-    <desc lang="ko">대한민국 가요사가 고스란히 담긴 추억의 곡들을 재구성하여 8090의 색다름에 끌리는 현세대의 뉴트로 감성의 갈증을 해소한다! 대한민국 가요사가 고스란히 담긴 추억의 곡들을 재구성하여 8090의 색다름에 끌리는 현세대의 뉴트로 감성의 갈증을 해소한다!</desc>
-  </programme>
-  <programme start="20260910122000 +0000" stop="20260910141000 +0000" channel="KBSJOY.kr">
-    <title lang="ko">차트를 달리는 남자 Dark edition</title>
-    <desc lang="ko">전 세대를 아우를 수 있는 주제를 선정, 랭크를 통해 요즘 연예계 판도를 알아보는 스타 랭크쇼. 전 세대를 아우를 수 있는 주제를 선정, 랭크를 통해 요즘 연예계 판도를 알아보는 스타 랭크쇼.</desc>
-  </programme>
   <programme start="20260910141000 +0000" stop="20260910152000 +0000" channel="KBSJOY.kr">
     <title lang="ko">영화가 좋다</title>
     <desc lang="ko">틀에 박힌 영화 홍보를 거부하면서, 시청자들이 직접 참여하여 영화 속 숨은 재미를 를 보다 즐겁게 소개하고 유익한 정보를 제공하는 영화 가이드 프로그램이다. 극장가를 뜨겁게 달구는 개봉 예정작, 리뷰, 영화 음악들 감독과 배우들의 진솔한 영화 이야기까지 함께 한다. 틀에 박힌 영화 홍보를 거부하면서, 시청자들이 직접 참여하여 영화 속 숨은 재미를 를 보다 즐겁게 소개하고 유익한 정보를 제공하는 영화 가이드 프로그램이다. 극장가를 뜨겁게 달구는 개봉 예정작, 리뷰, 영화 음악들 감독과 배우들의 진솔한 영화 이야기까지 함께 한다.</desc>
@@ -12345,20 +11514,6 @@
   <programme start="20260912224000 +0000" stop="20260913000000 +0000" channel="KBSJOY.kr">
     <title lang="ko">신상출시 편스토랑</title>
     <desc lang="ko">미식가 스타들이 혼자만 먹기에는 아까운 필살의 메뉴를 공개, 이 중 승리한 메뉴가 방송 다음 날 전국 편의점에 출시되는 신개념 신상 메뉴 서바이벌. 미식가 스타들이 혼자만 먹기에는 아까운 필살의 메뉴를 공개, 이 중 승리한 메뉴가 방송 다음 날 전국 편의점에 출시되는 신개념 신상 메뉴 서바이벌.</desc>
-  </programme>
-  <programme start="20260910095500 +0000" stop="20260910110000 +0000" channel="KBSSTORY.kr">
-    <title lang="ko">태종 이방원</title>
-    <desc lang="ko">고려말 조선초, 조선 건국에 힘썼던 리더 이방원의 이야기를 그린 드라마. 고려말 조선초, 조선 건국에 힘썼던 리더 이방원의 이야기를 그린 드라마.</desc>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910121500 +0000" channel="KBSSTORY.kr">
-    <title lang="ko">심우면 연리리</title>
-  </programme>
-  <programme start="20260910121500 +0000" stop="20260910133000 +0000" channel="KBSSTORY.kr">
-    <title lang="ko">심우면 연리리</title>
-  </programme>
-  <programme start="20260910133000 +0000" stop="20260910144000 +0000" channel="KBSSTORY.kr">
-    <title lang="ko">부부클리닉 사랑과 전쟁</title>
-    <desc lang="ko">부부사이의 크고 작은 모든 문제를 드라마로 재구성해 보여주고 이를 화해 조정하는 클리닉 프로그램. 이 과정을 통해 결혼의 진정성을 모색하고 사회적 담론을 이끌며 부부재발견 및 건강한 가정을 위한 룰을 제시함. 부부사이의 크고 작은 모든 문제를 드라마로 재구성해 보여주고 이를 화해 조정하는 클리닉 프로그램. 이 과정을 통해 결혼의 진정성을 모색하고 사회적 담론을 이끌며 부부재발견 및 건강한 가정을 위한 룰을 제시함.</desc>
   </programme>
   <programme start="20260910144000 +0000" stop="20260910155000 +0000" channel="KBSSTORY.kr">
     <title lang="ko">부부클리닉 사랑과 전쟁</title>
@@ -12561,21 +11716,6 @@
   <programme start="20260912235000 +0000" stop="20260913003000 +0000" channel="KBSSTORY.kr">
     <title lang="ko">욕망의 덫</title>
   </programme>
-  <programme start="20260910094500 +0000" stop="20260910110000 +0000" channel="KBSLIFE.kr">
-    <title lang="ko">인간극장</title>
-    <desc lang="ko">인생의 의미와 삶의 고뇌, 힘겹지만 살 만한 가치가 있는 평범한 일상. 일반인의 드라마 같은 삶의 무대에서 살아가는 리얼라이프 스토리를 통해 인생의 참 의미를 반추할 수 있는 기회를 제공한다. 인생의 의미와 삶의 고뇌, 힘겹지만 살 만한 가치가 있는 평범한 일상. 일반인의 드라마 같은 삶의 무대에서 살아가는 리얼라이프 스토리를 통해 인생의 참 의미를 반추할 수 있는 기회를 제공한다.</desc>
-  </programme>
-  <programme start="20260910110000 +0000" stop="20260910120000 +0000" channel="KBSLIFE.kr">
-    <title lang="ko">개그콘서트</title>
-    <desc lang="ko">대학로에서 벌어지는 개그콘서트 공연 형식을 TV 프로그램에 도입 하여 재미있고 기발한 아이디어와 재치 넘치는 코믹연기가 시간 내내 대한민국을 웃기는 힘을 보여준다. 대학로에서 벌어지는 개그콘서트 공연 형식을 TV 프로그램에 도입 하여 재미있고 기발한 아이디어와 재치 넘치는 코믹연기가 시간 내내 대한민국을 웃기는 힘을 보여준다.</desc>
-  </programme>
-  <programme start="20260910120000 +0000" stop="20260910130000 +0000" channel="KBSLIFE.kr">
-    <title lang="ko">개그콘서트</title>
-    <desc lang="ko">대학로에서 벌어지는 개그콘서트 공연 형식을 TV 프로그램에 도입 하여 재미있고 기발한 아이디어와 재치 넘치는 코믹연기가 시간 내내 대한민국을 웃기는 힘을 보여준다. 대학로에서 벌어지는 개그콘서트 공연 형식을 TV 프로그램에 도입 하여 재미있고 기발한 아이디어와 재치 넘치는 코믹연기가 시간 내내 대한민국을 웃기는 힘을 보여준다.</desc>
-  </programme>
-  <programme start="20260910130000 +0000" stop="20260910141000 +0000" channel="KBSLIFE.kr">
-    <title lang="ko">말자쇼</title>
-  </programme>
   <programme start="20260910141000 +0000" stop="20260910151000 +0000" channel="KBSLIFE.kr">
     <title lang="ko">내고향스페셜 남도지오그래피</title>
   </programme>
@@ -12770,5 +11910,181 @@
   <programme start="20260912230000 +0000" stop="20260913000000 +0000" channel="KBSLIFE.kr">
     <title lang="ko">한국인의 밥상</title>
     <desc lang="ko">매일 우리는 밥상을 마주한다. 우리의 밥상 속 이야기를 통해 한국인들의 다양한 음식 문화를 보여주고, 식품과 식재료에 대한 영양학적 고찰을 통하여 올바른 정보를 제공하는 프로그램이다. 매일 우리는 밥상을 마주한다. 우리의 밥상 속 이야기를 통해 한국인들의 다양한 음식 문화를 보여주고, 식품과 식재료에 대한 영양학적 고찰을 통하여 올바른 정보를 제공하는 프로그램이다.</desc>
+  </programme>
+  <programme start="20260910145000 +0000" stop="20260910151000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스 25</title>
+  </programme>
+  <programme start="20260910151000 +0000" stop="20260910163000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">플레이리스트 109 스페셜</title>
+  </programme>
+  <programme start="20260910163000 +0000" stop="20260910200000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">방송 시간이 아닙니다(5시부터 방송 예정)</title>
+  </programme>
+  <programme start="20260910200000 +0000" stop="20260910210000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">오늘N</title>
+  </programme>
+  <programme start="20260910210000 +0000" stop="20260910212500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스투데이 1부</title>
+    <desc lang="ko">매일 생생한 뉴스로 시청자들의 아침을 활기차게 열어주는 뉴스 프로그램. 매일 생생한 뉴스로 시청자들의 아침을 활기차게 열어주는 뉴스 프로그램.</desc>
+  </programme>
+  <programme start="20260910212500 +0000" stop="20260910225000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스투데이 2부</title>
+    <desc lang="ko">매일 생생한 뉴스로 시청자들의 아침을 활기차게 열어주는 뉴스 프로그램. 매일 생생한 뉴스로 시청자들의 아침을 활기차게 열어주는 뉴스 프로그램.</desc>
+  </programme>
+  <programme start="20260910225000 +0000" stop="20260910235000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">출발! 비디오 여행 스페셜</title>
+    <desc lang="ko">재미있는 해설과 분석이 함께 있는 영화 가이드 프로그램. 재미있는 해설과 분석이 함께 있는 영화 가이드 프로그램.</desc>
+  </programme>
+  <programme start="20260910235000 +0000" stop="20260911003000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">가족관계증명서</title>
+  </programme>
+  <programme start="20260911003000 +0000" stop="20260911004500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">930 MBC 뉴스</title>
+  </programme>
+  <programme start="20260911004500 +0000" stop="20260911014500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">기분 좋은 날</title>
+  </programme>
+  <programme start="20260911014500 +0000" stop="20260911021500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">뽀뽀뽀 좋아좋아 스페셜</title>
+  </programme>
+  <programme start="20260911021500 +0000" stop="20260911024500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">찾아가는 꾸러기교실</title>
+  </programme>
+  <programme start="20260911024500 +0000" stop="20260911030000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">톰토미</title>
+  </programme>
+  <programme start="20260911030000 +0000" stop="20260911032500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">12 MBC 뉴스</title>
+  </programme>
+  <programme start="20260911032500 +0000" stop="20260911045500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260911045500 +0000" stop="20260911064000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">2시 뉴스 외전</title>
+  </programme>
+  <programme start="20260911064000 +0000" stop="20260911090500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">제20회 아이치 나고야 아시안게임</title>
+  </programme>
+  <programme start="20260911090500 +0000" stop="20260911100500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">오늘N 백세 로그인</title>
+  </programme>
+  <programme start="20260911100500 +0000" stop="20260911104000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">가족관계증명서</title>
+  </programme>
+  <programme start="20260911104000 +0000" stop="20260911114000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스데스크</title>
+  </programme>
+  <programme start="20260911114000 +0000" stop="20260911125000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260911125000 +0000" stop="20260911141000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260911141000 +0000" stop="20260911160000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">나 혼자 산다</title>
+    <desc lang="ko">혼자 사는 스타들의 일상을 관찰 카메라로 보여준다. 혼자 사는 스타들의 일상을 관찰 카메라로 보여준다.</desc>
+  </programme>
+  <programme start="20260911160000 +0000" stop="20260911162000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스 25</title>
+  </programme>
+  <programme start="20260911162000 +0000" stop="20260911174000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260911174000 +0000" stop="20260911200000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">방송 시간이 아닙니다(5시부터 방송 예정)</title>
+  </programme>
+  <programme start="20260911200000 +0000" stop="20260911210000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">우리가락 우리문화</title>
+    <desc lang="ko">국악 명인들을 소개하고 공연을 보여주며, 젊은 국악 유망인을 발굴하여 소개한다. 국악 명인들을 소개하고 공연을 보여주며, 젊은 국악 유망인을 발굴하여 소개한다.</desc>
+  </programme>
+  <programme start="20260911210000 +0000" stop="20260911220000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">기분 좋은 날</title>
+  </programme>
+  <programme start="20260911220000 +0000" stop="20260911222000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스투데이</title>
+    <desc lang="ko">매일 생생한 뉴스로 시청자들의 아침을 활기차게 열어주는 뉴스 프로그램. 매일 생생한 뉴스로 시청자들의 아침을 활기차게 열어주는 뉴스 프로그램.</desc>
+  </programme>
+  <programme start="20260911222000 +0000" stop="20260911231000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">건강의 재구성 썰록</title>
+    <desc lang="ko">건강정보 프로그램. 건강정보 프로그램.</desc>
+  </programme>
+  <programme start="20260911231000 +0000" stop="20260911233000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">까망과 베르의 푸드트럭2</title>
+  </programme>
+  <programme start="20260911233000 +0000" stop="20260912003000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">탐나는 TV</title>
+  </programme>
+  <programme start="20260912003000 +0000" stop="20260912013000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">라디오스타 스페셜</title>
+    <desc lang="ko">잘나가는 DJ들이 TV에서 뭉쳤다. 고품격 음악방송을 추구하는 &amp;apos;들리는 TV&amp;apos; 라디오스타! 잘나가는 DJ들이 TV에서 뭉쳤다. 고품격 음악방송을 추구하는 &amp;apos;들리는 TV&amp;apos; 라디오스타!</desc>
+  </programme>
+  <programme start="20260912013000 +0000" stop="20260912025500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">놀면 뭐하니? 스페셜</title>
+    <desc lang="ko">수많은 사람을 거치며 카메라에 담긴 의외의 인물들과 다양한 이야기를 담은 프로그램. 수많은 사람을 거치며 카메라에 담긴 의외의 인물들과 다양한 이야기를 담은 프로그램.</desc>
+  </programme>
+  <programme start="20260912025500 +0000" stop="20260912030500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스</title>
+  </programme>
+  <programme start="20260912030500 +0000" stop="20260912045500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">구해줘! 홈즈 스페셜</title>
+    <desc lang="ko">의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램. 의뢰인이 원하는 집을 찾기 위해 스타들이 발품을 파는 리얼 발품 중개 배틀 프로그램.</desc>
+  </programme>
+  <programme start="20260912045500 +0000" stop="20260912061500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260912061500 +0000" stop="20260912074000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">쇼! 음악중심</title>
+    <desc lang="ko">라이브 무대의 활성화로 대중음악의 질을 높이고 젊은층의 적극적인 참여로 함께 즐기는 음악 프로그램. 라이브 무대의 활성화로 대중음악의 질을 높이고 젊은층의 적극적인 참여로 함께 즐기는 음악 프로그램.</desc>
+  </programme>
+  <programme start="20260912074000 +0000" stop="20260912093000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">나 혼자 산다 스페셜</title>
+    <desc lang="ko">혼자 사는 스타들의 일상을 관찰 카메라로 보여준다. 혼자 사는 스타들의 일상을 관찰 카메라로 보여준다.</desc>
+  </programme>
+  <programme start="20260912093000 +0000" stop="20260912105500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">2026 아시안게임 특집 놀면 뭐하니?</title>
+    <desc lang="ko">수많은 사람을 거치며 카메라에 담긴 의외의 인물들과 다양한 이야기를 담은 프로그램. 수많은 사람을 거치며 카메라에 담긴 의외의 인물들과 다양한 이야기를 담은 프로그램.</desc>
+  </programme>
+  <programme start="20260912105500 +0000" stop="20260912113500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스데스크</title>
+  </programme>
+  <programme start="20260912113500 +0000" stop="20260912114000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">생방송 행복드림 로또 6/45</title>
+  </programme>
+  <programme start="20260912114000 +0000" stop="20260912124000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260912124000 +0000" stop="20260912141000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260912141000 +0000" stop="20260912160000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">전지적 참견 시점</title>
+    <desc lang="ko">당신의 인생에 참견해드립니다. 가족보다 더 가까운 연예인과 매니저 사이. 매니저의 제보로 스타들의 일상이 공개된다. 당신의 인생에 참견해드립니다. 가족보다 더 가까운 연예인과 매니저 사이. 매니저의 제보로 스타들의 일상이 공개된다.</desc>
+  </programme>
+  <programme start="20260912160000 +0000" stop="20260912173000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">유부녀 킬러</title>
+  </programme>
+  <programme start="20260912173000 +0000" stop="20260912200000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">방송 시간이 아닙니다(5시부터 방송 예정)</title>
+  </programme>
+  <programme start="20260912200000 +0000" stop="20260912210000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">푸른백세 어영차 바다야</title>
+  </programme>
+  <programme start="20260912210000 +0000" stop="20260912220000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">기분 좋은 날</title>
+  </programme>
+  <programme start="20260912220000 +0000" stop="20260912221000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 뉴스</title>
+  </programme>
+  <programme start="20260912221000 +0000" stop="20260912222500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">톰토미</title>
+  </programme>
+  <programme start="20260912222500 +0000" stop="20260912224000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">베베핀 플레이타임</title>
+  </programme>
+  <programme start="20260912224000 +0000" stop="20260912233500 +0000" channel="MBCJeju.kr">
+    <title lang="ko">MBC 다큐프라임</title>
+  </programme>
+  <programme start="20260912233500 +0000" stop="20260913003000 +0000" channel="MBCJeju.kr">
+    <title lang="ko">엄마를 부탁해</title>
   </programme>
 </tv>
