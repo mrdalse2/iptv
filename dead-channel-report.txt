@@ -1,6 +1,8 @@
-checked=285 kept=226 removed=59 alive=157 uncertain=68 local=1
+checked=285 kept=225 removed=60 alive=159 uncertain=65 local=1
 
 REMOVED DEFINITELY DEAD CHANNELS
+- MBN | expired time=1742500229 | https://live-th10.myjktv.com:443/watch/live.m3u8?video=mbn_540&sid=JrgTsnJKQo0TU9yiyoZf7eA9llHJEMpTQlgyggsJ&secret=68b0e61613ec8fda51fd248052b6aa69&time=1742500229
+- 채널A | expired time=1742500133 | https://live-th10.myjktv.com:443/watch/live.m3u8?video=channela_540&sid=zLhHxUtd4yz2toiohNMEfx63yhemDSOd2xgsFaBV&secret=ad760dc9b77c911e341d5e114e36feff&time=1742500133
 - KBS1 | expired time=1765891871 | https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs1_540&sid=EZ5881Rv73XGA0AECIYF9UX34lt3YBvq6RLJ1voI&secret=e7d5668457a260527ef38656f6b0082e&time=1765891871
 - KBS2 | expired time=1765891904 | https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs2_540&sid=AyMBt8STQi7J8FnSd0PeQSXX6kQBHrmnVJljjl8w&secret=b232cc97122ea9f507475b72065f7562&time=1765891904
 - KBS Drama | expired time=1772754511 | https://live-th10.myjktv.com:443/watch/live.m3u8?video=kbs_drama_540&sid=paKP8quwQXA1v3f8CDgxH6h7IfCezfoMX4CPYs9i&secret=0f3e15ed586d8b39e2197abcdaa39726&time=1772754511
@@ -58,5 +60,4 @@ REMOVED DEFINITELY DEAD CHANNELS
 - 조선방송 | URLError [Errno -2] Name or service not known | https://tv.intchoson.com/kctv/main_stream.m3u8
 - 벌거벗은 세계사 | HTTP 400 | https://6c3a25b5ffc14307b39a6a959806e536.mediatailor.ap-northeast-1.amazonaws.com/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-f49y0pr4caw7w-ssai-prd/724240eb-5902-4cc4-8f8c-95ebec24739f/0.m3u8
 - 어린이 만화동산 | expired expires=1757374054 | https://kbsnvod.gscdn.kbs.co.kr/playlists/nvod10.m3u8?Expires=1757374054&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9rYnNudm9kLmdzY2RuLmticy5jby5rci9wbGF5bGlzdHMvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc1NzM3NDA1NH19fV19&Signature=IIls1h8FQVUVtOIseVYjQaESEBwIpgvGEEcFdZOa5vnlCZPzA3FGw79zUVksUPyqE-OdmKJGtF8KLdX0I7Ww8lELhSXcJ6sdWD54FA7ebj2-oijVXVodjdlF2noBHlTIDJdJJaGDq8imzByqtEmNKs-PoRqcnGaLpwALekxBmR~6TKVBunSbv8LlIdbBksvUPJf04zX0tUw-JynkVJaRZWWqqUkcO2zXQWR4aoD5Yvm0I3cDMCUdSEqkxJ9ZDaacTjnl8wIkCs72UVqeBeqEiUO4VZKn7hNxCHBHsbcZ-gj42kn0nDk2b8JJ1TygU-JZC2xgVce6nHBN2hALIlIuzg__&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA
-- MBC제주TV | HTTP 404 | https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8
 - JTBC | expired CloudFront Policy epoch=1768606230 | https://jtbclive-cdn.jtbc.co.kr/pcweb/newpcweb.stream/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHAqOi8vanRiY2xpdmUtY2RuLmp0YmMuY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc2ODYwNjIzMH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=ZdxxAlLyvlBEJHh6YuT2Ne7bNg0EjrA7XdXyxIX9wytnkCl32y7VoD6~YsEYXjbcWMOfiHUz~pBAXk2ZQYukJAP5ueN9PR~Ju5jfD2ZyaQClq9VWxM-d67ydlmzRxBwEcQzi5uG6kGJ7fnUbcXVrNeXQiQ3JnB174mIMRCCpfB8_&Key-Pair-Id=pub_jtbclive-cdn.jtbc.co.kr
