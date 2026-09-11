@@ -4,7 +4,7 @@
 http://10.236.126.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4OTE2MDUwMH0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=e-v5kO0u0a90k~wxGs9ZR~GpgQWfULO~7cJwvCiFjEI4tt3zUasj1pxWOzB9UwYvOEYTi~W99b4tx9XV1rrH7yrIxUJ14U2uYmbOxuY63fQc~nZfXZoqHpAKQ9R8iGathXN8OEO-fEwV6JqyZhwDPN8XnNbxvN2CL2LUs1Tho6k_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4OTE4ODY0MX0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=xZCzV1KNPaTh6hiLH9h5Pae76EV1nSjVvqgWsIaWqMKaRturJsFMMfJKGvHqusQUrKJ1ZlL32vflJx-4fjuMOGWLt5PliPPrdCIefa7v9x~EA60q0GgYlvc5UY8wRM40PW~xBEMcyxc-Xao0478qnlM5aHQfoU~CfjkD1h9SY4Y_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
@@ -118,8 +118,6 @@ http://1.222.207.80:1935/live/cjbtv/playlist.m3u8
 http://61.82.49.4:1935/live/_definst_/tv.stream/playlist.m3u8
 #EXTINF:-1 tvg-id="HLKJDTV.kr@SD" tvg-logo="https://i.imgur.com/iAz0Psw.png" group-title="General",SBS JIBS (720p) [Not 24/7]
 http://123.140.197.22/stream/1/play.m3u8
-#EXTINF:-1 tvg-id="HLDQDTV.kr@SD" tvg-logo="https://i.imgur.com/byss0Ld.png" group-title="General",SBS JTV (406p) [Not 24/7]
-http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
 #EXTINF:-1 tvg-id="HLDHDTV.kr@SD" tvg-logo="https://i.imgur.com/Srsw4Mi.png" group-title="General",SBS KBC (1080p) [Not 24/7]
 https://vod.ikbc.co.kr/KBCTV/tv/playlist.m3u8
 #EXTINF:-1 tvg-id="HLDGDTV.kr@SD" tvg-logo="https://i.imgur.com/gaBq1Lz.png" group-title="General",SBS KNN (1080p) [Not 24/7]
@@ -426,8 +424,6 @@ https://vod.obs.co.kr:444/live/obsstream1/tv.stream/playlist.m3u8
 http://112.175.51.214:1935/live/myStream/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS KNN
 https://stream1.knn.co.kr/hls/9ly4534y7dm2xfa123r2_tv/index.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS JTV
-http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS TBC
 http://203.251.91.122:1935/on-air-Backup/tv/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",티비조선
@@ -444,8 +440,6 @@ https://2tv.gscdn.kbs.co.kr/2tv_1.m3u8
 https://news24.gscdn.kbs.co.kr/news24-02/news24-02_hd.m3u8
 #EXTINF:-1 tvg-id="SBS.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",SBS
 http://koreatv.dothome.co.kr/sbs.php
-#EXTINF:-1 tvg-id="SBSJTV.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",SBS JTV (406p) [Not 24/7]
-http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
 #EXTINF:-1 tvg-id="KBSDRAMA.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS DRAMA
 https://kbsndrama.gscdn.kbs.co.kr/kbsndrama-02/kbsndrama-02_sd.m3u8
 #EXTINF:-1 tvg-id="KBSJOY.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS JOY
@@ -454,11 +448,11 @@ https://kbsnjoy.gscdn.kbs.co.kr/kbsnjoy-02/kbsnjoy-02_sd.m3u8
 https://kbsnw.gscdn.kbs.co.kr/kbsnw-02/kbsnw-02_sd.m3u8
 #EXTINF:-1 tvg-id="KBSLIFE.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",KBS LIFE
 https://kbsnlife.gscdn.kbs.co.kr/kbsnlife-02/kbsnlife-02_sd.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS1
-http://koreatv.dothome.co.kr/kbs1.php
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",mbn
 https://wms2-kortv.akamaized.net/a_live/81992167/smil:20tv121.smil/chunklist_b2500000.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,JTBC
-https://noh-slb-samsung-fastcdn.uplus.co.kr/jtbc.stream/noll_index-v1-a1.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&castis.cid=jtbc.strea
 #EXTINF:-1 tvg-id="MBCJeju.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC제주TV
 https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,KBS 2
+http://koreatv.dothome.co.kr/kbs2.php
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv" ,MBC
+http://211.33.246.4:32954/cj_live/myStream.sdp/playlist.m3u8
