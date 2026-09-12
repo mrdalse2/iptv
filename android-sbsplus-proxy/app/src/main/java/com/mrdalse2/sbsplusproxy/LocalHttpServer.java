@@ -74,7 +74,7 @@ public final class LocalHttpServer {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 4.0\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 4.0 streaming\n");
                     return;
                 }
                 if ("/debug/sbs".equals(path)) {
@@ -112,49 +112,67 @@ public final class LocalHttpServer {
     }
 
     private void proxyRemote(OutputStream out, String target, String range, String localBase) throws Exception {
-        Remote remote = fetchSeamlessly(target, range);
-        byte[] body = remote.body;
-        String contentType = remote.contentType;
-        String lowerType = contentType == null ? "" : contentType.toLowerCase();
-        boolean playlist = remote.finalUrl.toLowerCase().contains(".m3u8")
-                || lowerType.contains("mpegurl") || lowerType.contains("vnd.apple.mpegurl");
+        Upstream remote = openSeamlessly(target, range);
+        try {
+            String contentType = remote.contentType;
+            String lowerType = contentType == null ? "" : contentType.toLowerCase();
+            boolean playlist = remote.finalUrl.toLowerCase().contains(".m3u8")
+                    || lowerType.contains("mpegurl") || lowerType.contains("vnd.apple.mpegurl");
 
-        if (remote.code >= 200 && remote.code < 300 && playlist) {
-            body = rewritePlaylist(new String(body, StandardCharsets.UTF_8), remote.finalUrl, localBase)
-                    .getBytes(StandardCharsets.UTF_8);
-            contentType = "application/vnd.apple.mpegurl; charset=utf-8";
+            if (playlist) {
+                byte[] body = readAll(remote.stream);
+                body = rewritePlaylist(new String(body, StandardCharsets.UTF_8), remote.finalUrl, localBase)
+                        .getBytes(StandardCharsets.UTF_8);
+                contentType = "application/vnd.apple.mpegurl; charset=utf-8";
+                writeHeaders(out, remote.code, contentType, body.length,
+                        "no-store, no-cache, must-revalidate", rangeHeaders(remote));
+                out.write(body);
+                out.flush();
+                return;
+            }
+
+            if (contentType == null || contentType.isBlank()) contentType = "application/octet-stream";
+            writeStreamingHeaders(out, remote.code, contentType, remote.contentLength,
+                    "private, max-age=2", rangeHeaders(remote));
+
+            byte[] buffer = new byte[32 * 1024];
+            int n;
+            while ((n = remote.stream.read(buffer)) != -1) {
+                out.write(buffer, 0, n);
+                out.flush();
+            }
+        } finally {
+            remote.close();
         }
-        if (contentType == null || contentType.isBlank()) contentType = "application/octet-stream";
+    }
 
+    private String rangeHeaders(Upstream remote) {
         StringBuilder extra = new StringBuilder();
         if (remote.contentRange != null) extra.append("Content-Range: ").append(remote.contentRange).append("\r\n");
         if (remote.acceptRanges != null) extra.append("Accept-Ranges: ").append(remote.acceptRanges).append("\r\n");
-        writeHeaders(out, remote.code, contentType, body.length,
-                playlist ? "no-store, no-cache, must-revalidate" : "private, max-age=2", extra.toString());
-        out.write(body);
-        out.flush();
+        return extra.toString();
     }
 
-    private Remote fetchSeamlessly(String target, String range) throws Exception {
+    private Upstream openSeamlessly(String target, String range) throws Exception {
         try {
-            return fetch(target, range);
+            return open(target, range);
         } catch (SignedUrlExpiredException e) {
             String freshRoot = SbsResolver.resolveFresh();
             String refreshed = refreshSignedResource(target, freshRoot);
-            return fetch(refreshed, range);
+            return open(refreshed, range);
         } catch (TransientUpstreamException e) {
-            try { Thread.sleep(250L); }
+            try { Thread.sleep(150L); }
             catch (InterruptedException interrupted) {
                 Thread.currentThread().interrupt();
                 throw interrupted;
             }
-            return fetch(target, range);
+            return open(target, range);
         }
     }
 
-    private Remote fetch(String target, String range) throws Exception {
+    private Upstream open(String target, String range) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(target).openConnection();
-        c.setConnectTimeout(8_000);
+        c.setConnectTimeout(6_000);
         c.setReadTimeout(15_000);
         c.setUseCaches(false);
         c.setInstanceFollowRedirects(true);
@@ -178,12 +196,12 @@ public final class LocalHttpServer {
 
         String finalUrl = c.getURL().toString();
         String contentType = c.getContentType();
-        InputStream stream = code >= 200 && code < 400 ? c.getInputStream() : c.getErrorStream();
-        byte[] body = readAll(stream);
+        long contentLength = c.getContentLengthLong();
         String contentRange = c.getHeaderField("Content-Range");
         String acceptRanges = c.getHeaderField("Accept-Ranges");
-        c.disconnect();
-        return new Remote(code, body, contentType, finalUrl, contentRange, acceptRanges);
+        InputStream stream = code >= 200 && code < 400 ? c.getInputStream() : c.getErrorStream();
+        if (stream == null) stream = InputStream.nullInputStream();
+        return new Upstream(c, code, stream, contentType, finalUrl, contentLength, contentRange, acceptRanges);
     }
 
     /**
@@ -210,7 +228,6 @@ public final class LocalHttpServer {
 
         if (samePath(old, fresh)) return fresh.toString();
 
-        // Conservative fallback: keep the requested child path but move to the freshly issued host/query.
         if (freshQuery != null && !freshQuery.isBlank()) {
             return new URI(fresh.getScheme(), fresh.getAuthority(), oldPath,
                     freshQuery, old.getFragment()).toString();
@@ -278,10 +295,10 @@ public final class LocalHttpServer {
 
     private static byte[] readAll(InputStream in) throws Exception {
         if (in == null) return new byte[0];
-        try (InputStream input = in; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             byte[] buf = new byte[16 * 1024];
             int n;
-            while ((n = input.read(buf)) != -1) out.write(buf, 0, n);
+            while ((n = in.read(buf)) != -1) out.write(buf, 0, n);
             return out.toByteArray();
         }
     }
@@ -294,15 +311,20 @@ public final class LocalHttpServer {
     }
 
     private void writeHeaders(OutputStream out, int code, String type, int length, String cache, String extra) throws Exception {
+        writeStreamingHeaders(out, code, type, length, cache, extra);
+    }
+
+    private void writeStreamingHeaders(OutputStream out, int code, String type, long length, String cache, String extra) throws Exception {
         StringBuilder headers = new StringBuilder();
         headers.append("HTTP/1.1 ").append(code).append(' ').append(reason(code)).append("\r\n")
-                .append("Content-Type: ").append(type).append("\r\n")
-                .append("Content-Length: ").append(length).append("\r\n")
-                .append("Cache-Control: ").append(cache).append("\r\n")
+                .append("Content-Type: ").append(type).append("\r\n");
+        if (length >= 0) headers.append("Content-Length: ").append(length).append("\r\n");
+        headers.append("Cache-Control: ").append(cache).append("\r\n")
                 .append("Access-Control-Allow-Origin: *\r\n");
         if (extra != null) headers.append(extra);
         headers.append("Connection: close\r\n\r\n");
         out.write(headers.toString().getBytes(StandardCharsets.US_ASCII));
+        out.flush();
     }
 
     private static String reason(int code) {
@@ -322,20 +344,31 @@ public final class LocalHttpServer {
         return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
     }
 
-    private static final class Remote {
+    private static final class Upstream implements AutoCloseable {
+        final HttpURLConnection connection;
         final int code;
-        final byte[] body;
+        final InputStream stream;
         final String contentType;
         final String finalUrl;
+        final long contentLength;
         final String contentRange;
         final String acceptRanges;
-        Remote(int code, byte[] body, String contentType, String finalUrl, String contentRange, String acceptRanges) {
+
+        Upstream(HttpURLConnection connection, int code, InputStream stream, String contentType,
+                 String finalUrl, long contentLength, String contentRange, String acceptRanges) {
+            this.connection = connection;
             this.code = code;
-            this.body = body;
+            this.stream = stream;
             this.contentType = contentType;
             this.finalUrl = finalUrl;
+            this.contentLength = contentLength;
             this.contentRange = contentRange;
             this.acceptRanges = acceptRanges;
+        }
+
+        @Override public void close() {
+            try { stream.close(); } catch (Exception ignored) {}
+            connection.disconnect();
         }
     }
 
