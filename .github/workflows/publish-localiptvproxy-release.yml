@@ -34,7 +34,7 @@ jobs:
       - name: Prepare APK assets
         run: |
           cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-2.2-mdns.apk
-          cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-4.1-2.8-relay.apk
+          cp android-sbsplus-proxy/app/build/outputs/apk/debug/app-debug.apk LocalIPTVProxy-4.2-3.3-seamless.apk
 
       - name: Create or update fixed GitHub Release
         env:
@@ -42,12 +42,12 @@ jobs:
         run: |
           TAG='localiptvproxy-v2.2'
           TITLE='Local IPTV Proxy (Latest)'
-          NOTES='4.1 restores the smooth 2.8-style local HLS relay: child requests are remapped to the latest signed SBS root before upstream access, a fresh root is warmed asynchronously, child session parameters such as solsessionid are preserved, and current SBS Plus path-switch handling remains enabled. Stable 2.2 filename is retained for compatibility; LocalIPTVProxy-4.1-2.8-relay.apk is the explicit test build.'
+          NOTES='4.2 restores the historical 3.3 seamless relay transport: use the current HLS resource unchanged during healthy playback, refresh only after SBS rejects it, retry one transient CDN failure internally, and retain current SBS Plus special-program stream-root switching support. Stable 2.2 filename is retained for compatibility; LocalIPTVProxy-4.2-3.3-seamless.apk is the explicit test build.'
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-4.1-2.8-relay.apk --clobber
+            gh release upload "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-4.2-3.3-seamless.apk --clobber
             gh release edit "$TAG" --title "$TITLE" --notes "$NOTES"
           else
-            gh release create "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-4.1-2.8-relay.apk \
+            gh release create "$TAG" LocalIPTVProxy-2.2-mdns.apk LocalIPTVProxy-4.2-3.3-seamless.apk \
               --title "$TITLE" \
               --notes "$NOTES"
           fi
