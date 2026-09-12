@@ -10,8 +10,8 @@ android {
         applicationId 'com.mrdalse2.sbsplusproxy'
         minSdk 26
         targetSdk 35
-        versionCode 16
-        versionName '4.0.1'
+        versionCode 17
+        versionName '4.0.2'
     }
 
     compileOptions {
