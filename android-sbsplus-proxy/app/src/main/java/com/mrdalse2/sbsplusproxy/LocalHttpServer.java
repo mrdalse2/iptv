@@ -15,9 +15,11 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,8 +28,11 @@ public final class LocalHttpServer {
     private static final String ORIGIN = "https://www.sbs.co.kr";
     private static final String DESKTOP_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36";
     private static final Pattern URI_ATTR = Pattern.compile("URI=\\\"([^\\\"]+)\\\"");
+    private static final long ROOT_WARM_INTERVAL_MS = 30_000L;
 
     private final ExecutorService pool = Executors.newCachedThreadPool();
+    private final AtomicBoolean warmingRoot = new AtomicBoolean(false);
+    private volatile long lastRootWarmAt;
     private volatile boolean running;
     private ServerSocket server;
 
@@ -74,7 +79,7 @@ public final class LocalHttpServer {
                 URI uri = URI.create(rawPath);
                 String path = uri.getPath();
                 if ("/health".equals(path)) {
-                    sendText(out, 200, "OK Local IPTV Proxy 4.0 streaming\n");
+                    sendText(out, 200, "OK Local IPTV Proxy 4.1 2.8-relay\n");
                     return;
                 }
                 if ("/debug/sbs".equals(path)) {
@@ -153,9 +158,18 @@ public final class LocalHttpServer {
         return extra.toString();
     }
 
+    /**
+     * Restore the 2.8 behaviour: every child HLS request is remapped against the latest
+     * already-known root before touching SBS. A fresh root is also warmed in the background,
+     * so normal playback does not wait for a token refresh. If SBS still rejects the resource,
+     * force a refresh and retry transparently.
+     */
     private Upstream openSeamlessly(String target, String range) throws Exception {
+        warmRootAsync();
+        String currentRoot = SbsResolver.resolve();
+        String prepared = refreshSignedResource(target, currentRoot);
         try {
-            return open(target, range);
+            return open(prepared, range);
         } catch (SignedUrlExpiredException e) {
             String freshRoot = SbsResolver.resolveFresh();
             String refreshed = refreshSignedResource(target, freshRoot);
@@ -166,8 +180,23 @@ public final class LocalHttpServer {
                 Thread.currentThread().interrupt();
                 throw interrupted;
             }
-            return open(target, range);
+            return open(prepared, range);
         }
+    }
+
+    private void warmRootAsync() {
+        long now = System.currentTimeMillis();
+        if (now - lastRootWarmAt < ROOT_WARM_INTERVAL_MS || !warmingRoot.compareAndSet(false, true)) return;
+        lastRootWarmAt = now;
+        pool.execute(() -> {
+            try {
+                SbsResolver.resolveFresh();
+            } catch (Exception ignored) {
+                // Keep playback on the current validated root. A real upstream rejection will retry synchronously.
+            } finally {
+                warmingRoot.set(false);
+            }
+        });
     }
 
     private Upstream open(String target, String range) throws Exception {
@@ -205,34 +234,61 @@ public final class LocalHttpServer {
     }
 
     /**
-     * Refresh both the signed query and, when SBS switches stream roots, the stream path/host.
-     * Child playlist/segment suffixes below .stream/ are preserved across the switch.
+     * Keep the child resource suffix and child-only session parameters (for example solsessionid),
+     * while replacing host/stream root and current signing parameters from the fresh SBS root.
      */
     private String refreshSignedResource(String target, String freshRoot) throws Exception {
         URI old = URI.create(target);
         URI fresh = URI.create(freshRoot);
         String oldPath = old.getPath() == null ? "" : old.getPath();
         String freshPath = fresh.getPath() == null ? "" : fresh.getPath();
-        String freshQuery = fresh.getRawQuery();
 
+        String newPath;
         int oldStream = oldPath.indexOf(".stream/");
         int freshStream = freshPath.indexOf(".stream/");
         if (oldStream >= 0 && freshStream >= 0) {
             int oldSuffixStart = oldStream + ".stream/".length();
             int freshPrefixEnd = freshStream + ".stream/".length();
-            String suffix = oldPath.substring(oldSuffixStart);
-            String newPath = freshPath.substring(0, freshPrefixEnd) + suffix;
-            return new URI(fresh.getScheme(), fresh.getAuthority(), newPath,
-                    freshQuery, old.getFragment()).toString();
+            newPath = freshPath.substring(0, freshPrefixEnd) + oldPath.substring(oldSuffixStart);
+        } else if (samePath(old, fresh)) {
+            newPath = freshPath;
+        } else {
+            newPath = oldPath;
         }
 
-        if (samePath(old, fresh)) return fresh.toString();
+        LinkedHashMap<String, String> merged = parseRawQuery(old.getRawQuery());
+        merged.putAll(parseRawQuery(fresh.getRawQuery()));
+        String query = buildRawQuery(merged);
 
-        if (freshQuery != null && !freshQuery.isBlank()) {
-            return new URI(fresh.getScheme(), fresh.getAuthority(), oldPath,
-                    freshQuery, old.getFragment()).toString();
+        return new URI(
+                fresh.getScheme() != null ? fresh.getScheme() : old.getScheme(),
+                fresh.getAuthority() != null ? fresh.getAuthority() : old.getAuthority(),
+                newPath,
+                query,
+                old.getFragment()).toString();
+    }
+
+    private LinkedHashMap<String, String> parseRawQuery(String query) {
+        LinkedHashMap<String, String> out = new LinkedHashMap<>();
+        if (query == null || query.isBlank()) return out;
+        for (String pair : query.split("&")) {
+            int eq = pair.indexOf('=');
+            String key = eq >= 0 ? pair.substring(0, eq) : pair;
+            String value = eq >= 0 ? pair.substring(eq + 1) : "";
+            out.put(key, value);
         }
-        return fresh.toString();
+        return out;
+    }
+
+    private String buildRawQuery(LinkedHashMap<String, String> query) {
+        if (query.isEmpty()) return null;
+        StringBuilder out = new StringBuilder();
+        for (Map.Entry<String, String> entry : query.entrySet()) {
+            if (out.length() > 0) out.append('&');
+            out.append(entry.getKey());
+            if (entry.getValue() != null) out.append('=').append(entry.getValue());
+        }
+        return out.toString();
     }
 
     private boolean samePath(URI a, URI b) {
