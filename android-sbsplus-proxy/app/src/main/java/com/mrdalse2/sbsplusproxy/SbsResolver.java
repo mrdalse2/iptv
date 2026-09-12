@@ -16,7 +16,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class SbsResolver {
     private static final String ONAIR_API = "https://apis.sbs.co.kr/play-api/1.0/onair/channel/S03";
@@ -27,61 +31,105 @@ public final class SbsResolver {
     private static final String DESKTOP_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36";
     private static final String MOBILE_UA = "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36";
 
-    private static final long GOOD_CACHE_MS = 20_000L;
-    private static final long STALE_GRACE_MS = 55_000L;
+    private static final long PROACTIVE_REFRESH_MS = 10_000L;
+    private static final long RECENT_PREFETCH_MS = 15_000L;
+    private static final long HARD_STALE_MS = 90_000L;
     private static final int MAX_ROUNDS = 3;
     private static final long[] BACKOFF_MS = new long[]{700L, 1_400L, 2_800L};
+
+    private static final Object INIT_LOCK = new Object();
+    private static final AtomicBoolean REFRESHING = new AtomicBoolean(false);
+    private static final ScheduledExecutorService REFRESHER = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "sbs-signed-root-refresher");
+        t.setDaemon(true);
+        return t;
+    });
 
     private static volatile String lastDebug = "not probed yet";
     private static volatile String cachedMediaUrl;
     private static volatile long cachedAt;
 
+    static {
+        REFRESHER.scheduleAtFixedRate(() -> {
+            if (cachedMediaUrl != null) warmAsync();
+        }, PROACTIVE_REFRESH_MS, PROACTIVE_REFRESH_MS, TimeUnit.MILLISECONDS);
+    }
+
     private SbsResolver() {}
 
-    public static synchronized String resolve() throws Exception {
+    /**
+     * Playback path: never re-probe just because the old 20s cache window elapsed.
+     * Return the last validated root immediately and let the background refresher rotate it.
+     */
+    public static String resolve() throws Exception {
         long now = System.currentTimeMillis();
-        if (cachedMediaUrl != null && now - cachedAt < GOOD_CACHE_MS) return cachedMediaUrl;
+        String cached = cachedMediaUrl;
+        if (cached != null && now - cachedAt < HARD_STALE_MS) {
+            if (now - cachedAt >= PROACTIVE_REFRESH_MS) warmAsync();
+            return cached;
+        }
 
-        ProbeSet set = probeAll();
-        if (set.mediaUrl != null) {
+        synchronized (INIT_LOCK) {
+            now = System.currentTimeMillis();
+            cached = cachedMediaUrl;
+            if (cached != null && now - cachedAt < HARD_STALE_MS) return cached;
+            ProbeSet set = probeAll();
+            if (set.mediaUrl == null) {
+                throw new IllegalStateException("SBS Plus returned no validated HLS; " + set.summary);
+            }
             cachedMediaUrl = set.mediaUrl;
             cachedAt = System.currentTimeMillis();
             return set.mediaUrl;
         }
-
-        now = System.currentTimeMillis();
-        if (cachedMediaUrl != null && now - cachedAt < STALE_GRACE_MS) {
-            lastDebug = set.summary + ", fallback=recent-validated-last-good ageMs=" + (now - cachedAt);
-            return cachedMediaUrl;
-        }
-
-        throw new IllegalStateException("SBS Plus returned no validated HLS; " + set.summary);
     }
 
-    /** Force a newly issued validated SBS HLS URL, bypassing the short last-good cache. */
-    public static synchronized String resolveFresh() throws Exception {
-        cachedMediaUrl = null;
-        cachedAt = 0L;
-        ProbeSet set = probeAll();
-        if (set.mediaUrl == null) {
-            throw new IllegalStateException("SBS Plus fresh resolve failed; " + set.summary);
+    /**
+     * Called after a signed child request expires. Prefer a root already refreshed in the
+     * background so the TiviMate request does not wait for the full SBS probe/validation path.
+     */
+    public static String resolveFresh() throws Exception {
+        long now = System.currentTimeMillis();
+        String cached = cachedMediaUrl;
+        if (cached != null && now - cachedAt < RECENT_PREFETCH_MS) {
+            warmAsync();
+            return cached;
         }
-        cachedMediaUrl = set.mediaUrl;
-        cachedAt = System.currentTimeMillis();
-        return set.mediaUrl;
-    }
 
-    public static synchronized String debugSnapshot() {
-        try {
+        synchronized (INIT_LOCK) {
+            now = System.currentTimeMillis();
+            cached = cachedMediaUrl;
+            if (cached != null && now - cachedAt < RECENT_PREFETCH_MS) return cached;
             ProbeSet set = probeAll();
-            if (set.mediaUrl != null) {
-                cachedMediaUrl = set.mediaUrl;
-                cachedAt = System.currentTimeMillis();
+            if (set.mediaUrl == null) {
+                throw new IllegalStateException("SBS Plus fresh resolve failed; " + set.summary);
             }
-            return set.summary;
-        } catch (Exception e) {
-            return "probe error=" + safe(e.getMessage()) + "; previous=" + lastDebug;
+            cachedMediaUrl = set.mediaUrl;
+            cachedAt = System.currentTimeMillis();
+            return set.mediaUrl;
         }
+    }
+
+    /** Queue a validated signed-root refresh without blocking the playback request thread. */
+    public static void warmAsync() {
+        if (!REFRESHING.compareAndSet(false, true)) return;
+        REFRESHER.execute(() -> {
+            try {
+                ProbeSet set = probeAll();
+                if (set.mediaUrl != null) {
+                    cachedMediaUrl = set.mediaUrl;
+                    cachedAt = System.currentTimeMillis();
+                }
+            } catch (Exception e) {
+                lastDebug = "backgroundRefreshError=" + safe(e.getMessage()) + "; previous=" + lastDebug;
+            } finally {
+                REFRESHING.set(false);
+            }
+        });
+    }
+
+    public static String debugSnapshot() {
+        long age = cachedMediaUrl == null ? -1L : System.currentTimeMillis() - cachedAt;
+        return "cacheAgeMs=" + age + ",refreshing=" + REFRESHING.get() + "," + lastDebug;
     }
 
     private static ProbeSet probeAll() throws Exception {
@@ -177,7 +225,6 @@ public final class SbsResolver {
         String body = rawBody == null ? "" : rawBody.trim();
         if (body.isEmpty()) return new ParsedMedia(null, "empty");
 
-        // SBS occasionally returns the signed HLS URL directly as text instead of a JSON object.
         if (isHttpUrl(body)) return new ParsedMedia(body, "plain-url");
 
         Object parsed = new JSONTokener(body).nextValue();
