@@ -4,7 +4,7 @@
 http://10.236.126.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4OTI0NzI5M30sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=ape~BijCf5yCNrgxr5RUsU2dnndpyIvtvYpgFBt9hFQ-hKA5mQBB1SMEQCk7yL0pK7wQzMBVe-iEP50Q8iLIRP7RGuOmA4Uq6-GQV23wqbjei5vqgfxRtKxXLBJ8my7XfxE5qb-bVKIorgDhwgCmnKzm2UE6BorYPQtqXhHCGzA_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4OTI3NDY3Mn0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=sFMmRyBV8d10~UzKy3JQdPZBMj9zswb20x1P9srFPFTwAxo24eClFAcgvfntVrDhinvMYL~aKs9byIwlfw-T3kDuo2zMe0BADS6AcPjaQVIgCHxjsBfWErGhAwT5iePYgp~CseczTTQB1ry0yAYOw5gDPnkiXpwsforHXuZYDFk_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
@@ -274,8 +274,8 @@ https://btn.nowcdn.co.kr/btn/btnlive2m/playlist.m3u8
 https://brightstar-korean-pull-secure.akamaized.net/brightstarkorean/stream.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",서경방송
 https://live.iscs.co.kr/m_live/480p.stream/chunklist_w435655614.m3u8
-#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS CJB
-http://1.222.207.80:1935/live/cjbtv/chunklist_w1357270949.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBSCJB
+http://1.222.207.80:1935/live/cjbtv/playlist.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS kbc
 http://123.140.197.22/stream/1/play.m3u8
 #EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",SBS G1
@@ -454,3 +454,5 @@ http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
 http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
 #EXTINF:-1 tvg-id="MBCJeju.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC제주TV
 https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8
+#EXTINF:-1 group-title="Secondary;mjpark-dev/iptv",mbn
+https://wms2-kortv.akamaized.net/a_live/81992167/smil:20tv121.smil/chunklist_b2500000.m3u8
