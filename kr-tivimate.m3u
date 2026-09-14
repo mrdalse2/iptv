@@ -4,7 +4,7 @@
 http://10.236.126.242:8787/sbsplus.m3u8
 #EXTINF:-1 tvg-id="MBN.kr@SD" group-title="General;Official",MBN
 #EXTVLCOPT:http-referrer=https://www.mbn.co.kr/vod/onair
-https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4OTQxOTU4Nn0sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=adM3Y7pX~YeEDmZRsAv4BgGjFw8dgKoEk2n7or38zX7ACeRT0qUAWalSZJHzQ3tR93wJrQnbl~Ok9Qd3GfjQTKkSx5~N9q08OKzQjdxibik9HrBE2oPLB~8e4FHFD23SzdgFcY1liVncs5EghpqX~3iensk5MTEjuFDKVvaNJjw_&Key-Pair-Id=pub_hls-live.mbn.co.kr
+https://hls-live.mbn.co.kr/mbn-on-air/1000k/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cCo6Ly9obHMtbGl2ZS5tYm4uY28ua3IvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4OTQ0ODgyN30sIklwQWRkcmVzcyI6eyJBV1M6U291cmNlSXAiOiIwLjAuMC4wLzAifX19XX0_&Signature=PN4lDPCOZuu-Et7Lhi~AcW3cfw2LqU9YqErHtheozS7Lej1ozFUV09OX1-C9Kypy87Uam-w~oyjZK5bVACYi82tX7UV9nnmcyf5h-ZTHZ6M1MAq-4yprFk2uEs1qEl5NBvKQWiiKw8NTkL-Xe4R-JnjndNVz~eAEk~GSRyq1kEE_&Key-Pair-Id=pub_hls-live.mbn.co.kr
 #EXTINF:-1 tvg-id="ABN.kr@SD" tvg-logo="https://www.abn.co.kr/resources/images/logo.png" group-title="General",ABN TV (720p)
 https://vod2.abn.co.kr/IPHONE/abn.m3u8
 #EXTINF:-1 tvg-id="ArirangRadio.kr@SD" tvg-logo="https://i.imgur.com/dtfiG9k.png" group-title="General",Arirang Radio (720p)
@@ -446,3 +446,5 @@ https://kbsnlife.gscdn.kbs.co.kr/kbsnlife-02/kbsnlife-02_sd.m3u8
 http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
 #EXTINF:-1 tvg-id="SBSJTV.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",SBS JTV (406p) [Not 24/7]
 http://61.85.197.53:1935/jtv_live/myStream/playlist.m3u8
+#EXTINF:-1 tvg-id="MBCJeju.kr" group-title="Secondary;GoonhoLee/koreaiptv-auto-updater",MBC제주TV
+https://wowza.jejumbc.com/live/tv_jejumbc/playlist.m3u8
